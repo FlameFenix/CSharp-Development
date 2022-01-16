@@ -8,9 +8,9 @@ namespace SUHttpServer.HTTP
 {
     public class Response
     {
-        public Response(StatusCode statuCode)
+        public Response(StatusCode statusCode)
         {
-            StatusCode = statuCode;
+            StatusCode = statusCode;
             Headers.Add("Server", "My Web Server");
             Headers.Add("Date", $"{DateTime.UtcNow:r}");
         }
