@@ -1,12 +1,18 @@
-﻿using SUHttpServer;
-using System.Net;
-using System.Net.Sockets;
+﻿using SUHttpServer.HTTP;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-var ipAddress = "127.0.0.1";
-
-var port = 8080;
-
-HttpServer httpServer = new HttpServer(ipAddress, port);
-
-httpServer.Start();
+namespace SUHttpServer
+{
+    public class StartUp
+    {
+        public static void Main()
+            => new HttpServer(routes => routes
+                 .MapGet("/", new TextResponse("Hello from the server!"))
+                 .MapGet("/HTML", new HtmlResponse("<h1>HTML response</h1>"))
+                 .MapGet("/Redirect", new RedirectResponse("https://softuni.org/"))).Start();
+    }
+}

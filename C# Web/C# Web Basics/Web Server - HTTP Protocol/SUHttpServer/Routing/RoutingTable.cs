@@ -13,7 +13,7 @@ namespace SUHttpServer.Routing
         private readonly Dictionary<Method, Dictionary<string, Response>> routes;
 
         public RoutingTable()
-            => routes = new Dictionary<Method, Dictionary<string, Response>>()
+            => routes = new()
             {
                 [Method.Get] = new(),
                 [Method.Post] = new(),
@@ -56,7 +56,7 @@ namespace SUHttpServer.Routing
             var requestMethod = request.Method;
             var requestUrl = request.Url;
 
-            if(routes.ContainsKey(requestMethod)
+            if(!routes.ContainsKey(requestMethod)
                 || !routes[requestMethod].ContainsKey(requestUrl))
             {
                 return new NotFoundResponse();

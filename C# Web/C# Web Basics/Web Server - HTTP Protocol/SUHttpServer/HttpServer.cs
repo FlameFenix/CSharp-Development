@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using SUHttpServer.HTTP;
+using SUHttpServer.Routing;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -9,11 +11,25 @@ namespace SUHttpServer
         private IPAddress ipAddress;
         private int port;
         private TcpListener serverListener;
-        public HttpServer(string _ipAddress, int _port)
+        private readonly RoutingTable routingTable;
+        public HttpServer(string _ipAddress, int _port, Action<IRoutingTable> routingTableConfiguration)
         {
             ipAddress = IPAddress.Parse(_ipAddress);
             port = _port;
             serverListener = new TcpListener(ipAddress, port);
+            routingTableConfiguration(routingTable = new RoutingTable());
+        }
+
+        public HttpServer(int port, Action<IRoutingTable> routingTable)
+            : this("127.0.0.1", port, routingTable)
+        {
+
+        }
+
+        public HttpServer(Action<IRoutingTable> routingTable)
+            : this(8080, routingTable)
+        {
+
         }
 
         public void Start()
@@ -33,8 +49,22 @@ namespace SUHttpServer
 
                 Console.WriteLine(requestText);
 
+                var request = Request.Parse(requestText);
+
+                var response = routingTable.MatchRequest(request);
+
+                WriteResponse(networkStream, response);
+
                 connection.Close();
             }
+        }
+
+        private void WriteResponse(NetworkStream networkStream, Response response)
+        {
+
+            var responseBytes = Encoding.UTF8.GetBytes(response.ToString());
+
+            networkStream.Write(responseBytes);
         }
 
         private string ReadRequest(NetworkStream networkStream)

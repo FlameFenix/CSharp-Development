@@ -26,5 +26,8 @@ namespace SUHttpServer.HTTP
         public string Name { get; init; }
 
         public string Value { get; set; }
+
+        public override string ToString()
+            => $"{Name}: {Value}";
     }
 }

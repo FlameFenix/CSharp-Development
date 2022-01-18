@@ -24,6 +24,8 @@ namespace SUHttpServer.HTTP
 
             var method = MethodParse(startLine[0]);
 
+            
+            
             var url = startLine[1];
 
             var headers = ParseHeaders(lines.Skip(1));
