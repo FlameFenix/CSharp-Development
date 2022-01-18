@@ -13,6 +13,11 @@ namespace SUHttpServer.HTTP
 
         public void Add(string name, string value)
         {
+            if (headers.ContainsKey(name))
+            {
+                return;
+            }
+
             var header = new Header(name, value);
             this.headers.Add(name, header);
         }
