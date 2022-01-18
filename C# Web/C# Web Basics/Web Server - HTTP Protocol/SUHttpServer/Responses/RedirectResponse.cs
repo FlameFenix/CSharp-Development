@@ -1,4 +1,6 @@
-﻿namespace SUHttpServer.HTTP
+﻿using SUHttpServer.HTTP;
+
+namespace SUHttpServer.Responses
 {
     public class RedirectResponse : Response
     {
