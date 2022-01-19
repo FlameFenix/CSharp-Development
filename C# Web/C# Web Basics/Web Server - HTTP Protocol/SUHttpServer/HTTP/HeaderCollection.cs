@@ -9,18 +9,16 @@ namespace SUHttpServer.HTTP
         public HeaderCollection() 
             => this.headers = new Dictionary<string, Header>();
 
+        public string this[string name] 
+            => headers[name].Value;
         public int Count => headers.Count;
 
-        public void Add(string name, string value)
-        {
-            if (headers.ContainsKey(name))
-            {
-                return;
-            }
+        public bool Contains(string name)
+        => headers.ContainsKey(name);
+        
 
-            var header = new Header(name, value);
-            this.headers.Add(name, header);
-        }
+        public void Add(string name, string value)
+        => headers[name] = new Header(name, value);
 
         public IEnumerator<Header> GetEnumerator()
             => this.headers.Values.GetEnumerator();
