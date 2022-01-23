@@ -6,13 +6,13 @@ namespace SUHttpServer.HTTP
     {
         public Method Method { get; private set; }
 
-        public string Url { get; private set; }
+        public string? Url { get; private set; }
 
-        public HeaderCollection Headers { get; private set; }
+        public HeaderCollection? Headers { get; private set; }
 
-        public string Body { get; private set; }
+        public string? Body { get; private set; }
 
-        public IReadOnlyDictionary<string, string> Form { get; private set; }
+        public IReadOnlyDictionary<string, string>? Form { get; private set; }
 
         public static Request Parse(string request)
         {
@@ -21,7 +21,7 @@ namespace SUHttpServer.HTTP
             var startLine = lines.First().Split(" ");
 
             var method = MethodParse(startLine[0]);
-     
+
             var url = startLine[1];
 
             var headers = ParseHeaders(lines.Skip(1));
@@ -46,8 +46,8 @@ namespace SUHttpServer.HTTP
         {
             var formCollection = new Dictionary<string, string>();
 
-            if(headers.Contains(Header.ContentType) 
-                && headers[Header.ContentType] == ContentType.FormUrlEncodrd)
+            if (headers.Contains(Header.ContentType)
+                && headers[Header.ContentType] == ContentType.FormUrlEncoded)
             {
                 var parsedResult = ParseFormData(body);
 
@@ -69,7 +69,7 @@ namespace SUHttpServer.HTTP
                 .ToDictionary(part => part[0],
                 part => part[1],
                 StringComparer.InvariantCultureIgnoreCase);
-        
+
 
         private static HeaderCollection ParseHeaders(IEnumerable<string> headerLines)
         {
@@ -77,20 +77,20 @@ namespace SUHttpServer.HTTP
 
             foreach (var headerLine in headerLines)
             {
-                if(headerLine == string.Empty)
+                if (headerLine == string.Empty)
                 {
                     break;
                 }
 
                 var headerParts = headerLine.Split(":", 2);
 
-                if(headerParts.Length != 2)
+                if (headerParts.Length != 2)
                 {
                     throw new InvalidOperationException("Request is not valid.");
                 }
 
-                var headerName = headerParts[0];
-                var headerValue = headerParts[1];
+                var headerName = headerParts[0].Trim();
+                var headerValue = headerParts[1].Trim();
 
                 headerCollection.Add(headerName, headerValue);
             }

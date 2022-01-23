@@ -1,5 +1,6 @@
 ﻿using SUHttpServer.HTTP;
 using SUHttpServer.Routing;
+using SUHttpServer.Server.Chronometer;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -38,7 +39,6 @@ namespace SUHttpServer
             Console.WriteLine($"Server started on port {port}");
             Console.WriteLine("Listening for requests...");
 
-
             while (true)
             {
                 var connection = serverListener.AcceptTcpClient();
@@ -60,7 +60,8 @@ namespace SUHttpServer
 
                 WriteResponse(networkStream, response);
 
-                connection.Close();
+                connection.Close(); 
+               
             }
         }
 
