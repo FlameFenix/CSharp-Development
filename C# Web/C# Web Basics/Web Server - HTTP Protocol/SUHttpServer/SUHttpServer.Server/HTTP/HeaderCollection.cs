@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace SUHttpServer.HTTP
+namespace SUHttpServer.Server.HTTP
 {
     public class HeaderCollection : IEnumerable<Header>
     {

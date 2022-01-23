@@ -1,4 +1,4 @@
-﻿namespace SUHttpServer.HTTP
+﻿namespace SUHttpServer.Server.HTTP
 {
     public enum Method
     {

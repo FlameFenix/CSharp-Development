@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SUHttpServer.HTTP
+namespace SUHttpServer.Server.HTTP
 {
     public class Response
     {

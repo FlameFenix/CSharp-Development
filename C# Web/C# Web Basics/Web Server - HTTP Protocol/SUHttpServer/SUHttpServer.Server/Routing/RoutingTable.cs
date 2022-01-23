@@ -1,8 +1,8 @@
-﻿using SUHttpServer.Common;
-using SUHttpServer.HTTP;
-using SUHttpServer.Responses;
+﻿using SUHttpServer.Server.Common;
+using SUHttpServer.Server.HTTP;
+using SUHttpServer.Server.Responses;
 
-namespace SUHttpServer.Routing
+namespace SUHttpServer.Server.Routing
 {
     public class RoutingTable : IRoutingTable
     {

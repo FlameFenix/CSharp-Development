@@ -1,11 +1,11 @@
-﻿using SUHttpServer.HTTP;
+﻿using SUHttpServer.Server.HTTP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SUHttpServer.Routing
+namespace SUHttpServer.Server.Routing
 {
     public interface IRoutingTable
     {

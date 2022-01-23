@@ -1,4 +1,4 @@
-﻿namespace SUHttpServer.Common
+﻿namespace SUHttpServer.Server.Common
 {
     public static class Guard
     {

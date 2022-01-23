@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace SUHttpServer.HTTP
+namespace SUHttpServer.Server.HTTP
 {
     public class Request
     {
