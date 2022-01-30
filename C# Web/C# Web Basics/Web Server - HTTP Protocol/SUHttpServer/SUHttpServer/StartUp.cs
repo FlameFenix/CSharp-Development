@@ -1,5 +1,7 @@
 ﻿using SUHttpServer.Server.HTTP;
 using SUHttpServer.Server.Responses;
+using System.Text;
+using System.Web;
 
 namespace SUHttpServer
 {
@@ -31,8 +33,10 @@ namespace SUHttpServer
                 .MapGet("/Redirect", new RedirectResponse("https://softuni.org/"))
                 .MapGet("/HTML", new HtmlResponse(StartUp.HtmlForm))
                 .MapPost("/HTML", new TextResponse("", StartUp.AddFormDateAction))
-           .MapGet("/Content", new HtmlResponse(StartUp.DownloadForm))
-           .MapPost("/Content", new TextFileResponse(StartUp.FileName)));
+                .MapGet("/Content", new HtmlResponse(StartUp.DownloadForm))
+                .MapPost("/Content", new TextFileResponse(StartUp.FileName))
+                .MapGet("/Cookies", new HtmlResponse("", StartUp.AddCookiesAction)));
+
 
             await server.Start();
         }
@@ -76,6 +80,49 @@ namespace SUHttpServer
             var responsesString = string.Join (Environment.NewLine + new string('-', 100), responses);
 
             await File.WriteAllTextAsync(fileName, responsesString);
+        }
+
+        private static void AddCookiesAction(Request request, Response response)
+        {
+
+            var requestHasCookies = request.Cookies.Any(c => c.Name != Session.SessionCookieName);
+
+            var bodyText = "";
+
+            
+
+            if (requestHasCookies)
+            {
+                var cookieText = new StringBuilder();
+
+                cookieText.Append("<h1>Cookies</h1>")
+                          .Append("<table border='1'><tr><th>Name</th><th>Value</th></tr>");
+
+                foreach (var cookie in request.Cookies)
+                {
+                    cookieText.Append("<tr>")
+                              .Append($"<td>{HttpUtility.HtmlEncode(cookie.Name)}</td>")
+                              .Append($"<td>{HttpUtility.HtmlEncode(cookie.Value)}</td>")
+                              .Append("<tr>");
+                }
+
+                cookieText.Append("</table>");
+
+                bodyText = cookieText.ToString();
+            }
+            else
+            {
+                bodyText = "<h1> Cookies set!</h1>";
+            }
+
+            if (!requestHasCookies)
+            {
+                response.Cookies.Add("My-Cookie", "My-Value");
+                response.Cookies.Add("My-Second-Cookie", "My-Second-Value");
+            }
+
+            response.Body = "";
+            response.Body = bodyText;
         }
     }
 }
