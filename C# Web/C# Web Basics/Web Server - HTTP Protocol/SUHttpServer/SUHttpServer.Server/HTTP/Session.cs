@@ -12,6 +12,8 @@ namespace SUHttpServer.Server.HTTP
 
         public const string SessionCookieDataKey = "CurrentDate";
 
+        public const string SessionUserKey = "AuthentictedUserId";
+
         private Dictionary<string, string> data;
 
         public Session(string id)
@@ -30,5 +32,7 @@ namespace SUHttpServer.Server.HTTP
 
         public bool ContainsKey(string key)
         => data.ContainsKey(key);
+
+        public void Clear() => data.Clear();
     }
 }
