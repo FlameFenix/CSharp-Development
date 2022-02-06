@@ -11,4 +11,9 @@
     <ProjectReference Include="..\SUHttpServer.Server\SUHttpServer.Server.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Views\" />
+  </ItemGroup>
+
 </Project>
