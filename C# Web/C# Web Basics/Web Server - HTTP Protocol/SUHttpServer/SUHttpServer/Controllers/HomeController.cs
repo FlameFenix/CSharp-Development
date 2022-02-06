@@ -20,7 +20,7 @@ namespace SUHttpServer.Controllers
 
         public Response Html() => new HtmlResponse(Common.Constants.HtmlForm);
 
-        protected Response Html(string text, CookieCollection cookies)
+        protected Response Html(string text, CookieCollection cookies = null)
         {
             var response = new HtmlResponse(text);
 
