@@ -3,6 +3,7 @@ using SUHttpServer.Server.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,10 @@ namespace SUHttpServer.Server.Controllers
         {
             Request = request;
         }
+        protected Response View([CallerMemberName] string viewName = "")
+            => new ViewResponse(viewName, GetControllerName());
+        private string GetControllerName()
+        => GetType().Name.Replace(nameof(Controller), string.Empty);
 
         protected Response Text(string text)
         =>  new TextResponse(text);

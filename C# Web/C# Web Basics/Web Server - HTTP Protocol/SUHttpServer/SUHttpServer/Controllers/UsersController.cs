@@ -16,7 +16,7 @@ namespace SUHttpServer.Controllers
         {
         }
 
-        public Response Login() => new HtmlResponse(Common.Constants.LoginForm);
+        public Response Login() => View(); //new HtmlResponse(Common.Constants.LoginForm);
 
         public Response LogInUser()
         {

@@ -18,7 +18,7 @@ namespace SUHttpServer.Controllers
 
         public Response Redirect() => new RedirectResponse(Common.Constants.redirectUrl);
 
-        public Response Html() => new HtmlResponse(Common.Constants.HtmlForm);
+        public Response Html() => View(); //new HtmlResponse(Common.Constants.HtmlForm);
 
         protected Response Html(string text, CookieCollection cookies = null)
         {
@@ -48,7 +48,7 @@ namespace SUHttpServer.Controllers
             return Text(formData);
         }
 
-        public Response Content() => new HtmlResponse(Common.Constants.DownloadForm);
+        public Response Content() => View(); //new HtmlResponse(Common.Constants.DownloadForm);
 
         public Response DownloadContent()
         {
