@@ -13,7 +13,6 @@ namespace SUHttpServer
 
         public static async Task Main()
         {
-
             await new HttpServer(routes => routes
                 .MapGet<HomeController>("/", c => c.Index())
                 .MapGet<HomeController>("/Redirect", c => c.Redirect())

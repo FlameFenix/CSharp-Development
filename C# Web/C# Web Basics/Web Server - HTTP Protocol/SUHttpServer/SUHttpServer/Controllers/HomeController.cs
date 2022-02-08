@@ -1,4 +1,5 @@
-﻿using SUHttpServer.Server.Controllers;
+﻿using SUHttpServer.Models;
+using SUHttpServer.Server.Controllers;
 using SUHttpServer.Server.HTTP;
 using SUHttpServer.Server.Responses;
 using System.Text;
@@ -18,7 +19,7 @@ namespace SUHttpServer.Controllers
 
         public Response Redirect() => new RedirectResponse(Common.Constants.redirectUrl);
 
-        public Response Html() => View(); //new HtmlResponse(Common.Constants.HtmlForm);
+        public Response Html() => View();
 
         protected Response Html(string text, CookieCollection cookies = null)
         {
@@ -37,18 +38,19 @@ namespace SUHttpServer.Controllers
 
         public Response HtmlFormPost()
         {
-            string formData = string.Empty;
+            var name = Request.Form["Name"];
+            var age = Request.Form["Age"];
 
-            foreach (var (key, value) in Request.Form)
+            var model = new FormViewModel()
             {
-                formData += $"{key} - {value}";
-                formData += Environment.NewLine;
-            }
+                Name = name,
+                Age = int.Parse(age)
+            };
 
-            return Text(formData);
+            return View(model);
         }
 
-        public Response Content() => View(); //new HtmlResponse(Common.Constants.DownloadForm);
+        public Response Content() => View();
 
         public Response DownloadContent()
         {
