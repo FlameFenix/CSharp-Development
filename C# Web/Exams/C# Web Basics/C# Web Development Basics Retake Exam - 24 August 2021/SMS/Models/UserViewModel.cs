@@ -1,6 +1,6 @@
 ﻿namespace SMS.Models
 {
-    public class Product
+    public class UserViewModel
     {
     }
 }

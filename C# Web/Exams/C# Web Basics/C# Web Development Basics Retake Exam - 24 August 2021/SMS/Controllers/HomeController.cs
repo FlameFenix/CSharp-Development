@@ -7,7 +7,13 @@
     {
         public HttpResponse Index()
         {
-            return this.View();
+           return View();
+            
+        }
+
+        public HttpResponse IndexLoggedIn()
+        {
+            return View();
         }
     }
 }

@@ -5,6 +5,7 @@
     using MyWebServer;
     using MyWebServer.Controllers;
     using MyWebServer.Results.Views;
+    using SMS.Services;
 
     public class StartUp
     {
@@ -14,7 +15,8 @@
                     .MapStaticFiles()
                     .MapControllers())
                 .WithServices(services => services
-                    .Add<IViewEngine, CompilationViewEngine>())
+                    .Add<IViewEngine, CompilationViewEngine>()
+                    .Add<IValidator, Validator>())
                 .Start();
     }
 }
