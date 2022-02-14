@@ -3,7 +3,10 @@
     <strong>Error!</strong>
     ErrorMessage
     <ul>
-        @error
+        @foreach(var error in Model)
+        {
+            <li> @error </li>
+        }
     </ul>
 
 </div>

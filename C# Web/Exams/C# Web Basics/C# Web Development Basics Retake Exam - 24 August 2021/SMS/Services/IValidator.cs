@@ -9,6 +9,8 @@ namespace SMS.Services
 {
     public interface IValidator
     {
-        public string ValidateRegistration(RegisterViewModel model);
+        public ICollection<string> ValidateRegistration(RegisterViewModel model);
+
+        public ICollection<string> ValidateLogin(LoginViewModel model);
     }
 }

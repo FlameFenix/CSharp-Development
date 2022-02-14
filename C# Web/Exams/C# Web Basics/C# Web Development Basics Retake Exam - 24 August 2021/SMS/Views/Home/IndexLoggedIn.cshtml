@@ -13,15 +13,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="row">
-                    <td class="col-lg-5">ProductName</td>
-                    <td class="col-lg-5">ProductPrice</td>
+                @foreach(var product in Model)
+                {
+                    <tr class="row">
+                    <td class="col-lg-5">@product.Name</td>
+                    <td class="col-lg-5">@product.Price</td>
                     <td class="col-lg-2">
                         <div class="button-holder">
-                            <a href="/Carts/AddProduct?productId=ProductId" class="btn btn-outline-primary">Add to Cart</a>
+                            <a href="/Carts/AddProduct?productId=@product.Id" class="btn btn-outline-primary">Add to Cart</a>
                         </div>
                     </td>
                 </tr>
+
+                }
+                
             </tbody>
         </table>
     </div>

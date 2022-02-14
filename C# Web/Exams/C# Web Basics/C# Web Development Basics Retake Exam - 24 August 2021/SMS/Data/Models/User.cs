@@ -24,7 +24,7 @@ namespace SMS.Data.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(Constants.USER_PASSWORD_MAX_LENGTH)]
+        [StringLength(Constants.USER_PASSWORD_MAX_LENGTH_DB)]
         public string Password { get; set; }
 
         public string CartId { get; set; }

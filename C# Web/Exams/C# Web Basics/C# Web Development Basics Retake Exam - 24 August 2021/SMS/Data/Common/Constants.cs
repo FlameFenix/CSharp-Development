@@ -16,7 +16,8 @@ namespace SMS.Data.Common
         public const int USER_EMAIL_MAX_LENGTH = 100;
 
         public const int USER_PASSWORD_MIN_LENGTH = 6;
-        public const int USER_PASSWORD_MAX_LENGTH = 64;
+        public const int USER_PASSWORD_MAX_LENGTH = 20;
+        public const int USER_PASSWORD_MAX_LENGTH_DB = 64;
 
         public const int PRODUCT_NAME_MIN_LENGTH = 4;
         public const int PRODUCT_NAME_MAX_LENGTH = 20;
