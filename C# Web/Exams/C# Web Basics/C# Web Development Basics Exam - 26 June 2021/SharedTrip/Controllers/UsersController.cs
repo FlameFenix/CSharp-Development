@@ -23,6 +23,11 @@ namespace SharedTrip.Controllers
 
         public HttpResponse Login()
         {
+            if (User.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
+
             return View();
         }
 
@@ -48,6 +53,11 @@ namespace SharedTrip.Controllers
         
         public HttpResponse Register()
         {
+            if (User.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
+
             return View();
         }
 
@@ -81,6 +91,7 @@ namespace SharedTrip.Controllers
             return Redirect("Login");
         }
 
+        [Authorize]
         public HttpResponse Logout()
         {
             this.SignOut();

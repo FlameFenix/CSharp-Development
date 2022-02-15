@@ -40,5 +40,12 @@ namespace SharedTrip.Services.Validator
             return errors;
 
         }
+
+        public List<string> AddTripValidation(TripViewModel model)
+        {
+            var errors = new List<string>();
+
+            return errors;
+        }
     }
 }

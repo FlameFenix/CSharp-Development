@@ -10,5 +10,7 @@ namespace SharedTrip.Services.Validator
     public interface IValidator
     {
         public List<string> RegisterValidation(RegisterViewModel model);
+
+        public List<string> AddTripValidation(TripViewModel model);
     }
 }
