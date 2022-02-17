@@ -41,7 +41,16 @@ namespace SharedTrip.Controllers
         public HttpResponse Add(TripViewModel model)
         {
 
-            DateTime.TryParse(model.DepartureTime, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result);
+            var errors = validator.AddTripValidation(model);
+
+            if (errors.Any())
+            {
+                return Redirect("Add");
+            }
+
+            string strFormat = "dd.MM.yyyy HH:mm";
+
+            DateTime.TryParseExact(model.DepartureTime,strFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result);
 
             var trip = new Trip()
             {
@@ -58,6 +67,45 @@ namespace SharedTrip.Controllers
             data.SaveChanges();
 
             return Redirect("All");
+        }
+
+        [Authorize]
+        public HttpResponse Details(string tripId)
+        {
+            var trip = data.Trips.FirstOrDefault(x => x.Id == tripId);
+
+            return View(trip);
+        }
+
+        [Authorize]
+
+        public HttpResponse AddUserToTrip(string tripId)
+        {
+
+            var user = data.Users.FirstOrDefault(x => x.Id == this.User.Id);
+
+            var trip = data.Trips.FirstOrDefault(x => x.Id == tripId);
+
+
+
+            trip.Seats = trip.Seats - 1;
+
+            UserTrip userTrip = new UserTrip()
+            {
+                TripId = tripId,
+                UserId = this.User.Id,
+            };
+
+            if (data.UserTrips.Contains(userTrip))
+            {
+                return Redirect($"/Trips/Details?tripId={tripId}");
+            }
+
+            data.UserTrips.Add(userTrip);
+
+            data.SaveChanges();
+
+            return Redirect("/");
         }
     }
 }

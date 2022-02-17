@@ -38,12 +38,12 @@ namespace SharedTrip.Controllers
 
             if (user == null)
             {
-                return Error("Username does not exists!");
+                return Redirect("Login");
             }
 
             if(user.Password != hashPassword.PasswordHasher(model.Password))
             {
-                return Error("Wrong password!");
+                return Redirect("Login");
             }
 
             SignIn(user.Id);
@@ -75,7 +75,7 @@ namespace SharedTrip.Controllers
 
             if (errors.Any())
             {
-                return Error(errors);
+                return Redirect("Register");
             }
 
             var user = new User()

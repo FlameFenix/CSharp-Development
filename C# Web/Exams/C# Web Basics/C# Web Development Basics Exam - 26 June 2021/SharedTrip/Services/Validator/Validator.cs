@@ -2,6 +2,7 @@
 using SharedTrip.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -44,6 +45,18 @@ namespace SharedTrip.Services.Validator
         public List<string> AddTripValidation(TripViewModel model)
         {
             var errors = new List<string>();
+
+            if(model.Seats < 2 && model.Seats > 6)
+            {
+                errors.Add($"Seats should be in range {DataConstants.TRIP_SEATS_MIN_VALUE} - {DataConstants.TRIP_SEATS_MAX_VALUE}");
+            }
+
+            bool isDateCorrect = DateTime.TryParse(model.DepartureTime, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result);
+
+            if (!isDateCorrect)
+            {
+                errors.Add("The date should be in following format");
+            }
 
             return errors;
         }
