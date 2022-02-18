@@ -10,5 +10,7 @@ namespace CarShop.Services.Validator
     internal interface IValidator
     {
         public ICollection<string> ValidateRegistration(RegisterViewModel model);
+
+        public ICollection<string> ValidateCarAdding(CarViewModel model);
     }
 }

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace CarShop.ViewModels
 {
-    public class LoginViewModel
+    public class IssueViewModel
     {
-        public string Username { get; init; }
-
-        public string Password { get; init; }
+        public string Description { get; init; }
     }
 }

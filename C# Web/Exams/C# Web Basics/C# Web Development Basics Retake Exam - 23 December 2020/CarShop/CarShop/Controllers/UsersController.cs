@@ -52,9 +52,11 @@ namespace CarShop.Controllers
         {    
             var errors = validator.ValidateRegistration(model);
 
-            if (errors.Any())
+            var userExists = data.Users.FirstOrDefault(x => x.Username == model.Username);
+
+            if (errors.Any() || userExists != null)
             {
-                Redirect("Register");
+                return Redirect("Register");
             }
 
             User user = new User()
@@ -62,13 +64,13 @@ namespace CarShop.Controllers
                 Email = model.Email,
                 Password = passwordHasher.PasswordHasher(model.Password),
                 Username = model.Username,
-                IsMechanic = model.userType == "Client" ? true : false,
+                IsMechanic = model.userType == "Mechanic" ? true : false,
             };
 
             data.Users.Add(user);
             data.SaveChanges();
 
-            return Redirect("/");
+            return Redirect("Login");
         }
 
         [HttpPost]

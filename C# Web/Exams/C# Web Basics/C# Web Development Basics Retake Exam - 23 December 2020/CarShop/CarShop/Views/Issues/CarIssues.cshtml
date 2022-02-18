@@ -4,11 +4,11 @@
             <div class="col-md-10 offset-md-1">
                 <div class="page-header text-center">
                     <h2 id="tables">Listed issues for: </h2>
-                    <h2 class="font-weight-bold font-italic">2010 Pegeot</h2>
+                    <h2 class="font-weight-bold font-italic">@Model.Year @Model.Model</h2>
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <a class="btn btn-block btn-primary text-white mb-3" href="/Issues/Add?CarId={Id}">Add a new Issue</a>
+                    <a class="btn btn-block btn-primary text-white mb-3" href="/Issues/Add?CarId=@Model.Id">Add a new Issue</a>
                 </div>
 
                 <div class="component">

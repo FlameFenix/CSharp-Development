@@ -6,6 +6,9 @@
     using MyWebServer.Controllers;
     using MyWebServer.Results.Views;
     using Microsoft.EntityFrameworkCore;
+    using CarShop.Services.HashPassword;
+    using CarShop.Services.Validator;
+
     public class Startup
     {
         public static async Task Main()
@@ -15,7 +18,9 @@
                     .MapControllers())
                 .WithServices(services => services
                 .Add<ApplicationDbContext>()
-                .Add<IViewEngine, CompilationViewEngine>())
+                .Add<IViewEngine, CompilationViewEngine>()
+                .Add<IHashPassword, HashPassword>()
+                .Add<IValidator, Validator>())
                 .WithConfiguration<ApplicationDbContext>(context => context
                     .Database.Migrate())
                 .Start();
