@@ -2,6 +2,7 @@
 using CarShop.Data.Models;
 using CarShop.Services.Validator;
 using CarShop.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using MyWebServer.Controllers;
 using MyWebServer.Http;
 using System;
@@ -26,9 +27,16 @@ namespace CarShop.Controllers
         [Authorize]
         public HttpResponse All()
         {
-            var allCars = data.Cars.ToList();
+            var user = data.Users.FirstOrDefault(x => x.Id == this.User.Id);
 
-            return View(allCars);
+            if (user.IsMechanic)
+            {
+                var allCars = data.Cars.Include(x => x.Issues).ToList();
+
+                return View(allCars);
+            }
+
+            return View(data.Cars.Where(x => x.OwnerId == this.User.Id).ToList());
         }
 
         [Authorize]

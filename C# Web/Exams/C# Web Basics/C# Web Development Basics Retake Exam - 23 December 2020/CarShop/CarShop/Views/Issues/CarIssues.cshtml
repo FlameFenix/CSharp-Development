@@ -22,17 +22,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="table-light">
-                                <td>Broken Valve</td>
-                                <td>Not yet</td>
+                            @foreach (var issue in Model.Issues)
+                           {
+                               <tr class="table-light">
+                                <td>@issue.Description</td>
+                                <td>@issue.IsFixed</td>
                                 <td>
-                                    <a class="btn btn-block btn-primary text-white mb-3" href="/Issues/Fix?issueId={Id}&CarId={Id}">Fix Issue</a>
+                                    <a class="btn btn-block btn-primary text-white mb-3" href="/Issues/Fix?issueId=@issue.Id&CarId=@Model.Id">Fix Issue</a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-block btn-primary text-white mb-3" href="/Issues/Delete?issueId={Id}&CarId={Id}">Delete Issue</a>
+                                    <a class="btn btn-block btn-primary text-white mb-3" href="/Issues/Delete?issueId=@issue.Id&CarId=@Model.Id">Delete Issue</a>
                                 </td>
                             </tr>
-
+                           }
+                            
                         </tbody>
                     </table>
                 </div>

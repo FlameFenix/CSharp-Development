@@ -1,6 +1,7 @@
 ﻿using CarShop.Data;
 using CarShop.Data.Models;
 using CarShop.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using MyWebServer.Controllers;
 using MyWebServer.Http;
 using System;
@@ -21,8 +22,7 @@ namespace CarShop.Controllers
         }
         public HttpResponse CarIssues(string carId)
         {
-            var car = data.Cars.FirstOrDefault(x => x.Id == carId);
-
+            var car = data.Cars.Include(x => x.Issues).FirstOrDefault(x => x.Id == carId);
             return View(car);
         }
 
@@ -34,7 +34,7 @@ namespace CarShop.Controllers
         [HttpPost]
         public HttpResponse Add(string carId, IssueViewModel model)
         {
-            var car = data.Cars.FirstOrDefault(x => x.Id == carId);
+            var car = data.Cars.Include(x => x.Issues).FirstOrDefault(x => x.Id == carId);
 
             var issue = new Issue()
             {
@@ -47,7 +47,42 @@ namespace CarShop.Controllers
 
             data.SaveChanges();
 
-            return Redirect("CarIssues");
+            return View("CarIssues", car);
+        }
+
+        public HttpResponse Fix(string carId, string issueId)
+        {
+            var user = data.Users.FirstOrDefault(x => x.Id == this.User.Id);
+
+            var car = data.Cars.Include(x => x.Issues).FirstOrDefault(x => x.Id == carId);
+
+            var issue = car.Issues.FirstOrDefault(x => x.Id == issueId);
+
+            if (user.IsMechanic)
+            {
+               
+
+                issue.IsFixed = true;
+
+                data.SaveChanges();
+            }
+
+            return View("CarIssues", car);
+        }
+
+        public HttpResponse Delete(string carId, string issueId)
+        {
+            var user = data.Users.FirstOrDefault(x => x.Id == this.User.Id);
+
+            var car = data.Cars.Include(x => x.Issues).FirstOrDefault(x => x.Id == carId);
+
+            var issue = car.Issues.FirstOrDefault(x => x.Id == issueId);
+
+            car.Issues.Remove(issue);
+
+            data.SaveChanges();
+
+            return View("CarIssues", car);
         }
     }
 }

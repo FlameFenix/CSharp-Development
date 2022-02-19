@@ -11,6 +11,7 @@ namespace CarShop.Data.Models
 {
     public class Car
     {
+
         [Key]
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
@@ -27,6 +28,10 @@ namespace CarShop.Data.Models
 
         [Required]
         public string PlateNumber { get; set; }
+
+        public int FixedIssues => Issues.Where(x => x.IsFixed == true).Count();
+
+        public int RemainingIssues => Issues.Where(x => x.IsFixed == false).Count();
 
         [Required]
         public string OwnerId { get; set; }

@@ -9,5 +9,6 @@ namespace CarShop.ViewModels
     public class IssueViewModel
     {
         public string Description { get; init; }
+
     }
 }
