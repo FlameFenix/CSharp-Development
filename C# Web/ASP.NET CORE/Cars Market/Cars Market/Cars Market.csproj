@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-Cars_Market-8F875543-8F61-4F23-A9DD-34040956491C</UserSecretsId>
+    <UserSecretsId>aspnet-Cars_Market-4A67277A-DF9C-4F2E-89E8-1FA4D5A0919E</UserSecretsId>
     <RootNamespace>Cars_Market</RootNamespace>
   </PropertyGroup>
 
