@@ -7,7 +7,7 @@
 			<div class="col-12">
 				<div class="card card-primary">
 					<div class="card-header">
-						<h4 class="card-title">My list of cars for sale</h4>
+						<h4 class="card-title">List of all cars for sale</h4>
 					</div>
 					<div class="card-body">
 						<div>
@@ -36,10 +36,7 @@
 												<div class="card-body">
 													<h5 class="card-title"> @car.Make @car.Model </h5>
 													<p class="card-text"> @car.Money $ </p>
-													<a href="Edit?carId=@car.Id" class="btn btn-success">Edit</a>
-													<div class="float-right d-none d-sm-inline">
-														<a href="Delete?carId=@car.Id" type="button" class="btn btn-danger">Delete</a>
-													</div>
+													<a href="/CarDetails/Details?carId=@car.Id" type="button" class="btn btn-block btn-secondary">Details</a>
 												</div>
 											</div>
 										</div>

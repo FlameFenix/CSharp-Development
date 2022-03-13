@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CarsCatalogue.Infrastructure.Data.Models
+namespace Cars_Market.Infrastructure.Data.Models
 {
     public class Message
     {
@@ -16,6 +16,8 @@ namespace CarsCatalogue.Infrastructure.Data.Models
         public string Text { get; set; }
 
         [StringLength(100)]
-        public string SellerEmail { get; set; }
+        public string SendToEmail { get; set; }
+
+        public string SendFromEmail { get; set; }
     }
 }

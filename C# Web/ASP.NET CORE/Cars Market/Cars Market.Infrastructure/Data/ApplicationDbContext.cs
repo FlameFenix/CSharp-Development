@@ -1,4 +1,4 @@
-﻿using CarsCatalogue.Infrastructure.Data.Models;
+﻿using Cars_Market.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

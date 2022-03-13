@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarsCatalogue.Infrastructure.Data.Models
+namespace Cars_Market.Infrastructure.Data.Models
 {
     public class Profile
     {

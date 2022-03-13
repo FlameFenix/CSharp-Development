@@ -4,7 +4,7 @@
 	<div class="col-md-3">
 		<div class="card card-primary">
 			<div class="card-header">
-				<h3 class="card-title">Add car to market</h3>
+				<h3 class="card-title">Edit car</h3>
 			</div>
 			<!-- /.card-header -->
 			<!-- form start -->
@@ -15,13 +15,13 @@
 							<!-- text input -->
 							<div class="form-group">
 								<label asp-for="Make">Make</label>
-								<input type="text" class="form-control" asp-for="Make" placeholder="Enter make">
+								<input type="text" class="form-control" asp-for="Make"  value="@ViewBag.Car.Make">
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label asp-for="Model">Model</label>
-								<input type="text" class="form-control" asp-for="Model" placeholder="Enter model">
+								<input type="text" class="form-control" asp-for="Model" value="@ViewBag.Car.Model">
 							</div>
 						</div>
 					</div>
@@ -30,13 +30,13 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label asp-for="Year">Year</label>
-								<input type="number" class="form-control" asp-for="Year" placeholder="Enter year">
+								<input type="number" class="form-control" asp-for="Year" value="@ViewBag.Car.Year">
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label asp-for="Money">Money</label>
-								<input type="number" class="form-control" asp-for="Money" placeholder="Enter price">
+								<input type="number" class="form-control" asp-for="Money" value="@ViewBag.Car.Money">
 							</div>
 						</div>
 					</div>
@@ -103,7 +103,7 @@
 				<!-- /.card-body -->
 
 				<div class="card-footer">
-					<button type="submit" class="btn btn-primary btn-block">Add Car</button>
+					<button type="submit" class="btn btn-primary btn-block">Edit Car</button>
 				</div>
 			</form>
 		</div>

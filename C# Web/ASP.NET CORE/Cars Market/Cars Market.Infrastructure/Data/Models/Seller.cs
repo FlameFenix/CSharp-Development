@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarsCatalogue.Infrastructure.Data.Models
+namespace Cars_Market.Infrastructure.Data.Models
 {
 	public class Seller
 	{
@@ -12,8 +12,6 @@ namespace CarsCatalogue.Infrastructure.Data.Models
 		public string Email { get; init; }
 
         public Profile Profile { get; set; }
-
-        public Message Message { get; set; }
 
         public ICollection<Car> Cars { get; set; } = new List<Car>();
 
