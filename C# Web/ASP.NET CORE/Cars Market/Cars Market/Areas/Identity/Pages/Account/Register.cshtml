@@ -1,82 +1,80 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+	ViewData["Title"] = "Register";
 }
 
 <div class="d-flex justify-content-center">
-	<div class="card card-info" style="width: 650px">
-		<div class="card-header">
-			<h3 class="card-title">@ViewData["Title"]</h3>
-		</div>
-		<!-- /.card-header -->
-		<!-- form start -->
-		<form class="form-horizontal" id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+	<div class="register-box">
+		<div class="card card-outline card-primary">
+			<div class="card-header text-center">
+				<a href="/" class="h1"><b>Cars</b>Market</a>
+			</div>
 			<div class="card-body">
-				<div class="form-group row">
-					<label asp-for="Input.Email" class="col-sm-2 col-form-label">Email</label>
-					<div class="col-sm-10">
-						<input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
-						<span asp-validation-for="Input.Email" class="text-danger"></span>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label asp-for="Input.Password" class="col-sm-2 col-form-label">Password</label>
-					<div class="col-sm-10">
-						<input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
-						<span asp-validation-for="Input.Password" class="text-danger"></span>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label asp-for="Input.ConfirmPassword" class="col-sm-2 col-form-label">Confirm password</label>
-					<div class="col-sm-10">
-							<input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm password" />
-							<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-					</div>
-				</div>
-			</div>
+				<p class="login-box-msg">Register a new membership</p>
 
-			<!-- Another Services start -->
-			<h3 class="d-flex justify-content-center">Use another service to register.</h3>
-			<hr />
-			@{
-				if ((Model.ExternalLogins?.Count ?? 0) == 0)
-				{
-					<div>
-						<p>
-							There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
-								article
-								about setting up this ASP.NET application to support logging in via external services
-							</a>.
-						</p>
-					</div>
-				}
-				else
-				{
-					<form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-						<div>
-							<p>
-								@foreach (var provider in Model.ExternalLogins)
-								{
-									<button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-								}
-							</p>
+				<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+					<div class="input-group mb-3">
+						<input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-envelope"></span>
+							</div>
 						</div>
-					</form>
-				}
-			}
-			<!--/.Another Services-->
-			<!-- /.card-body -->
-			<div class="card-footer">
-				<button id="registerSubmit" type="submit" class="btn btn-info">Register</button>
-				<button type="submit" class="btn btn-default float-right">Cancel</button>
+					</div>
+					<div class="input-group mb-3">
+						<input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-lock"></span>
+							</div>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Retype password" />
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-lock"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<div class="icheck-primary">
+								<input type="checkbox" id="agreeTerms" name="terms" value="agree">
+								<label for="agreeTerms">
+									I agree to the <a href="#">terms</a>
+								</label>
+							</div>
+						</div>
+						<!-- /.col -->
+						<div class="col-4">
+							<button id="registerSubmit" type="submit" class="btn btn-primary btn-block">Register</button>
+						</div>
+						<!-- /.col -->
+					</div>
+				</form>
+
+				<div class="social-auth-links text-center">
+					<a href="#" class="btn btn-block btn-primary">
+						<i class="fab fa-facebook mr-2"></i>
+						Sign up using Facebook
+					</a>
+					<a href="#" class="btn btn-block btn-danger">
+						<i class="fab fa-google-plus mr-2"></i>
+						Sign up using Google+
+					</a>
+				</div>
+
+				<a href="Login" class="text-center">I already have a membership</a>
 			</div>
-			<!-- /.card-footer -->
-		</form>
+			<!-- /.form-box -->
+		</div><!-- /.card -->
 	</div>
 </div>
 
 
+
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
 }
