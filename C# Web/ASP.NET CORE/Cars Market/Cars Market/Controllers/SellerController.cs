@@ -1,6 +1,7 @@
 ﻿using Cars_Market.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
+using Cars_Market.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,11 @@ namespace Cars_Market.Controllers
     public class SellerController : Controller
     {
         private ApplicationDbContext data;
-        public SellerController(ApplicationDbContext _data)
+        private ByteConverter converter;
+        public SellerController(ApplicationDbContext _data, ByteConverter _converter)
         {
             data = _data;
+            converter = _converter;
         }
 
         [Authorize]
@@ -35,7 +38,7 @@ namespace Cars_Market.Controllers
                 Location = sellerModel.Location,
                 Name = sellerModel.Name,
                 Phone = sellerModel.Phone,
-                Picture = ConvertImageToByteArray(sellerModel.Picture)
+                Picture = converter.ConvertToByteArray(sellerModel.Picture)
             };
 
             seller = new Seller()
@@ -49,17 +52,6 @@ namespace Cars_Market.Controllers
             data.SaveChanges();
 
             return Redirect("/Cars/Add");
-        }
-
-        private byte[] ConvertImageToByteArray(IFormFile file)
-        {
-            using (var ms = new MemoryStream())
-            {
-                file.CopyTo(ms);
-                var fileBytes = ms.ToArray();
-                return fileBytes;
-            }
-
         }
     }
 }

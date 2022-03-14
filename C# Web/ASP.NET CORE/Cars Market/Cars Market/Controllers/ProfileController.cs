@@ -7,7 +7,7 @@ namespace Cars_Market.Controllers
     public class ProfileController : Controller
     {
         private ApplicationDbContext data;
-		public ProfileController(ApplicationDbContext _data)
+        public ProfileController(ApplicationDbContext _data)
 		{
             data = _data;
 		}

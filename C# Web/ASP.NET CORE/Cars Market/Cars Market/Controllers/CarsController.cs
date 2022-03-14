@@ -1,9 +1,9 @@
 ﻿using Cars_Market.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
+using Cars_Market.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace Cars_Market.Controllers
@@ -11,9 +11,11 @@ namespace Cars_Market.Controllers
     public class CarsController : Controller
     {
         private ApplicationDbContext data;
-        public CarsController(ApplicationDbContext _data)
+        private ByteConverter converter;
+        public CarsController(ApplicationDbContext _data, ByteConverter _converter)
         {
             data = _data;
+            converter = _converter;
         }
 
         [Authorize]
@@ -24,7 +26,7 @@ namespace Cars_Market.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddCar(AddCarFormModel carModel)
+        public  IActionResult AddCar(AddCarFormModel carModel)
         {
             var seller = data.Sellers.FirstOrDefault(x => x.Email == User.Identity.Name);
 
@@ -33,6 +35,16 @@ namespace Cars_Market.Controllers
                 return Redirect("/Seller/AddSeller");
             }
 
+            var carDetails = new CarDetails()
+            {
+                Color = carModel.Color,
+                Description = carModel.Description,
+                GearboxType = carModel.GearboxType,
+                FuelType = carModel.FuelType,
+                Visits = 0,
+                IsSold = false
+            };
+
             var car = new Car()
             {
                 Id = carModel.Id,
@@ -40,9 +52,12 @@ namespace Cars_Market.Controllers
                 Model = carModel.Model,
                 Money = double.Parse(carModel.Money, CultureInfo.InvariantCulture),
                 Year = int.Parse(carModel.Year),
-                Picture = ConvertImageToByteArray(carModel.Image),
-                SellerId = seller.Id
+                Picture = converter.ConvertToByteArray(carModel.Image),
+                SellerId = seller.Id,
+                Details = carDetails
             };
+
+            
 
             data.Cars.Add(car);
 
@@ -51,6 +66,7 @@ namespace Cars_Market.Controllers
             return Redirect("MyCars");
         }
 
+        [Authorize]
         public IActionResult Edit(string carId)
         {
             var car = data.Cars.FirstOrDefault(x => x.Id.ToString() == carId);
@@ -60,6 +76,7 @@ namespace Cars_Market.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Delete(string carId)
 		{
             var car = data.Cars.FirstOrDefault(x => x.Id.ToString() == carId);
@@ -86,17 +103,6 @@ namespace Cars_Market.Controllers
             var cars = data.Cars.ToList();
 
             return View(cars);
-        }
-
-        private byte[] ConvertImageToByteArray(IFormFile file)
-        {
-            using (var ms = new MemoryStream())
-            {
-                file.CopyTo(ms);
-                var fileBytes = ms.ToArray();
-                return fileBytes;
-            }
-
         }
     }
 }
