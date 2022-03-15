@@ -29,6 +29,10 @@ namespace Cars_Market.Controllers
             ViewBag.Car = car;
             ViewBag.Details = carDetails;
 
+            var sellerEmail = data.Sellers.Where(x => x.Id == car.SellerId).Select(x => x.Email).FirstOrDefault();
+
+            ViewBag.CarOwner = sellerEmail;
+
             return View();
         }
     }
