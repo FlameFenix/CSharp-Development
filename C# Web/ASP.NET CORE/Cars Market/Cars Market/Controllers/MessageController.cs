@@ -2,6 +2,7 @@
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cars_Market.Controllers
 {
@@ -12,9 +13,11 @@ namespace Cars_Market.Controllers
         {
             data = _data;
         }
-        public IActionResult Index()
-        {
-            return View();
+        public IActionResult Inbox()
+		{
+            var currentUser = data.Sellers.Include(x => x.Messages).Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+
+            return View(currentUser);
         }
 
         public IActionResult Send()
@@ -38,15 +41,17 @@ namespace Cars_Market.Controllers
             {
                 SendFromEmail = sender.Email,
                 SendToEmail = reciever.Email,
+                SellerId = reciever.Id,
                 Text = messageModel.Message,
-                Title = messageModel.Title
+                Title = messageModel.Title,
+                
             };
 
-            reciever.Messages.Add(message);
+            data.Messages.Add(message);
 
             data.SaveChanges();
 
-            return View();
+            return Redirect("Inbox");
         }
 
     }
