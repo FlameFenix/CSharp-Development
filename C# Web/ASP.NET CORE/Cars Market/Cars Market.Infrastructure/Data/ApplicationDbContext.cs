@@ -21,5 +21,7 @@ namespace Cars_Market.Data
         public DbSet<Profile> Profiles { get; set; }
 
         public DbSet<Seller> Sellers { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
     }
 }

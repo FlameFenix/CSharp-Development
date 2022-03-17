@@ -33,5 +33,7 @@ namespace Cars_Market.Infrastructure.Data.Models
 
 		public Seller Seller { get; set; }
 
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
 	}
 }

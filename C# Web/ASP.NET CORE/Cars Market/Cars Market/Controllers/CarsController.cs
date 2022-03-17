@@ -26,7 +26,7 @@ namespace Cars_Market.Controllers
 
         [Authorize]
         [HttpPost]
-        public  IActionResult AddCar(AddCarFormModel carModel)
+        public IActionResult AddCar(AddCarFormModel carModel)
         {
             var seller = data.Sellers.FirstOrDefault(x => x.Email == User.Identity.Name);
 
