@@ -16,15 +16,14 @@ builder.Services.AddTransient(typeof(ByteConverter));
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-//builder.Services.AddAuthentication()
-//    .AddFacebook(facebookOptions =>
-//{
-//    facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
-//    facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
-//});
+builder.Services.AddAuthentication()
+	.AddFacebook(facebookOptions =>
+{
+    facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+	facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+});
 
 builder.Services.AddControllersWithViews();
-
 
 var app = builder.Build();
 
@@ -51,6 +50,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();
