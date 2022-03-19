@@ -1,7 +1,7 @@
-﻿using Cars_Market.Data;
+﻿using Cars_Market.Core.Services;
+using Cars_Market.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
-using Cars_Market.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;

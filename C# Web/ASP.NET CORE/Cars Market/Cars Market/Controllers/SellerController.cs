@@ -1,7 +1,7 @@
-﻿using Cars_Market.Data;
+﻿using Cars_Market.Core.Services;
+using Cars_Market.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
-using Cars_Market.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +11,14 @@ namespace Cars_Market.Controllers
     {
         private ApplicationDbContext data;
         private ByteConverter converter;
-        public SellerController(ApplicationDbContext _data, ByteConverter _converter)
+        private Validator validator;
+        public SellerController(ApplicationDbContext _data,
+            ByteConverter _converter,
+            Validator _validator)
         {
             data = _data;
             converter = _converter;
+            validator = _validator;
         }
 
         [Authorize]
@@ -28,7 +32,7 @@ namespace Cars_Market.Controllers
         {
             var seller = data.Sellers.FirstOrDefault(x => x.Email == sellerModel.Email);
 
-            if(seller != null)
+            if (seller != null)
             {
                 return BadRequest();
             }

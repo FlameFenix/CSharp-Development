@@ -1,6 +1,7 @@
-﻿using Cars_Market.Services.Contracts;
+﻿using Cars_Market.Core.Services.Contracts;
+using Microsoft.AspNetCore.Http;
 
-namespace Cars_Market.Services
+namespace Cars_Market.Core.Services
 {
     public class ByteConverter : IByteConverter
     {

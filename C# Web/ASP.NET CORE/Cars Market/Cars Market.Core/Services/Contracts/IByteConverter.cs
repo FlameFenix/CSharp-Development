@@ -1,4 +1,6 @@
-﻿namespace Cars_Market.Services.Contracts
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Cars_Market.Core.Services.Contracts
 {
     public interface IByteConverter
     {

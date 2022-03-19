@@ -1,5 +1,5 @@
+using Cars_Market.Core.Services;
 using Cars_Market.Data;
-using Cars_Market.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +11,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddTransient(typeof(ByteConverter));
+builder.Services.AddTransient(typeof(ByteConverter))
+                .AddTransient(typeof(Validator));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
