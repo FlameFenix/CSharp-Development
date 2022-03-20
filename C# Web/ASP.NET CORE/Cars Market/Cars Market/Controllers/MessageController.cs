@@ -14,7 +14,7 @@ namespace Cars_Market.Controllers
             data = _data;
         }
         public IActionResult Inbox()
-		{
+        {
             var currentUser = data.Sellers.Include(x => x.Messages).Where(x => x.Email == User.Identity.Name).FirstOrDefault();
 
             return View(currentUser);
@@ -26,13 +26,13 @@ namespace Cars_Market.Controllers
         }
 
         [HttpPost]
-        public IActionResult Send(SendMessageFormView messageModel)
+        public async Task<IActionResult> Send(SendMessageFormView messageModel)
         {
-            var sender = data.Sellers.FirstOrDefault(x => x.Email == User.Identity.Name);
+            var sender = await data.Sellers.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
 
-            var reciever = data.Sellers.FirstOrDefault(x => x.Email == messageModel.RecieverEmail);
+            var reciever = await data.Sellers.FirstOrDefaultAsync(x => x.Email == messageModel.RecieverEmail);
 
-            if(sender == null || reciever == null)
+            if (sender == null || reciever == null)
             {
                 return BadRequest();
             }
@@ -44,12 +44,12 @@ namespace Cars_Market.Controllers
                 SellerId = reciever.Id,
                 Text = messageModel.Message,
                 Title = messageModel.Title,
-                
+
             };
 
-            data.Messages.Add(message);
+            await data.Messages.AddAsync(message);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             return Redirect("Inbox");
         }

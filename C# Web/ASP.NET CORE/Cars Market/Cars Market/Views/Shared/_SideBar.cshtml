@@ -10,7 +10,16 @@
 
 		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 			<div class="image">
-				<img src="~/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+
+				@if (User.IsInRole("Seller"))
+				{
+					
+				}
+				else
+				{
+					<img src="~/img/defaultprofile.jpg" class="img-circle elevation-2" alt="User Image">
+				}
+				
 			</div>
 			<div class="info">
 				<a href="/Profile/Profile" class="d-block">@User.Identity.Name</a>
@@ -42,12 +51,31 @@
 			</li>
 
 			<li class="nav-item">
-				<a href="/Seller/AddSeller" class="nav-link">
+				<a href="#" class="nav-link">
+					<i class="nav-icon fas fa-th"></i>
 					<p>
-						Become a seller
-						<span class="right badge badge-danger"> Required </span>
+						Sellers Menu
+						<i class="fas fa-angle-left right"></i>
 					</p>
 				</a>
+				<ul class="nav nav-treeview" style="display: none;">
+					<li class="nav-item">
+						<a href="/Seller/AddSeller" class="nav-link">
+							<p>
+								Become a seller
+								<span class="right badge badge-danger"> Required </span>
+							</p>
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="/Seller/AllSellers" class="nav-link">
+							<i class="far fa-circle nav-icon"></i>
+							<p>List of Sellers</p>
+						</a>
+					</li>
+
+				</ul>
 			</li>
 
 			<li class="nav-item">

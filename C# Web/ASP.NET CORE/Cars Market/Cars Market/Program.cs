@@ -13,16 +13,17 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddTransient(typeof(ByteConverter))
                 .AddTransient(typeof(Validator))
-                .AddTransient(typeof(CarsService));
+                .AddTransient(typeof(CarsService))
+                .AddTransient(typeof(SellerService));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication()
-	.AddFacebook(facebookOptions =>
+    .AddFacebook(facebookOptions =>
 {
     facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
-	facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+    facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
 });
 
 builder.Services.AddControllersWithViews();
