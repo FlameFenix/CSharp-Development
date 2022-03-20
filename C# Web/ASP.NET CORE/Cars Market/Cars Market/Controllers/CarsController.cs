@@ -4,18 +4,24 @@ using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace Cars_Market.Controllers
 {
     public class CarsController : Controller
     {
+        private readonly CarsService carsService;
         private ApplicationDbContext data;
         private ByteConverter converter;
-        public CarsController(ApplicationDbContext _data, ByteConverter _converter)
+        public CarsController(
+            ApplicationDbContext _data,
+            ByteConverter _converter,
+            CarsService _carsService)
         {
             data = _data;
             converter = _converter;
+            carsService = _carsService;
         }
 
         [Authorize]
@@ -26,11 +32,11 @@ namespace Cars_Market.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddCar(AddCarFormModel carModel)
+        public async Task<IActionResult> AddCar(AddCarFormModel carModel)
         {
-            var seller = data.Sellers.FirstOrDefault(x => x.Email == User.Identity.Name);
+            var seller = await data.Sellers.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
 
-            if(seller == null)
+            if (seller == null)
             {
                 return Redirect("/Seller/AddSeller");
             }
@@ -57,11 +63,7 @@ namespace Cars_Market.Controllers
                 Details = carDetails
             };
 
-            
-
-            data.Cars.Add(car);
-
-            data.SaveChanges();
+            await carsService.AddCar(car);
 
             return Redirect("MyCars");
         }
@@ -77,30 +79,27 @@ namespace Cars_Market.Controllers
         }
 
         [Authorize]
-        public IActionResult Delete(string carId)
-		{
-            var car = data.Cars.FirstOrDefault(x => x.Id.ToString() == carId);
-
-            data.Cars.Remove(car);
-
-            data.SaveChanges();
+        public async Task<IActionResult> Delete(string carId)
+        {
+            await carsService.RemoveCar(carId);
 
             return Redirect("MyCars");
+
         }
 
         [Authorize]
-        public IActionResult MyCars()
+        public async Task<IActionResult> MyCars()
         {
-            var seller = data.Sellers.FirstOrDefault(x => x.Email == User.Identity.Name);
+            var seller = await data.Sellers.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
 
-            var cars = data.Cars.Where(x => x.SellerId == seller.Id).ToList();
+            var cars = await carsService.ShowMyCars(seller.Id.ToString());
 
             return View(cars);
         }
 
-        public IActionResult AllCars()
+        public async Task<IActionResult> AllCars()
         {
-            var cars = data.Cars.ToList();
+            var cars = await carsService.ShowAllCars();
 
             return View(cars);
         }
