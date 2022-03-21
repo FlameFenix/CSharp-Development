@@ -75,7 +75,7 @@ namespace Cars_Market.Controllers
 
             ViewBag.Car = car;
 
-            return View();
+            return BadRequest();
         }
 
         [Authorize]

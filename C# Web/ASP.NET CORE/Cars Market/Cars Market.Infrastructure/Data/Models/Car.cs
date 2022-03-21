@@ -26,6 +26,10 @@ namespace Cars_Market.Infrastructure.Data.Models
         [Required]
         public byte[] Picture { get; set; }
 
+        public double Rating { get; set; }
+
+        public int VoteCount { get; set; }
+
         public CarDetails Details { get; set; }
 
         [ForeignKey(nameof(Seller))]
@@ -34,6 +38,17 @@ namespace Cars_Market.Infrastructure.Data.Models
 		public Seller Seller { get; set; }
 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+        public double RatingResult()
+        {
+            if(Rating == 0 || VoteCount == 0)
+            {
+                return 0;
+            }
+
+            double result = Rating / (VoteCount * 1.0);
+            return result;
+        }
 
 	}
 }

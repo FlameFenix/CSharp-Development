@@ -61,5 +61,11 @@ namespace Cars_Market.Controllers
 
             return Redirect("/AllCars");
         }
+
+        [HttpPost]
+        public IActionResult Details(string carId, string vote)
+        {
+            return Redirect("/AllCars");
+        }
     }
 }

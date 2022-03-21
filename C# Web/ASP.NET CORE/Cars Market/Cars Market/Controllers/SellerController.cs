@@ -54,7 +54,7 @@ namespace Cars_Market.Controllers
                 Email = sellerModel.Email,
                 Profile = sellerProfile
             };
-
+            
             await sellerService.AddSeller(seller);
 
             return Redirect("/Cars/Add");
