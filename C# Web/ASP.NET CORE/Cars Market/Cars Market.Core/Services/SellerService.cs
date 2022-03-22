@@ -1,5 +1,5 @@
 ﻿using Cars_Market.Core.Services.Contracts;
-using Cars_Market.Data;
+using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 

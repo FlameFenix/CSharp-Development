@@ -1,5 +1,5 @@
 ﻿using Cars_Market.Core.Services;
-using Cars_Market.Data;
+using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -68,7 +68,7 @@ namespace Cars_Market.Controllers
             return Redirect("MyCars");
         }
 
-        [Authorize]
+        [Authorize(Roles = "Seller")]
         public IActionResult Edit(string carId)
         {
             var car = data.Cars.FirstOrDefault(x => x.Id.ToString() == carId);

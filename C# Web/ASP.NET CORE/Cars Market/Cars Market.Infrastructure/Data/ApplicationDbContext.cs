@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cars_Market.Data
+namespace Cars_Market.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

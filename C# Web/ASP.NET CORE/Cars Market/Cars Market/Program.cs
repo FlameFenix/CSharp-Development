@@ -1,5 +1,5 @@
 using Cars_Market.Core.Services;
-using Cars_Market.Data;
+using Cars_Market.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +17,7 @@ builder.Services.AddTransient(typeof(ByteConverter))
                 .AddTransient(typeof(SellerService));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication()
