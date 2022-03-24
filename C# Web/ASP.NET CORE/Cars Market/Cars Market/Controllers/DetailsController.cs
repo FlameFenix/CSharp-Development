@@ -1,4 +1,5 @@
-﻿using Cars_Market.Infrastructure.Data;
+﻿using Cars_Market.Core.Services;
+using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,20 +10,25 @@ namespace Cars_Market.Controllers
     public class DetailsController : Controller
     {
         private ApplicationDbContext data;
-        public DetailsController(ApplicationDbContext _data)
+        private readonly CarsService carsService;
+        private readonly SellerService sellerService;
+        public DetailsController(ApplicationDbContext _data,
+            CarsService _carsService,
+        SellerService _sellerService)
         {
             data = _data;
+            carsService = _carsService;
+            sellerService = _sellerService;
         }
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Details(string carId)
+        public async Task<IActionResult> Details(string carId)
         {
-            var car = data.Cars.Include(x => x.Details).FirstOrDefault(x => x.Id.ToString() == carId);
-
-            var carDetails = data.CarDetails.FirstOrDefault(x => car.Id == x.CarId);
+            var car = await data.Cars.Include(x => x.Details).FirstOrDefaultAsync(x => x.Id.ToString() == carId);
+            var carDetails = await data.CarDetails.FirstOrDefaultAsync(x => car.Id == x.CarId);
 
             carDetails.Visits++;
 
@@ -30,10 +36,10 @@ namespace Cars_Market.Controllers
 
             ViewBag.Car = car;
             ViewBag.Details = carDetails;
-            ViewBag.Comments = data.Comments.Where(x => x.CarId.ToString() == carId).ToList();
+            ViewBag.Comments = await data.Comments.Where(x => x.CarId.ToString() == carId).ToListAsync();
 
-            var sellerEmail = data.Sellers.Where(x => x.Id == car.SellerId).Select(x => x.Email).FirstOrDefault();
-            var userPicture = data.Sellers.Where(x => x.Email == User.Identity.Name).Select(x => x.Profile.Picture).FirstOrDefault();
+            var sellerEmail = await data.Sellers.Where(x => x.Id == car.SellerId).Select(x => x.Email).FirstOrDefaultAsync();
+            var userPicture = await data.Sellers.Where(x => x.Email == User.Identity.Name).Select(x => x.Profile.Picture).FirstOrDefaultAsync();
 
             ViewBag.CarOwner = sellerEmail;
             ViewBag.UserPicture = userPicture;
@@ -42,11 +48,11 @@ namespace Cars_Market.Controllers
         }
 
         [HttpPost]
-        public IActionResult Details(string carId, AddCommentToCarFormModel commentModel)
+        public async Task<IActionResult> Details(string carId, AddCommentToCarFormModel commentModel)
         {
-            var car = data.Cars.FirstOrDefault(x => x.Id.ToString() == carId);
+            var car = await carsService.GetCarById(carId);
 
-            var user = data.Sellers.Include(x => x.Profile).FirstOrDefault(x => x.Email == User.Identity.Name);
+            var user = await sellerService.GetSellerWithProfile(User.Identity.Name);
 
             Comment comment = new Comment()
             {
@@ -59,12 +65,6 @@ namespace Cars_Market.Controllers
             data.Comments.Add(comment);
             data.SaveChanges();
 
-            return Redirect("/AllCars");
-        }
-
-        [HttpPost]
-        public IActionResult Details(string carId, string vote)
-        {
             return Redirect("/AllCars");
         }
     }

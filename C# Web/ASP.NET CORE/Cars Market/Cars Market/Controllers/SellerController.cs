@@ -12,16 +12,16 @@ namespace Cars_Market.Controllers
     {
         private ApplicationDbContext data;
         private ByteConverter converter;
-        private Validator validator;
+     //   private Validator validator;
         private readonly SellerService sellerService;
         public SellerController(ApplicationDbContext _data,
             ByteConverter _converter,
-            Validator _validator,
+           // Validator _validator,
             SellerService _sellerService)
         {
             data = _data;
             converter = _converter;
-            validator = _validator;
+       //     validator = _validator;
             sellerService = _sellerService;
         }
 
@@ -34,7 +34,7 @@ namespace Cars_Market.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSeller(AddSellerFormModel sellerModel)
         {
-            var seller = await data.Sellers.FirstOrDefaultAsync(x => x.Email == sellerModel.Email);
+            var seller = await sellerService.GetSellerByEmail(sellerModel.Email);
 
             if (seller != null)
             {

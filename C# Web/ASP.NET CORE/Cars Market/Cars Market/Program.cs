@@ -12,7 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddTransient(typeof(ByteConverter))
-                .AddTransient(typeof(Validator))
+                .AddTransient(typeof(ProfileService))
                 .AddTransient(typeof(CarsService))
                 .AddTransient(typeof(SellerService));
 

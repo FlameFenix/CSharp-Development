@@ -1,4 +1,5 @@
-﻿using Cars_Market.Infrastructure.Data;
+﻿using Cars_Market.Core.Services;
+using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +10,15 @@ namespace Cars_Market.Controllers
     public class MessageController : Controller
     {
         private ApplicationDbContext data;
-        public MessageController(ApplicationDbContext _data)
+        private SellerService sellerService;
+        public MessageController(ApplicationDbContext _data, SellerService _sellerService)
         {
             data = _data;
+            sellerService = _sellerService; 
         }
-        public IActionResult Inbox()
+        public async Task<IActionResult> Inbox()
         {
-            var currentUser = data.Sellers.Include(x => x.Messages).Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+            var currentUser = await sellerService.GetSellerWithMessages(User.Identity.Name);
 
             return View(currentUser);
         }
@@ -28,9 +31,9 @@ namespace Cars_Market.Controllers
         [HttpPost]
         public async Task<IActionResult> Send(SendMessageFormView messageModel)
         {
-            var sender = await data.Sellers.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+            var sender = await sellerService.GetSellerByEmail(User.Identity.Name);
 
-            var reciever = await data.Sellers.FirstOrDefaultAsync(x => x.Email == messageModel.RecieverEmail);
+            var reciever = await sellerService.GetSellerByEmail(messageModel.RecieverEmail);
 
             if (sender == null || reciever == null)
             {

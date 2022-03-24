@@ -12,16 +12,19 @@ namespace Cars_Market.Controllers
     public class CarsController : Controller
     {
         private readonly CarsService carsService;
+        private readonly SellerService sellerService;
         private ApplicationDbContext data;
         private ByteConverter converter;
         public CarsController(
             ApplicationDbContext _data,
             ByteConverter _converter,
-            CarsService _carsService)
+            CarsService _carsService,
+            SellerService _sellerService)
         {
             data = _data;
             converter = _converter;
             carsService = _carsService;
+            sellerService = _sellerService;
         }
 
         [Authorize]
@@ -34,7 +37,7 @@ namespace Cars_Market.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCar(AddCarFormModel carModel)
         {
-            var seller = await data.Sellers.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+            var seller = await sellerService.GetSellerByEmail(User.Identity.Name);
 
             if (seller == null)
             {
@@ -71,7 +74,7 @@ namespace Cars_Market.Controllers
         [Authorize(Roles = "Seller")]
         public IActionResult Edit(string carId)
         {
-            var car = data.Cars.FirstOrDefault(x => x.Id.ToString() == carId);
+            var car = carsService.GetCarById(carId);
 
             ViewBag.Car = car;
 
@@ -90,7 +93,7 @@ namespace Cars_Market.Controllers
         [Authorize]
         public async Task<IActionResult> MyCars()
         {
-            var seller = await data.Sellers.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+            var seller = await sellerService.GetSellerByEmail(User.Identity.Name);
 
             var cars = await carsService.ShowMyCars(seller.Id.ToString());
 

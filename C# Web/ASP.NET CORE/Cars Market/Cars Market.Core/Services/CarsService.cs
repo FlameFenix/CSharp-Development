@@ -30,6 +30,11 @@ namespace Cars_Market.Core.Services
 
         }
 
+        public async Task<Car> GetCarById(string carId)
+        {
+            return await data.Cars.FirstOrDefaultAsync(x => x.Id.ToString() == carId);
+        }
+
         public async Task<ICollection<Car>> ShowAllCars()
         {
             return await data.Cars.ToListAsync();
