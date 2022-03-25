@@ -4,9 +4,6 @@ namespace Cars_Market.Controllers
 {
     public class ContactsController : Controller
     {
-        public IActionResult Contacts()
-        {
-            return View();
-        }
+        public IActionResult Contacts() => View();
     }
 }

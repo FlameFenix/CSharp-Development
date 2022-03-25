@@ -28,10 +28,7 @@ namespace Cars_Market.Controllers
         }
 
         [Authorize]
-        public IActionResult AddCar()
-        {
-            return View();
-        }
+        public IActionResult AddCar() => View();
 
         [Authorize]
         [HttpPost]

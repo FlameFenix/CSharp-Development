@@ -23,10 +23,7 @@ namespace Cars_Market.Controllers
             return View(currentUser);
         }
 
-        public IActionResult Send()
-        {
-            return View();
-        }
+        public IActionResult Send() => View();
 
         [HttpPost]
         public async Task<IActionResult> Send(SendMessageFormView messageModel)

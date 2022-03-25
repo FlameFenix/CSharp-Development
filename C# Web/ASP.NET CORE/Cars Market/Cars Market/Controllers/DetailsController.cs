@@ -20,10 +20,7 @@ namespace Cars_Market.Controllers
             carsService = _carsService;
             sellerService = _sellerService;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
         public async Task<IActionResult> Details(string carId)
         {

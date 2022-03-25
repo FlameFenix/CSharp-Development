@@ -11,25 +11,19 @@ namespace Cars_Market.Controllers
     public class SellerController : Controller
     {
         private ApplicationDbContext data;
-        private ByteConverter converter;
-     //   private Validator validator;
+        private readonly ByteConverter converter;
         private readonly SellerService sellerService;
         public SellerController(ApplicationDbContext _data,
             ByteConverter _converter,
-           // Validator _validator,
             SellerService _sellerService)
         {
             data = _data;
             converter = _converter;
-       //     validator = _validator;
             sellerService = _sellerService;
         }
 
         [Authorize]
-        public IActionResult AddSeller()
-        {
-            return View();
-        }
+        public IActionResult AddSeller() => View();
 
         [HttpPost]
         public async Task<IActionResult> AddSeller(AddSellerFormModel sellerModel)

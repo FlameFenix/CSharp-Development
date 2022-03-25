@@ -19,7 +19,6 @@ builder.Services.AddTransient(typeof(ByteConverter))
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
 builder.Services.AddAuthentication()
     .AddFacebook(facebookOptions =>
 {
