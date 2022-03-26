@@ -15,7 +15,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach (var role in Model)
+					@foreach (var role in Model.OrderBy(x => x.Name))
 					{
 						<tr>
 							<td>@role.Id</td>
@@ -26,9 +26,6 @@
 			</table>
 
 		</div>
-	</div>
-	<div>
-		<a asp-action="Create" class="btn btn-primary">Create</a>
 	</div>
 </section>
 

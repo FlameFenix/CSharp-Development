@@ -13,13 +13,13 @@
 
 				@if (User.IsInRole("Seller"))
 				{
-					
+
 				}
 				else
 				{
 					<img src="~/img/defaultprofile.jpg" class="img-circle elevation-2" alt="User Image">
 				}
-				
+
 			</div>
 			<div class="info">
 				<a href="/Profile/MyProfile" class="d-block">@User.Identity.Name</a>
@@ -49,6 +49,37 @@
 					</p>
 				</a>
 			</li>
+
+			@if (User.IsInRole("Administrator"))
+			{
+				<li class="nav-item">
+					<a href="#" class="nav-link">
+						<i class="nav-icon fas fa-user-lock"></i>
+						<p>
+							Administration
+							<i class="fas fa-angle-left right"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview" style="display: none;">
+						<li class="nav-item">
+							<a href="/Role/Index" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>
+									List of roles
+								</p>
+							</a>
+						</li>
+
+						<li class="nav-item">
+							<a href="/Role/Create" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>Create role</p>
+							</a>
+						</li>
+
+					</ul>
+				</li>
+			}
 
 			<li class="nav-item">
 				<a href="#" class="nav-link">

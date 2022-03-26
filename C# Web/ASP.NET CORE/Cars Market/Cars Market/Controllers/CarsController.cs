@@ -4,7 +4,6 @@ using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace Cars_Market.Controllers
@@ -27,10 +26,10 @@ namespace Cars_Market.Controllers
             sellerService = _sellerService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Seller")]
         public IActionResult AddCar() => View();
 
-        [Authorize]
+        [Authorize(Roles = "Seller")]
         [HttpPost]
         public async Task<IActionResult> AddCar(AddCarFormModel carModel)
         {
@@ -65,7 +64,7 @@ namespace Cars_Market.Controllers
 
             await carsService.AddCar(car);
 
-            return Redirect("MyCars");
+            return RedirectToAction("MyCars");
         }
 
         [Authorize(Roles = "Seller")]
@@ -78,16 +77,16 @@ namespace Cars_Market.Controllers
             return BadRequest();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Seller")]
         public async Task<IActionResult> Delete(string carId)
         {
             await carsService.RemoveCar(carId);
 
-            return Redirect("MyCars");
+            return RedirectToAction("MyCars");
 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Seller")]
         public async Task<IActionResult> MyCars()
         {
             var seller = await sellerService.GetSellerByEmail(User.Identity.Name);

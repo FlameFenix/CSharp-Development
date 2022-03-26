@@ -3,8 +3,10 @@ using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Cars_Market.Controllers
 {
@@ -50,6 +52,17 @@ namespace Cars_Market.Controllers
             };
             
             await sellerService.AddSeller(seller);
+
+            // Testing !
+            var identity = new IdentityUserRole<string>()
+            {
+                RoleId = data.Roles.FirstOrDefault(x => x.Name == "Seller").Id,
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString()
+            };
+
+            data.UserRoles.Add(identity);
+
+            data.SaveChanges();
 
             return Redirect("/Cars/Add");
         }
