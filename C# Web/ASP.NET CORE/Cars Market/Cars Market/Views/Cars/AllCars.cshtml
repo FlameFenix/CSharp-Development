@@ -1,5 +1,4 @@
-﻿@using Cars_Market.Infrastructure.Data.Models
-@model ICollection<Car>
+﻿@model FilterOptionsFormModel
 
 <section class="content">
 	<div class="container-fluid">
@@ -12,23 +11,25 @@
 					<div class="card-body">
 						<div>
 							<div class="mb-2">
-								<a class="btn btn-secondary" href="javascript:void(0)" data-shuffle=""> Shuffle items </a>
-								<div class="float-right">
-									<select class="custom-select" style="width: auto;" data-sortorder="">
-										<option value="index"> Sort by Position </option>
-										<option value="sortData"> Sort by Custom Data </option>
-									</select>
-									<div class="btn-group">
-										<a class="btn btn-default" href="javascript:void(0)" data-sortasc=""> Ascending </a>
-										<a class="btn btn-default" href="javascript:void(0)" data-sortdesc=""> Descending </a>
+								<form method="post">
+									<a class="btn btn-secondary" href="javascript:void(0)" data-shuffle=""> Shuffle items </a>
+									<div class="float-right">
+										<select asp-for="SortByType" class="custom-select" style="width: auto;">
+											<option value="Price"> Sort by Price </option>
+											<option value="Make"> Sort by Make </option>
+										</select>
+										<div class="btn-group">
+											<input asp-for="OrderByType" class="btn btn-default" value="Ascending" type="submit"></input>
+											<input asp-for="OrderByType" class="btn btn-default" value="Descending" type="submit"></input>
+										</div>
 									</div>
-								</div>
+								</form>
 							</div>
 						</div>
 						<div>
 							<div class="filter-container p-0 row" style="padding: 3px; position: relative; width: 100%; display: flex; flex-wrap: wrap; height: 515px;">
 								@{
-									foreach (var car in Model)
+									foreach (var car in ViewBag.CarsList)
 									{
 										<div class="col-md-8 col-lg-4 col-xl-2">
 											<div class="card mb-2 bg-gradient-dark">

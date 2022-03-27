@@ -13,8 +13,8 @@ namespace Cars_Market.Infrastructure.Data.Models
 
         public Profile Profile { get; set; }
 
-        public ICollection<Car> Cars { get; set; } = new List<Car>();
+        public ICollection<Car> Cars { get; set; } = new HashSet<Car>();
 
-		public ICollection<Message> Messages { get; set; } = new List<Message>();
+		public ICollection<Message> Messages { get; set; } = new HashSet<Message>();
 	}
 }

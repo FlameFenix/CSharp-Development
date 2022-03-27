@@ -37,7 +37,7 @@ namespace Cars_Market.Infrastructure.Data.Models
 
 		public Seller Seller { get; set; }
 
-        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
         public double RatingResult()
         {

@@ -98,9 +98,17 @@ namespace Cars_Market.Controllers
 
         public async Task<IActionResult> AllCars()
         {
-            var cars = await carsService.ShowAllCars();
+            ViewBag.CarsList = await carsService.ShowAllCars();
 
-            return View(cars);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AllCars(FilterOptionsFormModel filterOptions)
+        {
+            ViewBag.CarsList = await carsService.ShowOrderedCars(filterOptions.SortByType, filterOptions.OrderByType);
+
+            return View();
         }
     }
 }

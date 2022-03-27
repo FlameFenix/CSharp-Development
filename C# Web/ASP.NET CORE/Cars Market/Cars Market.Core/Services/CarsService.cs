@@ -40,6 +40,36 @@ namespace Cars_Market.Core.Services
             return await data.Cars.ToListAsync();
         }
 
+        public async Task<ICollection<Car>> ShowOrderedCars(string sortByType, string orderByType)
+        {
+            ICollection<Car> carsList;
+
+            if(orderByType == "Ascending")
+            {
+                if(sortByType == "Make")
+                {
+                    carsList = await data.Cars.OrderBy(x => x.Make).ToListAsync();
+                }
+                else
+                {
+                    carsList = await data.Cars.OrderBy(x => x.Money).ToListAsync();
+                }
+            }
+            else
+            {
+                if (sortByType == "Make")
+                {
+                    carsList = await data.Cars.OrderByDescending(x => x.Make).ToListAsync();
+                }
+                else
+                {
+                    carsList = await data.Cars.OrderByDescending(x => x.Money).ToListAsync();
+                }
+            }
+
+            return carsList;
+        }
+
         public async Task<ICollection<Car>> ShowMyCars(string userId)
         {
             return await data.Cars.Where(x => x.SellerId.ToString() == userId).ToListAsync();

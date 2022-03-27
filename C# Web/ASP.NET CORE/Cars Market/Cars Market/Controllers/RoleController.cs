@@ -28,6 +28,5 @@ namespace Cars_Market.Controllers
             await roleManager.CreateAsync(role);
             return RedirectToAction("Index");
         }
-
     }
 }
