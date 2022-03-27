@@ -43,10 +43,9 @@ namespace Cars_Market.Core.Services
         public async Task<ICollection<Car>> ShowOrderedCars(string sortByType, string orderByType)
         {
             ICollection<Car> carsList;
-
             if(orderByType == "Ascending")
             {
-                if(sortByType == "Make")
+                if (sortByType == "Make")
                 {
                     carsList = await data.Cars.OrderBy(x => x.Make).ToListAsync();
                 }

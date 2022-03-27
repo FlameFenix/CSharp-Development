@@ -1,4 +1,6 @@
-﻿<section class="content">
+﻿@model ContactFormModel
+
+<section class="content">
 
 	<div class="card">
 		<div class="card-body row">
@@ -26,10 +28,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="text-right">
-								<a href="#" class="btn btn-sm bg-teal">
-									<i class="fas fa-comments"></i>
-								</a>
-								<a href="#" class="btn btn-sm btn-primary">
+								<a href="/Profile/Profile?profileId=30999fac-0e22-4508-a821-c0f99177ae75" class="btn btn-sm btn-primary">
 									<i class="fas fa-user"></i> View Profile
 								</a>
 							</div>
@@ -38,28 +37,30 @@
 				</div>
 			</div>
 			<div class="col-5">
-				<div class="form-group">
-					<label for="inputName">Name</label>
-					<input type="text" id="inputName" class="form-control">
-				</div>
-				<div class="form-group">
-					<label for="inputEmail">E-Mail</label>
-					<input type="email" id="inputEmail" class="form-control">
-				</div>
-				<div class="form-group">
-					<label for="inputSubject">Subject</label>
-					<input type="text" id="inputSubject" class="form-control">
-				</div>
-				<div class="form-group">
-					<label for="inputMessage">Message</label>
-					<textarea id="inputMessage" class="form-control" rows="4"></textarea>
-				</div>
-				<div class="form-group">
-					<input type="submit" class="btn btn-primary" value="Send message">
-				</div>
+				<form method="post">
+					<div class="form-group">
+						<label asp-for="SenderName">Name</label>
+						<input asp-for="SenderName" type="text" class="form-control">
+					</div>
+					<div class="form-group">
+						<label asp-for="Sender">E-Mail</label>
+						<input asp-for="Sender" type="email" class="form-control">
+					</div>
+					<div class="form-group">
+						<label asp-for="Subject">Subject</label>
+						<input asp-for="Subject" type="text" class="form-control">
+					</div>
+					<div class="form-group">
+						<label asp-for="Message">Message</label>
+						<textarea asp-for="Message" class="form-control" rows="4"></textarea>
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary" value="Send message">
+					</div>
+				</form>
 			</div>
 		</div>
-56r	</div>
+	</div>
 </section>
 
 @*<div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">*@
