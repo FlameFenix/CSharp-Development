@@ -15,13 +15,16 @@ namespace Cars_Market.Controllers
         private ApplicationDbContext data;
         private readonly ByteConverter converter;
         private readonly SellerService sellerService;
+        private readonly UserManager<IdentityUser> userManager;
         public SellerController(ApplicationDbContext _data,
             ByteConverter _converter,
-            SellerService _sellerService)
+            SellerService _sellerService,
+            UserManager<IdentityUser> _userManager)
         {
             data = _data;
             converter = _converter;
             sellerService = _sellerService;
+            userManager = _userManager;
         }
 
         [Authorize]
@@ -53,18 +56,11 @@ namespace Cars_Market.Controllers
             
             await sellerService.AddSeller(seller);
 
-            // Testing !
-            var identity = new IdentityUserRole<string>()
-            {
-                RoleId = data.Roles.FirstOrDefault(x => x.Name == "Seller").Id,
-                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString()
-            };
+            var user = await userManager.FindByEmailAsync(sellerModel.Email);
 
-            data.UserRoles.Add(identity);
+            await userManager.AddToRoleAsync(user, "Seller");
 
-            data.SaveChanges();
-
-            return Redirect("/Cars/Add");
+            return Redirect("/Cars/AllCars");
         }
 
         public async Task<IActionResult> AllSellers()

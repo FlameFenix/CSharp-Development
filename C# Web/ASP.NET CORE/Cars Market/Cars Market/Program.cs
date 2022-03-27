@@ -1,5 +1,6 @@
 using Cars_Market.Core.Services;
 using Cars_Market.Infrastructure.Data;
+using Cars_Market.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

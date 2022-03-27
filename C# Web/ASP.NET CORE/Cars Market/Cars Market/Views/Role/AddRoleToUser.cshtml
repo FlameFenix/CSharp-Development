@@ -1,0 +1,43 @@
+﻿@model AddRolesToUserFormModel
+
+<section class="content">
+	<div class="card">
+		<div class="card-body row col-6">
+			<h1>List of registered users</h1>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<td>Email</td>
+						<td>Roles</td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var user in ViewBag.Users)
+					{
+						<form method="post">
+						<tr>
+							<td>
+								<select asp-for="UserEmail" class="custom-select" style="width: auto;">
+									<option value="@user.Email"> @user.Email </option>
+								</select>
+							</td>
+							<td>
+									@{
+
+										foreach (var role in ViewBag.Roles)
+										{
+										<input type="checkbox" name="SelectedRoles" value="@role">
+										<label for="@role"> @role </label>
+										}
+
+									}
+							</td>
+							<td><button type="submit" class="btn btn-primary btn-block"> Add roles to user</button></td>
+						</tr>
+						</form>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
