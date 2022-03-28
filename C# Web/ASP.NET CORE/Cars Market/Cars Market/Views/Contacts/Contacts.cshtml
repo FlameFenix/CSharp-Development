@@ -41,18 +41,22 @@
 					<div class="form-group">
 						<label asp-for="SenderName">Name</label>
 						<input asp-for="SenderName" type="text" class="form-control">
+						<span asp-validation-for="SenderName" class="text-danger"></span>
 					</div>
 					<div class="form-group">
 						<label asp-for="Sender">E-Mail</label>
 						<input asp-for="Sender" type="email" class="form-control">
+						<span asp-validation-for="Sender" class="text-danger"></span>
 					</div>
 					<div class="form-group">
 						<label asp-for="Subject">Subject</label>
 						<input asp-for="Subject" type="text" class="form-control">
+						<span asp-validation-for="Subject" class="text-danger"></span>
 					</div>
 					<div class="form-group">
 						<label asp-for="Message">Message</label>
 						<textarea asp-for="Message" class="form-control" rows="4"></textarea>
+						<span asp-validation-for="Message" class="text-danger"></span>
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary" value="Send message">

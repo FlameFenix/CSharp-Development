@@ -34,7 +34,22 @@
 
         public const int CAR_DETAILS_DESCRIPTION_MIN_VALUE = 10;
         public const int CAR_DETAILS_DESCRIPTION_MAX_VALUE = 500;
-        
 
+        // CONTACTS FORM
+
+        public const int CONTACT_FORM_SENDER_EMAIL_MIN_LENGTH = 6;
+        public const int CONTACT_FORM_SENDER_EMAIL_MAX_LENGTH = 50;
+
+        public const int CONTACT_FORM_SENDER_NAME_MIN_LENGTH = 3;
+        public const int CONTACT_FORM_SENDER_NAME_MAX_LENGTH = 20;
+
+        public const int CONTACT_FORM_RECIEVER_EMAIL_MIN_LENGTH = 6;
+        public const int CONTACT_FORM_RECIEVER_EMAIL_MAX_LENGTH = 50;
+                        
+        public const int CONTACT_FORM_TITLE_MIN_LENGTH = 4;
+        public const int CONTACT_FORM_TITLE_MAX_LENGTH = 50;
+                        
+        public const int CONTACT_FORM_MESSAGE_MIN_LENGTH = 1;
+        public const int CONTACT_FORM_MESSAGE_MAX_LENGTH = 500;
     }
 }

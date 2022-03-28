@@ -21,6 +21,11 @@ namespace Cars_Market.Controllers
 
             var reciever = data.Sellers.FirstOrDefault(x => x.Email == "admin@carsmarket.com");
 
+            if (!ModelState.IsValid)
+            {
+                return View(contactForm);
+            }
+
             var message = new Message()
             {
                 SendFromEmail = contactForm.Sender,
