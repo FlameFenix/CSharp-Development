@@ -10,7 +10,7 @@ namespace Cars_Market.Controllers
     [Authorize(Roles = "Administrator")]
     public class RoleController : Controller
     {
-        RoleManager<IdentityRole> roleManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<IdentityUser> userManager;
         private readonly SellerService sellerService;
         public RoleController

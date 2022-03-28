@@ -40,6 +40,11 @@ namespace Cars_Market.Controllers
                 return Redirect("/Seller/AddSeller");
             }
 
+            if (!ModelState.IsValid)
+            {
+                return View(carModel);
+            }
+
             var carDetails = new CarDetails()
             {
                 Color = carModel.Color,

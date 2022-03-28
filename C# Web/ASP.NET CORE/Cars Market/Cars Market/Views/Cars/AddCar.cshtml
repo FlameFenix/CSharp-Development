@@ -16,12 +16,14 @@
 							<div class="form-group">
 								<label asp-for="Make">Make</label>
 								<input type="text" class="form-control" asp-for="Make" placeholder="Enter make">
+								<span asp-validation-for="Make" class="text-danger"></span>
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label asp-for="Model">Model</label>
 								<input type="text" class="form-control" asp-for="Model" placeholder="Enter model">
+								<span asp-validation-for="Model" class="text-danger"></span>
 							</div>
 						</div>
 					</div>
@@ -31,12 +33,14 @@
 							<div class="form-group">
 								<label asp-for="Year">Year</label>
 								<input type="number" class="form-control" asp-for="Year" placeholder="Enter year">
+								<span asp-validation-for="Year" class="text-danger"></span>
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label asp-for="Money">Money</label>
 								<input type="number" class="form-control" asp-for="Money" placeholder="Enter price">
+								<span asp-validation-for="Money" class="text-danger"></span>
 							</div>
 						</div>
 					</div>
@@ -56,6 +60,7 @@
 									<option>Grey</option>
 									<option>Yellow</option>
 								</select>
+								<span asp-validation-for="Color" class="text-danger"></span>
 							</div>
 
 						</div>
@@ -68,6 +73,7 @@
 									<option>Petrol</option>
 									<option>Hybrid</option>
 								</select>
+								<span asp-validation-for="FuelType" class="text-danger"></span>
 							</div>
 						</div>
 					</div>
@@ -81,6 +87,7 @@
 									<option>Manual</option>
 									<option>Semi-Automatic</option>
 								</select>
+								<span asp-validation-for="GearboxType" class="text-danger"></span>
 							</div>
 						</div>
 						<div class="col-sm-6">
@@ -98,6 +105,7 @@
 					<div class="form-group">
 						<label asp-for="Description">Description</label>
 						<textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter description"></textarea>
+						<span asp-validation-for="Description" class="text-danger"></span>
 					</div>
 				</div>
 				<!-- /.card-body -->

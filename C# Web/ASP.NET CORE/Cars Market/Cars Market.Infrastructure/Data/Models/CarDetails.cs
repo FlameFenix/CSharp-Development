@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Cars_Market.Core.Constants;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cars_Market.Infrastructure.Data.Models
@@ -7,16 +8,18 @@ namespace Cars_Market.Infrastructure.Data.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        [StringLength(20)]
+        [Required]
+        [StringLength(DataConstants.CAR_DETAILS_COLOR_MAX_VALUE)]
         public string Color { get; set; }
 
-        [StringLength(20)]
+        [Required]
+        [StringLength(DataConstants.CAR_DETAILS_FUELTYPE_MAX_VALUE)]
         public string FuelType { get; set; }
 
-        [StringLength(500)]
+        [StringLength(DataConstants.CAR_DETAILS_DESCRIPTION_MAX_VALUE)]
         public string Description { get; set; }
 
-        [StringLength(20)]
+        [StringLength(DataConstants.CAR_DETAILS_GEARBOXTYPE_MAX_VALUE)]
         public string GearboxType { get; set; }
 
         public bool IsSold { get; set; }

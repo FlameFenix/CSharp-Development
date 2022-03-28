@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Cars_Market.Core.Constants;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,21 +10,22 @@ namespace Cars_Market.Infrastructure.Data.Models
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        [Required]
+        [Range(DataConstants.CAR_YEAR_MIN_VALUE, DataConstants.CAR_YEAR_MAX_VALUE)]
         public int Year { get; set; }
 
-        [Required]
+        [Range(DataConstants.CAR_PRICE_MIN_VALUE, DataConstants.CAR_PRICE_MAX_VALUE)]
         public double Money { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(DataConstants.CAR_MAKE_MAX_LENGHT)]
         public string Make { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(DataConstants.CAR_MODEL_MAX_LENGHT)]
         public string Model { get; set; }
 
         [Required]
+        [MaxLength(DataConstants.CAR_PICTURE_MAX_VALUE)]
         public byte[] Picture { get; set; }
 
         public double Rating { get; set; }
