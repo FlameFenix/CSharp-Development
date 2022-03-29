@@ -7,14 +7,17 @@
 					<div class="form-group">
 						<label asp-for="RecieverEmail">E-Mail</label>
 						<input asp-for="RecieverEmail" type="email" id="inputEmail" class="form-control">
+						<span asp-validation-for="RecieverEmail" class="text-danger"></span>
 					</div>
 					<div class="form-group">
 						<label asp-for="Title">Subject</label>
 						<input asp-for="Title" type="text" id="inputSubject" class="form-control">
+						<span asp-validation-for="Title" class="text-danger"></span>
 					</div>
 					<div class="form-group">
 						<label asp-for="Message">Message</label>
 						<textarea asp-for="Message" id="inputMessage" class="form-control" rows="4"></textarea>
+						<span asp-validation-for="Message" class="text-danger"></span>
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary" value="Send message">

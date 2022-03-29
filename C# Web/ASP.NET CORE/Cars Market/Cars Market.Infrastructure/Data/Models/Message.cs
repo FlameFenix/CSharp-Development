@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Cars_Market.Core.Constants;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cars_Market.Infrastructure.Data.Models
 {
@@ -8,19 +8,21 @@ namespace Cars_Market.Infrastructure.Data.Models
         public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
-        [StringLength(50)]
+        [StringLength(DataConstants.MESSAGE_TITLE_MAX_LENGTH)]
         public string Title { get; set; }
 
         [Required]
-        [StringLength(500)]
+        [StringLength(DataConstants.MESSAGE_MESSAGE_MAX_LENGTH)]
         public string Text { get; set; }
 
         public Guid SellerId { get; set; }
 
-        [StringLength(100)]
+        [StringLength(DataConstants.MESSAGE_RECIEVER_EMAIL_MAX_LENGTH)]
         public string SendToEmail { get; set; }
 
-		[StringLength(100)]
+		[StringLength(DataConstants.MESSAGE_SENDER_EMAIL_MAX_LENGTH)]
         public string SendFromEmail { get; set; }
+
+        public bool IsRead { get; set; }
     }
 }

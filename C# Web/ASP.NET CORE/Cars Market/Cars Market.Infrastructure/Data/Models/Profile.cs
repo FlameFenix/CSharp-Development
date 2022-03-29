@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Cars_Market.Core.Constants;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cars_Market.Infrastructure.Data.Models
 {
@@ -6,15 +7,16 @@ namespace Cars_Market.Infrastructure.Data.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        [StringLength(50)]
+        [StringLength(DataConstants.PROFILE_NAME_MAX_LENGTH)]
         public string Name { get; set; }
 
-        [StringLength(15)]
+        [StringLength(DataConstants.PROFILE_PHONE_MAX_LENGTH)]
         public string Phone { get; set; }
 
-        [StringLength(50)]
+        [StringLength(DataConstants.PROFILE_LOCATION_MAX_LENGTH)]
         public string Location { get; set; }
 
+        [MaxLength(DataConstants.PROFILE_PICTURE_MAX_LENGTH)]
         public byte[] Picture { get; set; }
     }
 }

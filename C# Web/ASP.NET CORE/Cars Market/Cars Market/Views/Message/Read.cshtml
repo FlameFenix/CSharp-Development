@@ -1,5 +1,48 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Cars_Market.Infrastructure.Data.Models
+@model Message
+
+<section class="content">
+
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col-md-9">
+				<div class="card card-primary card-outline">
+					<div class="card-header">
+						<h3 class="card-title">Read Mail</h3>
+						<div class="card-tools">
+							<a href="Inbox" class="btn btn-tool" title="Return to inbox"><i class="fas fa-chevron-left"></i>Go Back</a>
+						</div>
+					</div>
+
+					<div class="card-body p-0">
+						<div class="mailbox-read-info">
+							<h5>@Model.Title</h5>
+							<h6>
+								From: @Model.SendFromEmail
+								<span class="mailbox-read-time float-right">15 Feb. 2015 11:03 PM</span>
+							</h6>
+						</div>
+
+						<div class="mailbox-read-message">
+							<p>
+								@Model.Text
+							</p>
+						</div>
+
+					</div>
+
+					<div class="card-footer">
+						<div class="float-right">
+							<button type="button" class="btn btn-default"><i class="fas fa-reply"></i> Reply</button>
+							<button type="button" class="btn btn-default"><i class="fas fa-share"></i> Forward</button>
+						</div>
+						<a href="Delete?messageId=@Model.Id" type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</a>
+						<button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>

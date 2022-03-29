@@ -38,6 +38,19 @@ namespace Cars_Market.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Delete(string roleId)
+        {
+            var role = await roleManager.FindByIdAsync(roleId);
+
+            if(role == null)
+            {
+                RedirectToAction("Index");
+            }
+
+            await roleManager.DeleteAsync(role);
+            return RedirectToAction("Index");
+        }
+
         public async Task<IActionResult> AddRoleToUser()
         {
             ViewBag.Roles = await roleManager.Roles.OrderBy(x => x.Name).ToListAsync();

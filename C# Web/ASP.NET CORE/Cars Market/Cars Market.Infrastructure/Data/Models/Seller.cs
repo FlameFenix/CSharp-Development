@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Cars_Market.Core.Constants;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cars_Market.Infrastructure.Data.Models
 {
@@ -9,6 +10,7 @@ namespace Cars_Market.Infrastructure.Data.Models
 
 		[Required]
 		[EmailAddress]
+		[StringLength(DataConstants.SELLER_EMAIL_MAX_LENGTH)]
 		public string Email { get; init; }
 
         public Profile Profile { get; set; }
