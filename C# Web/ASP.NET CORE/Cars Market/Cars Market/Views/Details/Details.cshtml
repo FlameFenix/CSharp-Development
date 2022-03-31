@@ -100,8 +100,9 @@
 								</div>
 							</div>
 						}
-
-						<div class="bg-light p-2">
+						@if (User.Identity.IsAuthenticated)
+						{
+							<div class="bg-light p-2">
 							<form method="post">
 								<div class="d-flex flex-row align-items-start">
 									<img class="rounded-circle" src="@String.Format($"data:image/png;base64,{Convert.ToBase64String(ViewBag.UserPicture)}")" width="40">
@@ -113,6 +114,7 @@
 								</div>
 							</form>
 						</div>
+						}
 					</div>
 				</div>
 

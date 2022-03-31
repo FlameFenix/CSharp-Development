@@ -36,6 +36,7 @@ namespace Cars_Market.Controllers
             ViewBag.Comments = await data.Comments.Where(x => x.CarId.ToString() == carId).ToListAsync();
 
             var sellerEmail = await data.Sellers.Where(x => x.Id == car.SellerId).Select(x => x.Email).FirstOrDefaultAsync();
+
             var userPicture = await data.Sellers.Where(x => x.Email == User.Identity.Name).Select(x => x.Profile.Picture).FirstOrDefaultAsync();
 
             ViewBag.CarOwner = sellerEmail;

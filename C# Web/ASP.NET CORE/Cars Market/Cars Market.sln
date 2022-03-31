@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cars Market", "Cars Market\Cars Market.csproj", "{4A74F6A8-C725-4277-8F83-26536C9BD70C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cars Market", "Cars Market\Cars Market.csproj", "{4A74F6A8-C725-4277-8F83-26536C9BD70C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cars Market.Core", "Cars Market.Core\Cars Market.Core.csproj", "{6E6953E6-856D-4DE2-B929-62D9A659647C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cars Market.Core", "Cars Market.Core\Cars Market.Core.csproj", "{6E6953E6-856D-4DE2-B929-62D9A659647C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cars Market.Infrastructure", "Cars Market.Infrastructure\Cars Market.Infrastructure.csproj", "{36535874-E0D4-479E-8C87-F69D7EE15FE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cars Market.Infrastructure", "Cars Market.Infrastructure\Cars Market.Infrastructure.csproj", "{36535874-E0D4-479E-8C87-F69D7EE15FE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cars Market.Test", "Cars Market.Test\Cars Market.Test.csproj", "{91994E1D-F6EE-45B5-947A-2C691F47BB40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{36535874-E0D4-479E-8C87-F69D7EE15FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36535874-E0D4-479E-8C87-F69D7EE15FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36535874-E0D4-479E-8C87-F69D7EE15FE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91994E1D-F6EE-45B5-947A-2C691F47BB40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91994E1D-F6EE-45B5-947A-2C691F47BB40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91994E1D-F6EE-45B5-947A-2C691F47BB40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91994E1D-F6EE-45B5-947A-2C691F47BB40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
