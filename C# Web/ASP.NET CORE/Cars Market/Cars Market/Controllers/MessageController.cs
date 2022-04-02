@@ -23,12 +23,23 @@ namespace Cars_Market.Controllers
         {
             var currentUser = await sellerService.GetSellerWithMessages(User.Identity.Name);
 
+            var unreadMessages = currentUser.Messages.Where(x => x.IsRead == false).Count();
+
+            ViewBag.UnreadMessages = unreadMessages;
+
             return View(currentUser);
         }
 
         public async Task<IActionResult> Read(string messageId)
         {
             var message = await data.Messages.FirstOrDefaultAsync(x => x.Id.ToString() == messageId);
+
+            if(message != null)
+            {
+                message.IsRead = true;
+
+                await data.SaveChangesAsync();
+            }
 
             return View(message);
         }
@@ -56,12 +67,6 @@ namespace Cars_Market.Controllers
         [HttpPost]
         public async Task<IActionResult> Send(SendMessageFormView messageModel)
         {
-
-            if (!ModelState.IsValid)
-            {
-                return View(messageModel);
-            }
-
             var sender = await sellerService.GetSellerByEmail(User.Identity.Name);
 
             var reciever = await sellerService.GetSellerByEmail(messageModel.RecieverEmail);
@@ -69,6 +74,11 @@ namespace Cars_Market.Controllers
             if (sender == null || reciever == null)
             {
                 return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(messageModel);
             }
 
             Message message = new Message()

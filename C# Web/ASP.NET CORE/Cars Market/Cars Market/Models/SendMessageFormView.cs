@@ -11,13 +11,6 @@ namespace Cars_Market.Models
         [StringLength(DataConstants.MESSAGE_SENDER_EMAIL_MAX_LENGTH,
             MinimumLength = DataConstants.MESSAGE_SENDER_EMAIL_MIN_LENGTH,
             ErrorMessage = "Email must be in range {2} - {1}")]
-        public string SenderEmail { get; set; }
-
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress]
-        [StringLength(DataConstants.MESSAGE_SENDER_EMAIL_MAX_LENGTH,
-            MinimumLength = DataConstants.MESSAGE_SENDER_EMAIL_MIN_LENGTH,
-            ErrorMessage = "Email must be in range {2} - {1}")]
         public string RecieverEmail { get; set; }
 
         [Required]
