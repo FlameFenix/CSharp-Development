@@ -14,6 +14,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddTransient(typeof(ByteConverter))
                 .AddTransient(typeof(ProfileService))
+                .AddTransient(typeof(MessageService))
                 .AddTransient(typeof(CarsService))
                 .AddTransient(typeof(SellerService));
 

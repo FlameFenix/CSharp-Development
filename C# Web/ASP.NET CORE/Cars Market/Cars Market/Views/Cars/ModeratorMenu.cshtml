@@ -35,10 +35,12 @@
 											<div class="card mb-2 bg-gradient-dark">
 												<img class="card-img-top" src="@String.Format($"data:image/png;base64,{Convert.ToBase64String(car.Picture)}")" alt="Card image cap" width="250" height="150">
 												<div class="card-body">
-
 													<p class="btn btn-block btn-outline-light"> @car.Make @car.Model </p>
 													<p class="btn btn-block btn-outline-light"> @car.Money $ </p>
 													<a href="/Details/Details?carId=@car.Id" type="button" class="btn btn-block btn-secondary">Details</a>
+													 <a href="/Cars/ApproveCar?carId=@car.Id" type="button" class="btn btn-block bg-gradient-success">Approve</a>
+													 <a href="/Cars/RejectCar?carId=@car.Id" type="button" class="btn btn-block bg-gradient-danger">Reject</a>
+													
 												</div>
 											</div>
 										</div>

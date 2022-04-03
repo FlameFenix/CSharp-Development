@@ -34,12 +34,11 @@
 											<div class="card mb-2 bg-gradient-dark">
 												<img class="card-img-top" src="@String.Format($"data:image/png;base64,{Convert.ToBase64String(car.Picture)}")" alt="Card image cap" width="250" height="150">
 												<div class="card-body">
-													<h5 class="card-title"> @car.Make @car.Model </h5>
-													<p class="card-text"> @car.Money $ </p>
-													<a href="Edit?carId=@car.Id" class="btn btn-success">Edit</a>
-													<div class="float-right d-none d-sm-inline">
-														<a href="Delete?carId=@car.Id" type="button" class="btn btn-danger">Delete</a>
-													</div>
+													<p class="btn btn-block btn-outline-light"> @car.Make @car.Model </p>
+													<p class="btn btn-block btn-outline-light"> @car.Money $ </p>
+													 <a href="/Cars/Edit?carId=@car.Id" type="button" class="btn btn-block bg-gradient-success">Edit</a>
+													 <a href="/Cars/Delete?carId=@car.Id" type="button" class="btn btn-block bg-gradient-danger">Delete</a>
+													
 												</div>
 											</div>
 										</div>

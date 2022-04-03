@@ -11,11 +11,15 @@ namespace Cars_Market.Controllers
     public class MessageController : Controller
     {
         private ApplicationDbContext data;
+        private readonly MessageService messageService;
         private SellerService sellerService;
-        public MessageController(ApplicationDbContext _data, SellerService _sellerService)
+        public MessageController(ApplicationDbContext _data,
+            SellerService _sellerService,
+            MessageService _messageService)
         {
             data = _data;
             sellerService = _sellerService; 
+            messageService = _messageService;
         }
 
         [Authorize]
@@ -46,16 +50,12 @@ namespace Cars_Market.Controllers
 
         public async Task<IActionResult> Delete(string messageId)
         {
-            var message = await data.Messages.FirstOrDefaultAsync(x => x.Id.ToString() == messageId);
+            bool isDeleted = await messageService.RemoveMessage(messageId);
 
-            if(message == null)
+            if (!isDeleted)
             {
                 return RedirectToAction("Inbox");
             }
-
-            data.Messages.Remove(message);
-
-            await data.SaveChangesAsync();
 
             return RedirectToAction("Inbox");
         }
@@ -91,9 +91,7 @@ namespace Cars_Market.Controllers
                 IsRead = false
             };
 
-            await data.Messages.AddAsync(message);
-
-            await data.SaveChangesAsync();
+            await messageService.SendMessage(message);
 
             return Redirect("Inbox");
         }

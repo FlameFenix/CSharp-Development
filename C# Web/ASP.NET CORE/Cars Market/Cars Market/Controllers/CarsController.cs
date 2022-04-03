@@ -4,6 +4,7 @@ using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace Cars_Market.Controllers
@@ -115,5 +116,27 @@ namespace Cars_Market.Controllers
 
             return View();
         }
+
+        [Authorize(Roles = "Moderator")]
+        public async Task<IActionResult> ModeratorMenu(string carId)
+        {
+            ViewBag.CarsList = await data.Cars.Where(x => x.Approved == false).ToListAsync();
+
+            return View();
+        }
+
+
+        [Authorize(Roles = "Moderator")]
+        public async Task<IActionResult> ApproveCar(string carId)
+        {
+            var car = await carsService.GetCarById(carId);
+
+            car.Approved = true;
+
+            await data.SaveChangesAsync();
+
+            return RedirectToAction("ModeratorMenu");
+        }
+
     }
 }

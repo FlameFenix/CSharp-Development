@@ -28,9 +28,7 @@ namespace Cars_Market.Infrastructure.Data.Models
         [MaxLength(DataConstants.CAR_PICTURE_MAX_VALUE)]
         public byte[] Picture { get; set; }
 
-        public double Rating { get; set; }
-
-        public int VoteCount { get; set; }
+        public bool Approved { get; set; } = false;
 
         public CarDetails Details { get; set; }
 
@@ -40,17 +38,6 @@ namespace Cars_Market.Infrastructure.Data.Models
 		public Seller Seller { get; set; }
 
         public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
-
-        public double RatingResult()
-        {
-            if(Rating == 0 || VoteCount == 0)
-            {
-                return 0;
-            }
-
-            double result = Rating / (VoteCount * 1.0);
-            return result;
-        }
 
 	}
 }
