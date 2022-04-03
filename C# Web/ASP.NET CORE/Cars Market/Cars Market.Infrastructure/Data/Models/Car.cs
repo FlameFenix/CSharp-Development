@@ -24,11 +24,10 @@ namespace Cars_Market.Infrastructure.Data.Models
         [StringLength(DataConstants.CAR_MODEL_MAX_LENGHT)]
         public string Model { get; set; }
 
-        [Required]
-        [MaxLength(DataConstants.CAR_PICTURE_MAX_VALUE)]
-        public byte[] Picture { get; set; }
+        public byte[] MainPicture { get; set; }
+        public ICollection<CarPicture> Pictures { get; set; }
 
-        public bool Approved { get; set; } = false;
+		public bool Approved { get; set; } = false;
 
         public CarDetails Details { get; set; }
 

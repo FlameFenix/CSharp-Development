@@ -19,7 +19,7 @@ namespace Cars_Market.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.FirstCar = await data.Cars.OrderByDescending(x => x.Details.Visits).Take(1).FirstOrDefaultAsync();
+            ViewBag.FirstCar = await data.Cars.OrderByDescending(x => x.Details.Visits).Take(1).Include(x => x.Pictures).FirstOrDefaultAsync();
 
             ViewBag.LeftCars = await data.Cars.OrderByDescending(x => x.Details.Visits).Skip(1).Take(2).ToListAsync();
 

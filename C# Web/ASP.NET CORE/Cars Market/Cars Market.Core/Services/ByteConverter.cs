@@ -1,5 +1,6 @@
 ﻿using Cars_Market.Core.Services.Contracts;
 using Microsoft.AspNetCore.Http;
+using System.Drawing;
 
 namespace Cars_Market.Core.Services
 {
@@ -7,12 +8,25 @@ namespace Cars_Market.Core.Services
     {
         public byte[] ConvertToByteArray(IFormFile file)
         {
-            using (var ms = new MemoryStream())
+            Image image = Image.FromStream(file.OpenReadStream());
+            var newImage = new Bitmap(600, 350);
+            using (var g = Graphics.FromImage(newImage))
             {
-                file.CopyTo(ms);
-                var fileBytes = ms.ToArray();
-                return fileBytes;
+                g.DrawImage(image, 0, 0, 600, 350);
             }
+
+            ImageConverter converter = new ImageConverter();
+
+            return (byte[]) converter.ConvertTo(newImage, typeof(byte[]));
+
+            //using (var ms = new MemoryStream())
+            //{
+            //    file.CopyTo(ms);
+            //    var fileBytes = ms.ToArray();
+            //    return fileBytes;
+            //}
         }
+
+
     }
 }

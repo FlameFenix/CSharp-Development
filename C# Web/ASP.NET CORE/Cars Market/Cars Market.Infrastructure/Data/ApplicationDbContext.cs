@@ -16,6 +16,8 @@ namespace Cars_Market.Infrastructure.Data
 
         public DbSet<CarDetails> CarDetails { get; set; }
 
+        public DbSet<CarPicture> CarPictures { get; set; }
+
         public DbSet<Message> Messages { get; set; }
 
         public DbSet<Profile> Profiles { get; set; }

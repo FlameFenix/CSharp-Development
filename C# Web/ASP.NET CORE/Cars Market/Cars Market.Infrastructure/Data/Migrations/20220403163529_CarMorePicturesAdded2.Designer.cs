@@ -4,6 +4,7 @@ using Cars_Market.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cars_Market.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220403163529_CarMorePicturesAdded2")]
+    partial class CarMorePicturesAdded2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,10 +32,6 @@ namespace Cars_Market.Data.Migrations
 
                     b.Property<bool>("Approved")
                         .HasColumnType("bit");
-
-                    b.Property<byte[]>("MainPicture")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Make")
                         .IsRequired()
@@ -113,13 +111,26 @@ namespace Cars_Market.Data.Migrations
                     b.Property<Guid>("CarId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<byte[]>("Picture")
+                    b.Property<byte[]>("FourthPicture")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("MainPicture")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("SecondPicture")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("ThirdPicture")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId");
+                    b.HasIndex("CarId")
+                        .IsUnique();
 
                     b.ToTable("CarPictures");
                 });
@@ -473,8 +484,8 @@ namespace Cars_Market.Data.Migrations
             modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.CarPicture", b =>
                 {
                     b.HasOne("Cars_Market.Infrastructure.Data.Models.Car", "Car")
-                        .WithMany("Pictures")
-                        .HasForeignKey("CarId")
+                        .WithOne("Pictures")
+                        .HasForeignKey("Cars_Market.Infrastructure.Data.Models.CarPicture", "CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -570,7 +581,8 @@ namespace Cars_Market.Data.Migrations
                     b.Navigation("Details")
                         .IsRequired();
 
-                    b.Navigation("Pictures");
+                    b.Navigation("Pictures")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.Seller", b =>

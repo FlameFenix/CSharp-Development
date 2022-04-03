@@ -37,7 +37,7 @@ namespace Cars_Market.Core.Services
 
         public async Task<ICollection<Car>> ShowAllCars()
         {
-            return await data.Cars.Where(x => x.Approved == true).ToListAsync();
+            return await data.Cars.Where(x => x.Approved == true).Include(x => x.Pictures).ToListAsync();
         }
 
         public async Task<ICollection<Car>> ShowOrderedCars(string sortByType, string orderByType)

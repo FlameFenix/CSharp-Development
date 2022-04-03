@@ -56,6 +56,7 @@ namespace Cars_Market.Controllers
                 IsSold = false
             };
 
+           
             var car = new Car()
             {
                 Id = carModel.Id,
@@ -63,10 +64,30 @@ namespace Cars_Market.Controllers
                 Model = carModel.Model,
                 Money = double.Parse(carModel.Money, CultureInfo.InvariantCulture),
                 Year = int.Parse(carModel.Year),
-                Picture = converter.ConvertToByteArray(carModel.Image),
+                MainPicture = converter.ConvertToByteArray(carModel.Image),
                 SellerId = seller.Id,
                 Details = carDetails
             };
+
+            if(carModel.Images != null)
+            {
+                var images = new List<CarPicture>();
+
+                foreach (var picture in carModel.Images)
+                {
+                    var carPicture = new CarPicture()
+                    {
+                        CarId = car.Id,
+                        Picture = converter.ConvertToByteArray(picture)
+                    };
+
+                    images.Add(carPicture);
+                }
+
+                car.Pictures = images;
+
+
+            }
 
             await carsService.AddCar(car);
 

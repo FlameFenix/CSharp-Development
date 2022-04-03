@@ -6,7 +6,7 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col-10 col-sm-5">
-					<h3 class="d-inline-block d-sm-none">@ViewBag.Car.Make</h3>
+					<h3 class="d-inline-block d-sm-none">Price: @ViewBag.Car.Make</h3>
 					<div class="col-12">
 						@{
 							if (ViewBag.Details.IsSold)
@@ -18,54 +18,88 @@
 								</div>
 							}
 						}
-						<img src="@String.Format($"data:image/png;base64,{Convert.ToBase64String(ViewBag.Car.Picture)}")" class="product-image" alt="Product Image" width="600" height="350">
+
+
 					</div>
-					@*						<div class="col-12 product-image-thumbs">
-						<div class="product-image-thumb active"><img src="@Model.ImageUrl" alt="Product Image" width="620" height="350"></div>
-						<div class="product-image-thumb"><img src="../../dist/img/prod-2.jpg" alt="Product Image"></div>
-						<div class="product-image-thumb"><img src="../../dist/img/prod-3.jpg" alt="Product Image"></div>
-						<div class="product-image-thumb"><img src="../../dist/img/prod-4.jpg" alt="Product Image"></div>
-						<div class="product-image-thumb"><img src="../../dist/img/prod-5.jpg" alt="Product Image"></div>*@
+
+					<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" width="600" height="350">
+						<div class="carousel-inner">
+
+							<div class="carousel-item active">
+								<img src="@String.Format($"data:image/png;base64,{Convert.ToBase64String(ViewBag.Car.MainPicture)}")" class="d-block w-100" alt="...">
+							</div>
+
+							@{
+								foreach (var picture in ViewBag.CarPictures)
+								{
+									<div class="carousel-item">
+										<img src="@String.Format($"data:image/png;base64,{picture}")" class="d-block w-100" alt="...">
+									</div>
+								}
+							}
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+
 				</div>
 
-				<div class="col-10 col-sm-5">
-					<h3 class="my-3"> @ViewBag.Car.Make @ViewBag.Car.Model</h3>
-					<p>Visited: @ViewBag.Details.Visits Times</p>
-					<hr>
-					<h4>Year: @ViewBag.Car.Year</h4>
-					<h4>Color: @ViewBag.Details.Color</h4>
-					<h4>FuelType: @ViewBag.Details.FuelType</h4>
-					<h4>GearboxType: @ViewBag.Details.GearboxType</h4>
-					<h4>Email: @ViewBag.CarOwner</h4>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fas fa-car"></i>
+								@ViewBag.Car.Make @ViewBag.Car.Model
+							</h3>
+							<div class="d-flex justify-content-end">
+								<i class="fas fa-coins"></i>
+								@ViewBag.Car.Money BGN
+							</div>
+						</div>
 
-					<div class="bg-gray py-2 px-3 mt-4">
-						<h2 class="mb-0">
-							$ @ViewBag.Car.Money
-						</h2>
-					</div>
-					<div class="mt-4">
-						<div class="btn btn-primary btn-lg btn-flat">
-							<i class="fas fa-cart-plus fa-lg mr-2"></i>
-							Add to Cart
+						<div class="card-body">
+							<ul>
+								<li>Visited: @ViewBag.Details.Visits Times</li>
+								<li>Year: @ViewBag.Car.Year</li>
+								<li>Color: @ViewBag.Details.Color</li>
+								<li>FuelType: @ViewBag.Details.FuelType</li>
+								<li>GearboxType: @ViewBag.Details.GearboxType</li>
+								<li> Contact with owner:</li>
+								<ul>
+									<li>Name: @ViewBag.CarOwner.Name</li>
+									<li>Email: @ViewBag.CarOwner.Email</li>
+									<li>Location: @ViewBag.CarOwner.Location</li>
+								</ul>
+							</ul>
+
+							@*<div class="mt-4">
+								<div class="btn btn-default btn-lg btn-flat">
+									<i class="fas fa-heart fa-lg mr-2"></i>
+									Add to Wishlist
+								</div>
+							</div>*@
+
+							<div class="mt-4 product-share">
+								<a href="#" class="text-gray">
+									<i class="fab fa-facebook-square fa-2x"></i>
+								</a>
+								<a href="#" class="text-gray">
+									<i class="fab fa-twitter-square fa-2x"></i>
+								</a>
+								<a href="#" class="text-gray">
+									<i class="fas fa-envelope-square fa-2x"></i>
+								</a>
+								<a href="#" class="text-gray">
+									<i class="fas fa-rss-square fa-2x"></i>
+								</a>
+							</div>
 						</div>
-						<div class="btn btn-default btn-lg btn-flat">
-							<i class="fas fa-heart fa-lg mr-2"></i>
-							Add to Wishlist
-						</div>
-					</div>
-					<div class="mt-4 product-share">
-						<a href="#" class="text-gray">
-							<i class="fab fa-facebook-square fa-2x"></i>
-						</a>
-						<a href="#" class="text-gray">
-							<i class="fab fa-twitter-square fa-2x"></i>
-						</a>
-						<a href="#" class="text-gray">
-							<i class="fas fa-envelope-square fa-2x"></i>
-						</a>
-						<a href="#" class="text-gray">
-							<i class="fas fa-rss-square fa-2x"></i>
-						</a>
 					</div>
 				</div>
 			</div>
@@ -103,23 +137,22 @@
 						@if (User.Identity.IsAuthenticated)
 						{
 							<div class="bg-light p-2">
-							<form method="post">
-								<div class="d-flex flex-row align-items-start">
-									<img class="rounded-circle" src="@String.Format($"data:image/png;base64,{Convert.ToBase64String(ViewBag.UserPicture)}")" width="40">
-									<textarea asp-for="Comment" class="form-control ml-1 shadow-none textarea"></textarea>
-								</div>
-								<div class="mt-2 text-right">
-									<button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
-									<button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="reset">Cancel</button>
-								</div>
-							</form>
-						</div>
+								<form method="post">
+									<div class="d-flex flex-row align-items-start">
+										<img class="rounded-circle" src="@String.Format($"data:image/png;base64,{Convert.ToBase64String(ViewBag.UserPicture)}")" width="40">
+										<textarea asp-for="Comment" class="form-control ml-1 shadow-none textarea"></textarea>
+									</div>
+									<div class="mt-2 text-right">
+										<button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+										<button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="reset">Cancel</button>
+									</div>
+								</form>
+							</div>
 						}
 					</div>
 				</div>
 
 				<div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab">
-
 				</div>
 
 			</div>

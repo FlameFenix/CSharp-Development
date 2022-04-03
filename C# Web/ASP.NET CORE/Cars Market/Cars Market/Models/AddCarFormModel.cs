@@ -23,6 +23,11 @@ namespace Cars_Market.Models
 		public string Year { get; set; }
 
 		[Required]
+        public IFormFile Image { get; set; }
+
+		public ICollection<IFormFile>? Images { get; set; }
+
+		[Required]
 		public string Money { get; set; }
 
 		[Required]
@@ -49,7 +54,6 @@ namespace Cars_Market.Models
 			ErrorMessage = "{0} should be in range {2} - {1}")]
 		public string Color { get; set; }
 
-		[Required]
-		public IFormFile Image { get; set; }
+		public List<IFormFile> moreImages { get; set; } = new List<IFormFile>();
 	}
 }

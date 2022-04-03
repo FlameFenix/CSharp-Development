@@ -24,7 +24,7 @@ namespace Cars_Market.Controllers
 
         public async Task<IActionResult> Details(string carId)
         {
-            var car = await data.Cars.Include(x => x.Details).FirstOrDefaultAsync(x => x.Id.ToString() == carId);
+            var car = await data.Cars.Include(x => x.Pictures).FirstOrDefaultAsync(x => x.Id.ToString() == carId);
             var carDetails = await data.CarDetails.FirstOrDefaultAsync(x => car.Id == x.CarId);
 
             carDetails.Visits++;
@@ -35,12 +35,20 @@ namespace Cars_Market.Controllers
             ViewBag.Details = carDetails;
             ViewBag.Comments = await data.Comments.Where(x => x.CarId.ToString() == carId).ToListAsync();
 
-            var sellerEmail = await data.Sellers.Where(x => x.Id == car.SellerId).Select(x => x.Email).FirstOrDefaultAsync();
+            var sellerInfo = await data.Sellers.Where(x => x.Id == car.SellerId).Select(x => new
+            {
+                Name = x.Profile.Name,
+                Email = x.Email,
+                Location = x.Profile.Location
+            }).FirstOrDefaultAsync();
 
             var userPicture = await data.Sellers.Where(x => x.Email == User.Identity.Name).Select(x => x.Profile.Picture).FirstOrDefaultAsync();
 
-            ViewBag.CarOwner = sellerEmail;
+            var pictures = car.Pictures.Select(x => Convert.ToBase64String(x.Picture)).ToList();
+
+            ViewBag.CarOwner = sellerInfo;
             ViewBag.UserPicture = userPicture;
+            ViewBag.CarPictures = pictures;
 
             return View();
         }
@@ -61,9 +69,10 @@ namespace Cars_Market.Controllers
             };
 
             data.Comments.Add(comment);
+
             data.SaveChanges();
 
-            return Redirect("/AllCars");
+            return Redirect($"/Details/Details?carId={carId}");
         }
     }
 }
