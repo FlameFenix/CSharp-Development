@@ -62,7 +62,7 @@
 					</a>
 					<ul class="nav nav-treeview" style="display: none;">
 						<li class="nav-item">
-							<a href="/Role/Index" class="nav-link">
+							<a asp-controller="Role" asp-action="Index" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p>
 									List of roles
@@ -71,14 +71,14 @@
 						</li>
 
 						<li class="nav-item">
-							<a href="/Role/Create" class="nav-link">
+							<a asp-controller="Role" asp-action="Create" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p>Create role</p>
 							</a>
 						</li>
 
 						<li class="nav-item">
-							<a href="/Role/AddRoleToUser" class="nav-link">
+							<a asp-controller="Role" asp-action="AddRoleToUser" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
 								<p>Add user in role</p>
 							</a>
@@ -98,7 +98,7 @@
 				</a>
 				<ul class="nav nav-treeview" style="display: none;">
 					<li class="nav-item">
-						<a href="/Seller/AddSeller" class="nav-link">
+						<a asp-controller="Seller" asp-action="AddSeller" class="nav-link">
 							<i class="far fa-circle nav-icon"></i>
 							<p>
 								Become a seller
@@ -108,7 +108,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a href="/Seller/AllSellers" class="nav-link">
+						<a asp-controller="Seller" asp-action="AllSellers" class="nav-link">
 							<i class="far fa-circle nav-icon"></i>
 							<p>List of Sellers</p>
 						</a>
@@ -127,21 +127,21 @@
 				</a>
 				<ul class="nav nav-treeview" style="display: none;">
 					<li class="nav-item">
-						<a href="/Cars/AddCar" class="nav-link">
+						<a asp-controller="Cars" asp-action="AddCar" class="nav-link">
 							<i class="far fa-circle nav-icon"></i>
 							<p>Add Car</p>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a href="/Cars/MyCars" class="nav-link">
+						<a asp-controller="Cars" asp-action="MyCars" class="nav-link">
 							<i class="far fa-circle nav-icon"></i>
 							<p>My Cars</p>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a href="/Cars/AllCars" class="nav-link">
+						<a asp-controller="Cars" asp-action="AllCars" class="nav-link">
 							<i class="far fa-circle nav-icon"></i>
 							<p>All Cars</p>
 						</a>
@@ -149,7 +149,7 @@
 
 					
 					<li class="nav-item">
-						<a href="/Cars/ModeratorMenu" class="nav-link">
+						<a asp-controller="Cars" asp-action="ModeratorMenu" class="nav-link">
 							<i class="far fa-circle nav-icon"></i>
 							<p>Approve Cars</p>
 							<span class="right badge badge-danger"> Moderator </span>
@@ -168,14 +168,14 @@
 				</a>
 				<ul class="nav nav-treeview" style="display: none;">
 					<li class="nav-item">
-						<a href="/Message/Inbox" class="nav-link">
+						<a asp-controller="Message" asp-action="Inbox" class="nav-link">
 							<i class="far fa-circle nav-icon"></i>
 							<p>Inbox</p>
 						</a>
 					</li>
 
 					<li class="nav-item">
-						<a href="/Message/Send" class="nav-link">
+						<a asp-controller="Message" asp-action="Send" class="nav-link">
 							<i class="far fa-circle nav-icon"></i>
 							<p>Send Message</p>
 						</a>
@@ -184,7 +184,7 @@
 			</li>
 
 			<li class="nav-item">
-				<a href="/Contacts/Contacts" class="nav-link">
+				<a asp-controller="Contacts" asp-action="Contacts" class="nav-link">
 					<i class="nav-icon fas fa-at"></i>
 					<p>
 						Contacts us

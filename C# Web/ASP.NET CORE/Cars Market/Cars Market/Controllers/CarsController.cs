@@ -13,8 +13,8 @@ namespace Cars_Market.Controllers
     {
         private readonly CarsService carsService;
         private readonly SellerService sellerService;
-        private ApplicationDbContext data;
-        private ByteConverter converter;
+        private readonly ApplicationDbContext data;
+        private readonly ByteConverter converter;
         public CarsController(
             ApplicationDbContext _data,
             ByteConverter _converter,
@@ -139,7 +139,7 @@ namespace Cars_Market.Controllers
         }
 
         [Authorize(Roles = "Moderator")]
-        public async Task<IActionResult> ModeratorMenu(string carId)
+        public async Task<IActionResult> ModeratorMenu()
         {
             ViewBag.CarsList = await data.Cars.Where(x => x.Approved == false).ToListAsync();
 

@@ -9,7 +9,7 @@ namespace Cars_Market.Controllers
 {
     public class DetailsController : Controller
     {
-        private ApplicationDbContext data;
+        private readonly ApplicationDbContext data;
         private readonly CarsService carsService;
         private readonly SellerService sellerService;
         public DetailsController(ApplicationDbContext _data,
@@ -39,7 +39,8 @@ namespace Cars_Market.Controllers
             {
                 Name = x.Profile.Name,
                 Email = x.Email,
-                Location = x.Profile.Location
+                Location = x.Profile.Location,
+                Phone = x.Profile.Phone
             }).FirstOrDefaultAsync();
 
             var userPicture = await data.Sellers.Where(x => x.Email == User.Identity.Name).Select(x => x.Profile.Picture).FirstOrDefaultAsync();

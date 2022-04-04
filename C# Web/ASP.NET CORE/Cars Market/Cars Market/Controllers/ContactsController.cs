@@ -7,7 +7,7 @@ namespace Cars_Market.Controllers
 {
     public class ContactsController : Controller
     {
-        private ApplicationDbContext data;
+        private readonly ApplicationDbContext data;
 
         public ContactsController(ApplicationDbContext _data)
         {

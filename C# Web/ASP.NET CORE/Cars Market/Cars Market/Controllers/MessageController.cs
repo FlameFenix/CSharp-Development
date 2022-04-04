@@ -10,9 +10,9 @@ namespace Cars_Market.Controllers
 {
     public class MessageController : Controller
     {
-        private ApplicationDbContext data;
+        private readonly ApplicationDbContext data;
         private readonly MessageService messageService;
-        private SellerService sellerService;
+        private readonly SellerService sellerService;
         public MessageController(ApplicationDbContext _data,
             SellerService _sellerService,
             MessageService _messageService)

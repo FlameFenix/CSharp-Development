@@ -11,7 +11,7 @@ namespace Cars_Market.Controllers
 {
     public class SellerController : Controller
     {
-        private ApplicationDbContext data;
+        private readonly ApplicationDbContext data;
         private readonly ByteConverter converter;
         private readonly SellerService sellerService;
         private readonly UserManager<IdentityUser> userManager;

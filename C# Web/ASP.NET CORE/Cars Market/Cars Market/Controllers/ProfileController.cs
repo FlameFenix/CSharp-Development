@@ -7,8 +7,8 @@ namespace Cars_Market.Controllers
 {
     public class ProfileController : Controller
     {
-        private ApplicationDbContext data;
-        private ProfileService profileService;
+        private readonly ApplicationDbContext data;
+        private readonly ProfileService profileService;
         public ProfileController(
             ApplicationDbContext _data,
             ProfileService _profileService)

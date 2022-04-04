@@ -3,6 +3,10 @@
 <section class="content">
 
 	<div class="card card-solid">
+		<div class="card-header">
+			<div class="d-flex justify-content-end"><a asp-controller="Cars" asp-action="AllCars" class="btn btn-secondary justify-content-end">Go Back</a></div>
+								
+			</div>
 		<div class="card-body">
 			<div class="row">
 				<div class="col-10 col-sm-5">
@@ -75,6 +79,7 @@
 									<li>Name: @ViewBag.CarOwner.Name</li>
 									<li>Email: @ViewBag.CarOwner.Email</li>
 									<li>Location: @ViewBag.CarOwner.Location</li>
+									<li>Phone: @ViewBag.CarOwner.Phone</li>
 								</ul>
 							</ul>
 
@@ -102,6 +107,7 @@
 						</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 
