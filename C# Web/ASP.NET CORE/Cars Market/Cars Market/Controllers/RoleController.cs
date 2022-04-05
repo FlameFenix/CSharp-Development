@@ -48,13 +48,14 @@ namespace Cars_Market.Controllers
             }
 
             await roleManager.DeleteAsync(role);
+
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> AddRoleToUser()
         {
             ViewBag.Roles = await roleManager.Roles.OrderBy(x => x.Name).ToListAsync();
-            ViewBag.Users = await sellerService.ListOfSellers();
+            ViewBag.Users = await userManager.Users.ToListAsync();
 
             return View();
         }

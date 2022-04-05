@@ -10,9 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddTransient(typeof(ByteConverter))
+                .AddTransient(typeof(ApplicationDbContext))
                 .AddTransient(typeof(ProfileService))
                 .AddTransient(typeof(MessageService))
                 .AddTransient(typeof(CarsService))
@@ -29,6 +31,8 @@ builder.Services.AddAuthentication()
 });
 
 builder.Services.AddControllersWithViews();
+
+
 
 var app = builder.Build();
 
@@ -48,6 +52,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+await Dataset.Initialize(app.Services);
 
 app.UseAuthentication();
 app.UseAuthorization();
