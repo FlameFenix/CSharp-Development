@@ -27,7 +27,7 @@
 							</li>
 						</ul>
 
-						<a class="btn btn-secondary btn-block" asp-controller="Message" asp-action="Send"><b>Send Message</b></a>
+						<a asp-controller="Message" asp-action="Send" class="btn btn-secondary btn-block"><b>Send Message</b></a>
 					</div>
 					<!-- /.card-body -->
 				</div>
@@ -89,7 +89,7 @@
 													<div class="card-body">
 														<h5 class="card-title"> @car.Make @car.Model </h5>
 														<p class="card-text"> @car.Money $ </p>
-														<a href="/Details/Details?carId=@car.Id" type="button" class="btn btn-block btn-secondary">Details</a>
+														<a asp-controller="Details" asp-action="Details" asp-route-carId="@car.Id" type="button" class="btn btn-block btn-secondary">Details</a>
 													</div>
 												</div>
 											</div>

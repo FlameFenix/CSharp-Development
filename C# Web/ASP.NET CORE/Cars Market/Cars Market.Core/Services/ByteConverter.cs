@@ -15,7 +15,7 @@ namespace Cars_Market.Core.Services
                 g.DrawImage(image, 0, 0, 600, 350);
             }
 
-            ImageConverter converter = new ImageConverter();
+            ImageConverter converter = new();
 
             return (byte[]) converter.ConvertTo(newImage, typeof(byte[]));
 

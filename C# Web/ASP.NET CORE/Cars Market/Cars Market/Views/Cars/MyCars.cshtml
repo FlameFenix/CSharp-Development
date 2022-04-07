@@ -36,8 +36,8 @@
 												<div class="card-body">
 													<p class="btn btn-block btn-outline-light"> @car.Make @car.Model </p>
 													<p class="btn btn-block btn-outline-light"> @car.Money $ </p>
-													 <a href="/Cars/Edit?carId=@car.Id" type="button" class="btn btn-block bg-gradient-success">Edit</a>
-													 <a href="/Cars/Delete?carId=@car.Id" type="button" class="btn btn-block bg-gradient-danger">Delete</a>
+													 <a asp-controller="Cars" asp-action="Edit" asp-route-carId="@car.Id" type="button" class="btn btn-block bg-gradient-success">Edit</a>
+													 <a asp-controller="Cars" asp-action="Delete" asp-route-carId="@car.Id" type="button" class="btn btn-block bg-gradient-danger">Delete</a>
 													
 												</div>
 											</div>

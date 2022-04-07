@@ -4,7 +4,9 @@ namespace Cars_Market.Core.Services.Contracts
 {
     public interface IMessageService
     {
-        public Task SendMessage(Message message);
+        public Task SendMessage(string messageTitle, string messageText, string recieverEmail, string senderEmail);
+
+        public Task<Message> ReadMessage(string messageId);
 
         public Task<bool> RemoveMessage(string messageId);
 

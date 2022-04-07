@@ -30,5 +30,13 @@ namespace Cars_Market.Core.Services
         {
             return await data.Profiles.FirstOrDefaultAsync(x => x.Id.ToString() == profileId);
         }
+
+        public async Task<string> GetProfileEmail(string profileId)
+        {
+            return await data.Profiles.Include(x => x.Seller)
+                                      .Where(x => x.Id.ToString() == profileId)
+                                      .Select(x => x.Seller.Email)
+                                      .FirstOrDefaultAsync(); 
+        }
     }
 }

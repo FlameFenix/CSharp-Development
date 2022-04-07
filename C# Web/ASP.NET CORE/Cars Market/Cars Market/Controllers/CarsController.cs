@@ -27,10 +27,10 @@ namespace Cars_Market.Controllers
             sellerService = _sellerService;
         }
 
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "User")]
         public IActionResult AddCar() => View();
 
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> AddCar(AddCarFormModel carModel)
         {
@@ -94,7 +94,7 @@ namespace Cars_Market.Controllers
             return RedirectToAction("MyCars");
         }
 
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "User")]
         public IActionResult Edit(string carId)
         {
             var car = carsService.GetCarById(carId);
@@ -104,7 +104,7 @@ namespace Cars_Market.Controllers
             return BadRequest();
         }
 
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> Delete(string carId)
         {
             await carsService.RemoveCar(carId);
@@ -113,7 +113,7 @@ namespace Cars_Market.Controllers
 
         }
 
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> MyCars()
         {
             var seller = await sellerService.GetSellerByEmail(User.Identity.Name);
@@ -141,7 +141,7 @@ namespace Cars_Market.Controllers
         [Authorize(Roles = "Moderator")]
         public async Task<IActionResult> ModeratorMenu()
         {
-            ViewBag.CarsList = await data.Cars.Where(x => x.Approved == false).ToListAsync();
+            ViewBag.CarsList = await carsService.GetUnnaprovedCars();
 
             return View();
         }
@@ -150,11 +150,7 @@ namespace Cars_Market.Controllers
         [Authorize(Roles = "Moderator")]
         public async Task<IActionResult> ApproveCar(string carId)
         {
-            var car = await carsService.GetCarById(carId);
-
-            car.Approved = true;
-
-            await data.SaveChangesAsync();
+            await carsService.ApproveCar(carId);
 
             return RedirectToAction("ModeratorMenu");
         }

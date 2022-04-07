@@ -38,7 +38,7 @@
 
 													<p class="btn btn-block btn-outline-light"> @car.Make @car.Model </p>
 													<p class="btn btn-block btn-outline-light"> @car.Money $ </p>
-													<a href="/Details/Details?carId=@car.Id" type="button" class="btn btn-block btn-secondary">Details</a>
+													<a asp-controller="Details" asp-action="Details" asp-route-carId="@car.Id" type="button" class="btn btn-block btn-secondary">Details</a>
 												</div>
 											</div>
 										</div>

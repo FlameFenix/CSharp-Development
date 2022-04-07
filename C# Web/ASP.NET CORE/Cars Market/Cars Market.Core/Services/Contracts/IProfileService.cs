@@ -7,5 +7,7 @@ namespace Cars_Market.Core.Services.Contracts
         public Task<Profile> GetProfileByEmail(string email);
 
         public Task<Profile> GetProfileById(string profileId);
+
+        public Task<string> GetProfileEmail(string profileId);
     }
 }

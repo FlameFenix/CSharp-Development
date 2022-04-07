@@ -1,6 +1,6 @@
 using Cars_Market.Core.Services;
 using Cars_Market.Infrastructure.Data;
-using Cars_Market.Infrastructure.Data.Models;
+using Cars_Market.Infrastructure.Data.Seed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,9 +14,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddTransient(typeof(ByteConverter))
-                .AddTransient(typeof(ApplicationDbContext))
                 .AddTransient(typeof(ProfileService))
                 .AddTransient(typeof(MessageService))
+                .AddTransient(typeof(DetailsService))
+                .AddTransient(typeof(ContactsService))
                 .AddTransient(typeof(CarsService))
                 .AddTransient(typeof(SellerService));
 
@@ -29,6 +30,8 @@ builder.Services.AddAuthentication()
     facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
     facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
 });
+
+builder.Services.AddMemoryCache();
 
 builder.Services.AddControllersWithViews();
 
@@ -52,6 +55,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Initialize administrator account at first start email: "admin@carsmarket.com" password: "admin"
 
 await Dataset.Initialize(app.Services);
 

@@ -4,6 +4,7 @@ using Cars_Market.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cars_Market.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220406194728_RelationSellerProfile")]
+    partial class RelationSellerProfile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +60,7 @@ namespace Cars_Market.Data.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("Cars", (string)null);
+                    b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.CarDetails", b =>
@@ -101,7 +103,7 @@ namespace Cars_Market.Data.Migrations
                     b.HasIndex("CarId")
                         .IsUnique();
 
-                    b.ToTable("CarDetails", (string)null);
+                    b.ToTable("CarDetails");
                 });
 
             modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.CarPicture", b =>
@@ -121,7 +123,7 @@ namespace Cars_Market.Data.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.ToTable("CarPictures", (string)null);
+                    b.ToTable("CarPictures");
                 });
 
             modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.Comment", b =>
@@ -152,7 +154,7 @@ namespace Cars_Market.Data.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.Message", b =>
@@ -191,7 +193,7 @@ namespace Cars_Market.Data.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.Profile", b =>
@@ -228,7 +230,7 @@ namespace Cars_Market.Data.Migrations
                     b.HasIndex("SellerId")
                         .IsUnique();
 
-                    b.ToTable("Profiles", (string)null);
+                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.Seller", b =>
@@ -244,7 +246,7 @@ namespace Cars_Market.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sellers", (string)null);
+                    b.ToTable("Sellers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

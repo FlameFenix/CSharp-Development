@@ -7,11 +7,22 @@ namespace Cars_Market.Core.Services
 {
     public class MessageService : IMessageService
     {
-        private ApplicationDbContext data;
+        private readonly ApplicationDbContext data;
 
         public MessageService(ApplicationDbContext _data)
         {
             data = _data;
+        }
+
+        public async Task<Message> ReadMessage(string messageId)
+        {
+            var message = await data.Messages.Where(x => x.Id.ToString() == messageId).FirstOrDefaultAsync();
+
+            message.IsRead = true;
+
+            await data.SaveChangesAsync();
+
+            return message;
         }
         public async Task<ICollection<Message>> AllMessages()
         {
@@ -44,9 +55,22 @@ namespace Cars_Market.Core.Services
             await data.SaveChangesAsync();
         }
 
-        public async Task SendMessage(Message message)
+        public async Task SendMessage(string messageTitle, string messageText, string recieverEmail, string senderEmail)
         {
+            var reciever = await data.Sellers.FirstOrDefaultAsync(x => x.Email == recieverEmail);
+
+            Message message = new()
+            {
+                SendFromEmail = senderEmail,
+                SendToEmail = reciever.Email,
+                SellerId = reciever.Id,
+                Text = messageText,
+                Title = messageTitle,
+                IsRead = false
+            };
+
             data.Messages.Add(message);
+
             await data.SaveChangesAsync();
         }
 

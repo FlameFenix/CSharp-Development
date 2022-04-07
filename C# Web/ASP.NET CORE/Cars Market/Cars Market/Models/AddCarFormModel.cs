@@ -53,7 +53,5 @@ namespace Cars_Market.Models
 			MinimumLength = DataConstants.CAR_DETAILS_COLOR_MIN_VALUE,
 			ErrorMessage = "{0} should be in range {2} - {1}")]
 		public string Color { get; set; }
-
-		public List<IFormFile> moreImages { get; set; } = new List<IFormFile>();
 	}
 }

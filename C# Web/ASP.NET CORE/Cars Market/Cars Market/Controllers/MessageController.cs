@@ -36,14 +36,7 @@ namespace Cars_Market.Controllers
 
         public async Task<IActionResult> Read(string messageId)
         {
-            var message = await data.Messages.FirstOrDefaultAsync(x => x.Id.ToString() == messageId);
-
-            if(message != null)
-            {
-                message.IsRead = true;
-
-                await data.SaveChangesAsync();
-            }
+            var message = await messageService.ReadMessage(messageId);
 
             return View(message);
         }
@@ -67,31 +60,12 @@ namespace Cars_Market.Controllers
         [HttpPost]
         public async Task<IActionResult> Send(SendMessageFormView messageModel)
         {
-            var sender = await sellerService.GetSellerByEmail(User.Identity.Name);
-
-            var reciever = await sellerService.GetSellerByEmail(messageModel.RecieverEmail);
-
-            if (sender == null || reciever == null)
-            {
-                return BadRequest();
-            }
-
             if (!ModelState.IsValid)
             {
                 return View(messageModel);
             }
 
-            Message message = new Message()
-            {
-                SendFromEmail = sender.Email,
-                SendToEmail = reciever.Email,
-                SellerId = reciever.Id,
-                Text = messageModel.Message,
-                Title = messageModel.Title,
-                IsRead = false
-            };
-
-            await messageService.SendMessage(message);
+            await messageService.SendMessage(messageModel.Title, messageModel.Message, messageModel.RecieverEmail, User.Identity.Name);
 
             return Redirect("Inbox");
         }

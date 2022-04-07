@@ -6,24 +6,29 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Cars_Market.Controllers
 {
     public class SellerController : Controller
     {
+
         private readonly ApplicationDbContext data;
         private readonly ByteConverter converter;
         private readonly SellerService sellerService;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly IMemoryCache memoryCache;
         public SellerController(ApplicationDbContext _data,
             ByteConverter _converter,
             SellerService _sellerService,
+            IMemoryCache _memoryCache,
             UserManager<IdentityUser> _userManager)
         {
             data = _data;
             converter = _converter;
             sellerService = _sellerService;
             userManager = _userManager;
+            memoryCache = _memoryCache;
         }
 
         [Authorize]
@@ -38,33 +43,46 @@ namespace Cars_Market.Controllers
             {
                 return BadRequest();
             }
+            seller = new Seller()
+            {
+                Email = sellerModel.Email,
+            };
 
             var sellerProfile = new Profile()
             {
                 Location = sellerModel.Location,
                 Name = sellerModel.Name,
                 Phone = sellerModel.Phone,
-                Picture = converter.ConvertToByteArray(sellerModel.Picture)
+                Picture = converter.ConvertToByteArray(sellerModel.Picture),
+                SellerId = seller.Id
             };
 
-            seller = new Seller()
-            {
-                Email = sellerModel.Email,
-                Profile = sellerProfile
-            };
-            
+            seller.Profile = sellerProfile;
+
             await sellerService.AddSeller(seller);
 
             var user = await userManager.FindByEmailAsync(sellerModel.Email);
 
-            await userManager.AddToRoleAsync(user, "Seller");
+            await userManager.AddToRoleAsync(user, "User");
 
             return Redirect("/Cars/AllCars");
         }
 
         public async Task<IActionResult> AllSellers()
         {
-            var sellers = await data.Sellers.Include(x => x.Profile).ToListAsync();
+            const string sellersCache = "sellersCache";
+
+            var sellers = memoryCache.Get<List<Seller>>(sellersCache);
+
+            if (sellers == null)
+            {
+                sellers = await data.Sellers.Include(x => x.Profile).ToListAsync();
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(30));
+
+                memoryCache.Set(sellersCache, sellers, cacheOptions);
+            }
 
             return View(sellers);
         }

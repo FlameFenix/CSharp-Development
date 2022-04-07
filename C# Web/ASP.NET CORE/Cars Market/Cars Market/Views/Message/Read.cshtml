@@ -6,17 +6,17 @@
 	<div class="container-fluid">
 		<div class="row justify-content-center">
 			<div class="col-md-9">
-				<div class="card card-primary card-outline">
+				<div class="card card-secondary card-outline">
 					<div class="card-header">
 						<h3 class="card-title">Read Mail</h3>
 						<div class="card-tools">
-							<a href="Inbox" class="btn btn-tool" title="Return to inbox"><i class="fas fa-chevron-left"></i>Go Back</a>
+							<a class="btn btn-secondary justify-content-end" asp-controller="Message" asp-action="Inbox">Go Back</a>
 						</div>
 					</div>
 
 					<div class="card-body p-0">
 						<div class="mailbox-read-info">
-							<h5>@Model.Title</h5>
+							<h5>Title: @Model.Title</h5>
 							<h6>
 								From: @Model.SendFromEmail
 								<span class="mailbox-read-time float-right">15 Feb. 2015 11:03 PM</span>

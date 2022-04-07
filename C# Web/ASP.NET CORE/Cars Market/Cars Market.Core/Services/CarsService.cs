@@ -15,6 +15,7 @@ namespace Cars_Market.Core.Services
 
         public async Task AddCar(Car car)
         {
+
             await data.Cars.AddAsync(car);
 
             await data.SaveChangesAsync();
@@ -33,8 +34,22 @@ namespace Cars_Market.Core.Services
         public async Task<Car> GetCarById(string carId)
         {
             return await data.Cars.FirstOrDefaultAsync(x => x.Id.ToString() == carId);
+
         }
 
+        public async Task ApproveCar(string carId)
+        {
+            var car = await data.Cars.FirstOrDefaultAsync(x => x.Id.ToString() == carId);
+
+            car.Approved = true;
+
+            await data.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<Car>> GetUnaprovedCars()
+        {
+            return await data.Cars.Where(x => x.Approved == false).Include(x => x.Pictures).ToListAsync();
+        }
         public async Task<ICollection<Car>> ShowAllCars()
         {
             return await data.Cars.Where(x => x.Approved == true).Include(x => x.Pictures).ToListAsync();

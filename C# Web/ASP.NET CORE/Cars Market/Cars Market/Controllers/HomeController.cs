@@ -2,6 +2,7 @@
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;
 
 namespace Cars_Market.Controllers
@@ -11,7 +12,9 @@ namespace Cars_Market.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext data;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext _data)
+        public HomeController(ILogger<HomeController> logger, 
+            ApplicationDbContext _data,
+            IMemoryCache _memoryCache)
         {
             _logger = logger;
             data = _data;

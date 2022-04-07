@@ -25,5 +25,6 @@ namespace Cars_Market.Infrastructure.Data
         public DbSet<Seller> Sellers { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
+
     }
 }

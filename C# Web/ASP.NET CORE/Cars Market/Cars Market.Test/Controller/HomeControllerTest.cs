@@ -10,7 +10,7 @@ namespace Cars_Market.Test.Controller
         public void IndexShouldReturnView()
         {
             //Arange 
-            var homeController = new HomeController(null, null);
+            var homeController = new HomeController(null, null, null);
 
             //Assert
 
@@ -26,7 +26,7 @@ namespace Cars_Market.Test.Controller
         public void PrivacyShouldReturnView()
         {
             //Arange 
-            var homeController = new HomeController(null, null);
+            var homeController = new HomeController(null, null, null);
 
             //Assert
 

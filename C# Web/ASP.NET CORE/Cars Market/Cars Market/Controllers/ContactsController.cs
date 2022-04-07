@@ -1,42 +1,41 @@
-﻿using Cars_Market.Infrastructure.Data;
-using Cars_Market.Infrastructure.Data.Models;
+﻿using Cars_Market.Core.Services;
+using Cars_Market.Infrastructure.Data;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cars_Market.Controllers
 {
     public class ContactsController : Controller
     {
         private readonly ApplicationDbContext data;
+        private readonly ContactsService contactsService;
 
-        public ContactsController(ApplicationDbContext _data)
+        public ContactsController(ApplicationDbContext _data, ContactsService _contactsService)
         {
             data = _data;
+            contactsService = _contactsService;
         }
-        public IActionResult Contacts() => View();
+        public async Task<IActionResult> Contacts()
+        {
+
+            ViewBag.OwnerProfileId = await data.Sellers.Where(x => x.Email == "admin@carsmarket.com")
+                                                       .Select(x => x.Profile.Id.ToString())
+                                                       .FirstOrDefaultAsync();
+
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Contacts(ContactFormModel contactForm)
         {
-
-            var reciever = data.Sellers.FirstOrDefault(x => x.Email == "admin@carsmarket.com");
 
             if (!ModelState.IsValid)
             {
                 return View(contactForm);
             }
 
-            var message = new Message()
-            {
-                SendFromEmail = contactForm.Sender,
-                SendToEmail = "admin@carsmarket.com",
-                SellerId = reciever.Id,
-                Title = contactForm.Subject,
-                Text = contactForm.Message
-            };
-
-            await data.Messages.AddAsync(message);
-            await data.SaveChangesAsync();
+            await contactsService.ContactUs(contactForm.Subject, contactForm.Message, contactForm.Sender);
 
             return View();
         }

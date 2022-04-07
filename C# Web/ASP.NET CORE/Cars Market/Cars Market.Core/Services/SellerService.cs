@@ -21,7 +21,9 @@ namespace Cars_Market.Core.Services
 
         public async Task<Seller> GetSellerById(string sellerId)
         {
-            return await data.Sellers.FirstOrDefaultAsync(x => x.Id.ToString() == sellerId);
+            var seller = await data.Sellers.FirstOrDefaultAsync(x => x.Id.ToString() == sellerId);
+
+            return seller;
         }
 
         public async Task<Seller> GetSellerByEmail(string sellerEmail)

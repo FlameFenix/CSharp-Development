@@ -1,5 +1,6 @@
 ﻿using Cars_Market.Core.Constants;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cars_Market.Infrastructure.Data.Models
 {
@@ -18,5 +19,10 @@ namespace Cars_Market.Infrastructure.Data.Models
 
         [MaxLength(DataConstants.PROFILE_PICTURE_MAX_LENGTH)]
         public byte[] Picture { get; set; }
+
+        public Guid SellerId { get; set; }
+
+        [ForeignKey(nameof(SellerId))]
+        public Seller Seller { get; set; }
     }
 }

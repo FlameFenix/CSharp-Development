@@ -34,6 +34,8 @@ namespace Cars_Market.Controllers
             ViewBag.Cars = await data.Cars.Where(x => x.Seller.Profile.Id.ToString() == profileId)
                                           .ToListAsync();
 
+            ViewBag.UserEmail = await profileService.GetProfileEmail(profileId);
+
             return View(userProfile);
         }
     }

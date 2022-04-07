@@ -20,7 +20,7 @@
 						<tr>
 							<td>@role.Id</td>
 							<td>@role.Name</td>
-							<td><a href="Delete?roleId=@role.Id" type="button" class="btn btn-danger">Delete</a></td>
+							<td><a asp-controller="Role" asp-action="Delete" asp-route-roleId="@role.Id" type="button" class="btn btn-danger">Delete</a></td>
 						</tr>
 					}
 				</tbody>

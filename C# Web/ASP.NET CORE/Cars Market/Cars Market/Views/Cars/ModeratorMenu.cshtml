@@ -19,8 +19,8 @@
 											<option value="Make"> Sort by Make </option>
 										</select>
 										<div class="btn-group">
-											<input asp-for="OrderByType" class="btn btn-default" value="Ascending" type="submit"></input>
-											<input asp-for="OrderByType" class="btn btn-default" value="Descending" type="submit"></input>
+											<input asp-for="OrderByType" class="btn btn-default" value="Ascending" type="submit">
+											<input asp-for="OrderByType" class="btn btn-default" value="Descending" type="submit">
 										</div>
 									</div>
 								</form>
@@ -37,9 +37,9 @@
 												<div class="card-body">
 													<p class="btn btn-block btn-outline-light"> @car.Make @car.Model </p>
 													<p class="btn btn-block btn-outline-light"> @car.Money $ </p>
-													<a href="/Details/Details?carId=@car.Id" type="button" class="btn btn-block btn-secondary">Details</a>
-													 <a href="/Cars/ApproveCar?carId=@car.Id" type="button" class="btn btn-block bg-gradient-success">Approve</a>
-													 <a href="/Cars/RejectCar?carId=@car.Id" type="button" class="btn btn-block bg-gradient-danger">Reject</a>
+													<a asp-controller="Details" asp-action="Details" asp-route-carId="@car.Id" type="button" class="btn btn-block btn-secondary">Details</a>
+													 <a asp-controller="Cars" asp-action="ApproveCar" asp-route-carId="@car.Id" type="button" class="btn btn-block bg-gradient-success">Approve</a>
+													 <a asp-controller="Cars" asp-action="RejectCar" asp-route-carId="@car.Id" type="button" class="btn btn-block bg-gradient-danger">Reject</a>
 													
 												</div>
 											</div>
