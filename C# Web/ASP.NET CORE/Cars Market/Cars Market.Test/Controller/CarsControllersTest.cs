@@ -1,15 +1,18 @@
 ﻿using Cars_Market.Controllers;
+using Cars_Market.Core.Services;
+using Cars_Market.Infrastructure.Data;
+using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
+using Cars_Market.Test.Mocks;
 using Microsoft.AspNetCore.Mvc;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
+using Moq;
+using Xunit;
 
 namespace Cars_Market.Test.Controller
 {
     public class CarsControllersTest
     {
-        [Test]
+        [Fact]
 
         public void AddCarShouldReturnView()
         {
@@ -23,10 +26,10 @@ namespace Cars_Market.Test.Controller
             //Act
 
             Assert.NotNull(result);
-            Assert.IsInstanceOf<IActionResult>(result);
+            Assert.IsType<ViewResult>(result);
         }
 
-        [Test]
+        [Fact]
 
         public void AddCarShouldReturnTask()
         {
@@ -40,10 +43,46 @@ namespace Cars_Market.Test.Controller
             //Act
 
             Assert.NotNull(result);
-            Assert.IsInstanceOf<Task<IActionResult>>(result);
+            Assert.IsType<Task<IActionResult>>(result);
         }
 
-        [Test]
+        [Fact]
+        public void AddCarShouldAddCarInDb()
+        {
+            //Arange 
+
+            using var data = CarsMarketDbContextMock.Instance;
+            var carsService = new CarsService(data);
+            //Assert
+            _ = carsService.AddCar(new Car()
+            {
+                Make = "Audi",
+                Model = "A6",
+                MainPicture = new byte[] { }
+            });
+
+            data.SaveChanges();
+
+            var car = data.Cars.FirstOrDefault(x => x.Make == "Audi");
+            //Act
+
+            Assert.True(data.Cars.Contains(car));
+            Assert.True(data.Cars.Count() == 1);
+        }
+
+        [Fact]
+        public void AddCarShouldReturnViewWithWrongData()
+        {
+            //Arange 
+
+            using var data = CarsMarketDbContextMock.Instance;
+            //Assert
+
+            //Act
+
+        }
+
+        [Fact]
 
         public void DeleteCarShouldReturnTask()
         {
@@ -55,9 +94,24 @@ namespace Cars_Market.Test.Controller
             var result = carsController.Delete(Guid.NewGuid().ToString());
 
             //Act
-
             Assert.NotNull(result);
-            Assert.IsInstanceOf<Task<IActionResult>>(result);
+            Assert.IsType<Task<IActionResult>>(result);
         }
+
+        [Fact]
+        public void DeleteCarShouldRemoveEntity()
+        {
+            //Arange
+            var carsController = new CarsController(null, null, null, null);
+
+            //Assert
+
+            var result = carsController.Delete(Guid.NewGuid().ToString());
+
+            //Act
+            Assert.NotNull(result);
+            Assert.IsType<Task<IActionResult>>(result);
+        }
+
     }
 }

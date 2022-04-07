@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cars Market.Core", "Cars Ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cars Market.Infrastructure", "Cars Market.Infrastructure\Cars Market.Infrastructure.csproj", "{36535874-E0D4-479E-8C87-F69D7EE15FE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cars Market.Test", "Cars Market.Test\Cars Market.Test.csproj", "{91994E1D-F6EE-45B5-947A-2C691F47BB40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cars Market.Test", "Cars Market.Test\Cars Market.Test.csproj", "{5AFBD6DC-ACA4-4A18-B020-43D11D5F74C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{36535874-E0D4-479E-8C87-F69D7EE15FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36535874-E0D4-479E-8C87-F69D7EE15FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36535874-E0D4-479E-8C87-F69D7EE15FE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{91994E1D-F6EE-45B5-947A-2C691F47BB40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91994E1D-F6EE-45B5-947A-2C691F47BB40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91994E1D-F6EE-45B5-947A-2C691F47BB40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91994E1D-F6EE-45B5-947A-2C691F47BB40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AFBD6DC-ACA4-4A18-B020-43D11D5F74C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AFBD6DC-ACA4-4A18-B020-43D11D5F74C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AFBD6DC-ACA4-4A18-B020-43D11D5F74C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AFBD6DC-ACA4-4A18-B020-43D11D5F74C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

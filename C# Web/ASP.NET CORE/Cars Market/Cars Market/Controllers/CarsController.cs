@@ -141,7 +141,7 @@ namespace Cars_Market.Controllers
         [Authorize(Roles = "Moderator")]
         public async Task<IActionResult> ModeratorMenu()
         {
-            ViewBag.CarsList = await carsService.GetUnnaprovedCars();
+            ViewBag.CarsList = await carsService.GetUnaprovedCars();
 
             return View();
         }

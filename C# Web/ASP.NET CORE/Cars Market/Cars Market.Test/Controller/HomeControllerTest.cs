@@ -1,12 +1,18 @@
 ﻿using Cars_Market.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using NUnit.Framework;
+using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Cars_Market.Test.Controller
 {
-	public class HomeControllerTest
-	{
-        [Test]
+    public  class HomeControllerTest
+    {
+        [Fact]
         public void IndexShouldReturnView()
         {
             //Arange 
@@ -19,10 +25,10 @@ namespace Cars_Market.Test.Controller
             //Act
 
             Assert.NotNull(result);
-            Assert.IsInstanceOf<IActionResult>(result);
+            Assert.IsType<Task<IActionResult>>(result);
         }
 
-        [Test]
+        [Fact]
         public void PrivacyShouldReturnView()
         {
             //Arange 
@@ -35,7 +41,7 @@ namespace Cars_Market.Test.Controller
             //Act
 
             Assert.NotNull(result);
-            Assert.IsInstanceOf<IActionResult>(result);
+            Assert.IsType<ViewResult>(result);
         }
     }
 }

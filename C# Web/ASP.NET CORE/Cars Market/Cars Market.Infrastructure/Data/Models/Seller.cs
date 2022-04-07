@@ -1,9 +1,10 @@
 ﻿using Cars_Market.Core.Constants;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace Cars_Market.Infrastructure.Data.Models
 {
-	public class Seller
+    public class Seller
 	{
 		[Key]
 		public Guid Id { get; init; } = Guid.NewGuid();

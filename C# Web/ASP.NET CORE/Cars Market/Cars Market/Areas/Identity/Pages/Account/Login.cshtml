@@ -96,21 +96,21 @@
 				<form id="account" method="post">
 					<div class="input-group mb-3">
 						<input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
-						<span asp-validation-for="Input.Email" class="text-danger"></span>
 						<div class="input-group-append">
 							<div class="input-group-text">
 								<span class="fas fa-envelope"></span>
-							</div>
+							</div>							
 						</div>
+						<span asp-validation-for="Input.Email" class="text-danger"></span>
 					</div>
 					<div class="input-group mb-3">
 						<input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
-						<span asp-validation-for="Input.Password" class="text-danger"></span>
 						<div class="input-group-append">
 							<div class="input-group-text">
 								<span class="fas fa-lock"></span>
 							</div>
 						</div>
+						<span asp-validation-for="Input.Password" class="text-danger"></span>
 					</div>
 					<div class="row">
 						<div class="col-8">
@@ -127,14 +127,14 @@
 					</div>
 				</form>
 
-@*				<div class="social-auth-links text-center mt-2 mb-3">
+				@*				<div class="social-auth-links text-center mt-2 mb-3">
 					<button class="btn btn-block btn-primary" name="provider" value="Facebook" type="submit">
-						<i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+					<i class="fab fa-facebook mr-2"></i> Sign in using Facebook
 					</button>
 					<a href="#" class="btn btn-block btn-danger">
-						<i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+					<i class="fab fa-google-plus mr-2"></i> Sign in using Google+
 					</a>
-				</div>*@
+					</div>*@
 				<!-- /.social-auth-links -->
 				<!-- Another Services start -->
 				<hr />
