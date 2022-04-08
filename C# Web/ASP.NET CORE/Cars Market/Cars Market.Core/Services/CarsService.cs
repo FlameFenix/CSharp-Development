@@ -2,6 +2,8 @@
 using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cars_Market.Core.Services
 {
@@ -92,11 +94,6 @@ namespace Cars_Market.Core.Services
         public async Task<ICollection<Car>> ShowMyCars(string userId)
         {
             return await data.Cars.Where(x => x.SellerId.ToString() == userId).ToListAsync();
-        }
-
-        public void EditCar(string carId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

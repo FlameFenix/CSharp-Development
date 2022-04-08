@@ -1,4 +1,5 @@
 ﻿using Cars_Market.Core.Constants;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

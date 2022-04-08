@@ -1,4 +1,5 @@
 ﻿using Cars_Market.Core.Constants;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Cars_Market.Infrastructure.Data.Models

@@ -1,5 +1,6 @@
 ﻿using Cars_Market.Core.Constants;
-using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Cars_Market.Infrastructure.Data.Models

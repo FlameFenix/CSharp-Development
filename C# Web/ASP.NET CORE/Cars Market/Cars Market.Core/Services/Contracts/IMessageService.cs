@@ -1,4 +1,6 @@
 ﻿using Cars_Market.Infrastructure.Data.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cars_Market.Core.Services.Contracts
 {

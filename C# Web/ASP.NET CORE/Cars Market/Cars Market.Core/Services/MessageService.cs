@@ -2,6 +2,8 @@
 using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cars_Market.Core.Services
 {

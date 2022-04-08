@@ -1,4 +1,5 @@
 ﻿using Cars_Market.Controllers;
+using Cars_Market.Test.Mocks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
@@ -8,24 +9,25 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Cars_Market.Test.Controller
+namespace Cars_Market.Test.Controllers
 {
     public  class HomeControllerTest
     {
         [Fact]
         public void IndexShouldReturnView()
         {
+            using var data = CarsMarketDbContextMock.Instance;
             //Arange 
-            var homeController = new HomeController(null, null, null);
+            var homeController = new HomeController(null, data, null);
 
             //Assert
 
-            var result = homeController.Index();
+            var result = homeController.Index().GetAwaiter().GetResult();
 
             //Act
 
             Assert.NotNull(result);
-            Assert.IsType<Task<IActionResult>>(result);
+            Assert.IsType<ViewResult>(result);
         }
 
         [Fact]
@@ -43,5 +45,7 @@ namespace Cars_Market.Test.Controller
             Assert.NotNull(result);
             Assert.IsType<ViewResult>(result);
         }
+
+
     }
 }

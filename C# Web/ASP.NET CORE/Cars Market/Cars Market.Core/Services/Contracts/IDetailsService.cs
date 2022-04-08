@@ -1,4 +1,6 @@
 ﻿using Cars_Market.Infrastructure.Data.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cars_Market.Core.Services.Contracts
 {
@@ -6,7 +8,7 @@ namespace Cars_Market.Core.Services.Contracts
 	{
 		public Task<Car> ReturnDetails(string carId);
 
-		public ICollection<string> GetCarPictures(Car car);
+        public ICollection<string> GetCarPictures(Car car);
 
 		public Task<string> GetUserPictures(string email);
 
