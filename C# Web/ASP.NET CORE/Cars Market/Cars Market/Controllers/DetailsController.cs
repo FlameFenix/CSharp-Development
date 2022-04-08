@@ -1,7 +1,7 @@
 ﻿using Cars_Market.Core.Services;
+using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Cars_Market.Controllers
 {
@@ -17,11 +17,22 @@ namespace Cars_Market.Controllers
 
         public async Task<IActionResult> Details(string carId)
         {
-            var carDetails = await detailsService.ReturnDetails(carId);
+            Car car = null;
+
+            try
+            {
+                 car = await detailsService.ReturnDetails(carId);
+
+            }
+            catch (Exception ex)
+            {
+                return Redirect($"/Cars/AllCars");
+            }
+
             await detailsService.CountCarVisits(carId);
 
-            ViewBag.Car = carDetails;
-            ViewBag.CarPictures = detailsService.GetCarPictures(carDetails);
+            ViewBag.Car = car;
+            ViewBag.CarPictures = detailsService.GetCarPictures(car);
             ViewBag.UserPicture = await detailsService.GetUserPictures(User.Identity.Name);
 
             return View();

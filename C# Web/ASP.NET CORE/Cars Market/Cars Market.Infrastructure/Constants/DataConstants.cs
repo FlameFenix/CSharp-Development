@@ -93,5 +93,7 @@
 
         public const int SELLER_EMAIL_MIN_LENGTH = 6;
         public const int SELLER_EMAIL_MAX_LENGTH = 50;
+
+        public const string REGEX_FOR_SPECIAL_SYMBOLS = "[^\"'<>]+";
     }
 }

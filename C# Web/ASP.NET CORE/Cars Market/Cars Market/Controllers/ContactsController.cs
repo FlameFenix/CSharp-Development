@@ -38,7 +38,7 @@ namespace Cars_Market.Controllers
 
             await contactsService.ContactUs(contactForm.Subject, contactForm.Message, contactForm.Sender);
 
-            return View();
+            return RedirectToAction("Contacts");
         }
     }
 }

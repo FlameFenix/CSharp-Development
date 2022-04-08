@@ -6,12 +6,14 @@ namespace Cars_Market.Models
     public class EditCarFormModel
     {
 		[Required]
+		[RegularExpression(DataConstants.REGEX_FOR_SPECIAL_SYMBOLS)]
 		[StringLength(DataConstants.CAR_MAKE_MAX_LENGHT,
 			MinimumLength = DataConstants.CAR_MAKE_MIN_LENGHT,
 			ErrorMessage = "{0} should be in range {2} - {1}")]
 		public string Make { get; set; }
 
 		[Required]
+		[RegularExpression(DataConstants.REGEX_FOR_SPECIAL_SYMBOLS)]
 		[StringLength(DataConstants.CAR_MODEL_MAX_LENGHT,
 			MinimumLength = DataConstants.CAR_MODEL_MIN_LENGHT,
 			ErrorMessage = "{0} should be in range {2} - {1}")]
@@ -36,6 +38,7 @@ namespace Cars_Market.Models
 		public string GearboxType { get; set; }
 
 		[Required]
+		[RegularExpression(DataConstants.REGEX_FOR_SPECIAL_SYMBOLS)]
 		[StringLength(DataConstants.CAR_DETAILS_DESCRIPTION_MAX_VALUE,
 			MinimumLength = DataConstants.CAR_DETAILS_DESCRIPTION_MIN_VALUE,
 			ErrorMessage = "{0} should be in range {2} - {1}")]

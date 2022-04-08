@@ -107,17 +107,21 @@ namespace Cars_Market.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string carId, EditCarFormModel editModel)
         {
-            var car = await carsService.GetCarByIdWithDetails(carId);
+            if (ModelState.IsValid)
+            {
+                var car = await carsService.GetCarByIdWithDetails(carId);
 
-            car.Make = editModel.Make;
-            car.Model = editModel.Model;
-            car.Year = int.Parse(editModel.Year);
-            car.Money = double.Parse(editModel.Money, CultureInfo.InvariantCulture);
-            car.Details.FuelType = editModel.FuelType;
-            car.Details.Description = editModel.Description;
-            car.Details.GearboxType = editModel.GearboxType;
+                car.Make = editModel.Make;
+                car.Model = editModel.Model;
+                car.Year = int.Parse(editModel.Year);
+                car.Money = double.Parse(editModel.Money, CultureInfo.InvariantCulture);
+                car.Details.FuelType = editModel.FuelType;
+                car.Details.Description = editModel.Description;
+                car.Details.GearboxType = editModel.GearboxType;
 
-            await data.SaveChangesAsync();
+                await data.SaveChangesAsync();
+
+            }
 
             return RedirectToAction("MyCars");
         }

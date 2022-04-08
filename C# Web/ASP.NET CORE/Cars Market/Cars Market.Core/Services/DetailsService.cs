@@ -20,17 +20,17 @@ namespace Cars_Market.Core.Services
         }
         public async Task<Car> ReturnDetails(string carId)
         {
-            var car = await data.Cars.Include(x => x.Pictures).FirstOrDefaultAsync(x => x.Id.ToString() == carId);
+                var car = await data.Cars.Include(x => x.Pictures).FirstOrDefaultAsync(x => x.Id.ToString() == carId);
 
-            car.Details = await data.CarDetails.FirstOrDefaultAsync(x => car.Id == x.CarId);
+                car.Details = await data.CarDetails.FirstOrDefaultAsync(x => car.Id == x.CarId);
 
-            car.Comments = await data.Comments.Where(x => x.CarId.ToString() == carId).ToListAsync();
+                car.Comments = await data.Comments.Where(x => x.CarId.ToString() == carId).ToListAsync();
 
-            car.Seller = await data.Sellers.Include(x => x.Profile).FirstOrDefaultAsync(x => x.Id == car.SellerId);
+                car.Seller = await data.Sellers.Include(x => x.Profile).FirstOrDefaultAsync(x => x.Id == car.SellerId);
 
-            car.Pictures = await data.CarPictures.Where(x => x.CarId.ToString() == carId).ToListAsync();
+                car.Pictures = await data.CarPictures.Where(x => x.CarId.ToString() == carId).ToListAsync();
 
-            return car;
+                return car;
         }
 
         public ICollection<string> GetCarPictures(Car car)

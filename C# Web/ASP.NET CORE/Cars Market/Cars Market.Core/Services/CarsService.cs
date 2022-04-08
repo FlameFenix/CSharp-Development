@@ -27,10 +27,13 @@ namespace Cars_Market.Core.Services
         {
             var car = await data.Cars.FirstOrDefaultAsync(x => x.Id.ToString() == carId);
 
-            data.Cars.Remove(car);
+            if (data.Cars.Contains(car))
+            {
+                data.Cars.Remove(car);
 
-            await data.SaveChangesAsync();
+                await data.SaveChangesAsync();
 
+            }
         }
 
         public async Task<Car> GetCarById(string carId)

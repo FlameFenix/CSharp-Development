@@ -15,7 +15,7 @@
 							<!-- text input -->
 							<div class="form-group">
 								<label asp-for="Make">Make</label>
-								<input type="text" class="form-control" asp-for="Make" placeholder="Enter make">
+								<input type="text" class="form-control" asp-for="Make" ValidationExpression="[^<>'=]" placeholder="Enter make">
 								<span asp-validation-for="Make" class="text-danger"></span>
 							</div>
 						</div>

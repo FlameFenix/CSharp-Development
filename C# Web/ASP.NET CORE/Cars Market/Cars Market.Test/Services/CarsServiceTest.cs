@@ -1,10 +1,6 @@
-﻿using Cars_Market.Controllers;
-using Cars_Market.Core.Services;
-using Cars_Market.Infrastructure.Data;
+﻿using Cars_Market.Core.Services;
 using Cars_Market.Infrastructure.Data.Models;
-using Cars_Market.Models;
 using Cars_Market.Test.Mocks;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
@@ -121,6 +117,16 @@ namespace Cars_Market.Test.Services
         }
 
         [Fact]
+        public void GetCarByIdShouldThrowArgumentNullException()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var service = new CarsService(data);
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => service.GetCarById(Guid.NewGuid().ToString()));
+        }
+
+        [Fact]
         public void ShouldReturnTrueDeleteCarById()
         {
             using var data = CarsMarketDbContextMock.Instance;
@@ -163,6 +169,18 @@ namespace Cars_Market.Test.Services
         }
 
         [Fact]
+        public void DeleteCarByIdShouldThrowArgumentNullException()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var service = new CarsService(data);
+
+            var fakeCar = Mock.Of<Car>();
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => service.RemoveCar(fakeCar.Id.ToString()));
+        }
+
+        [Fact]
         public void ShouldReturnTrueAddCar()
         {
             using var data = CarsMarketDbContextMock.Instance;
@@ -171,7 +189,20 @@ namespace Cars_Market.Test.Services
 
             service.AddCar(new Car() { Make = "Audi", Model = "A6", MainPicture = new byte[] { } }).GetAwaiter().GetResult();
 
+            var audiCar = data.Cars.FirstOrDefault();
+
             Assert.True(data.Cars.Count() == 1);
+            Assert.True(audiCar.Model == "A6");
+        }
+
+        [Fact]
+        public void AddCarShouldReturnThrow()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var service = new CarsService(data);
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => service.AddCar(null));
         }
 
         [Fact]
@@ -189,6 +220,18 @@ namespace Cars_Market.Test.Services
             service.ApproveCar(car.Id.ToString()).GetAwaiter().GetResult();
 
             Assert.True(car.Approved);
+        }
+
+        [Fact]
+        public void ApproveCarShouldThrowArgumentNullException()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var service = new CarsService(data);
+
+            var car = Mock.Of<Car>();
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => service.ApproveCar(car.Id.ToString()));
         }
 
         [Fact]
@@ -221,6 +264,16 @@ namespace Cars_Market.Test.Services
             var carDetails = service.GetCarByIdWithDetails(car.Id.ToString()).GetAwaiter().GetResult();
 
             Assert.True(car.Details != null);
+        }
+
+        [Fact]
+        public void GetCarByIdWithDetailsShouldThrowArgumentNullException()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var service = new CarsService(data);
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => service.GetCarByIdWithDetails(Guid.NewGuid().ToString()));
         }
 
 
@@ -262,6 +315,16 @@ namespace Cars_Market.Test.Services
 
             Assert.True(result.Count == 2);
             Assert.IsType<List<Car>>(result);
+        }
+
+        [Fact]
+        public void GetUnaprovedCarsShouldThrowArgumentNullException()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var service = new CarsService(data);
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => service.GetUnaprovedCars());
         }
 
         [Fact]
@@ -307,6 +370,18 @@ namespace Cars_Market.Test.Services
 
             Assert.True(result.Count == 2);
             Assert.IsType<List<Car>>(result);
+        }
+
+        [Fact]
+        public void ShowMyCarsShouldThrowArgumentNullExceptionThereAreNoCarsAvailable()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var randomId = Guid.NewGuid();
+
+            var service = new CarsService(data);
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => service.ShowMyCars(randomId.ToString()));
         }
     }
 }
