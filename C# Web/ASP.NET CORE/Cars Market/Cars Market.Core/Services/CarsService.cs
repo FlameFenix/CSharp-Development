@@ -37,6 +37,11 @@ namespace Cars_Market.Core.Services
 
         }
 
+        public async Task<Car> GetCarByIdWithDetails(string carId)
+        {
+            return await data.Cars.Include(x => x.Details).FirstOrDefaultAsync(x => x.Id.ToString() == carId); 
+        }
+
         public async Task ApproveCar(string carId)
         {
             var car = await data.Cars.FirstOrDefaultAsync(x => x.Id.ToString() == carId);
@@ -87,6 +92,11 @@ namespace Cars_Market.Core.Services
         public async Task<ICollection<Car>> ShowMyCars(string userId)
         {
             return await data.Cars.Where(x => x.SellerId.ToString() == userId).ToListAsync();
+        }
+
+        public void EditCar(string carId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -56,7 +56,7 @@ namespace Cars_Market.Controllers
                 IsSold = false
             };
 
-           
+
             var car = new Car()
             {
                 Id = carModel.Id,
@@ -69,7 +69,7 @@ namespace Cars_Market.Controllers
                 Details = carDetails
             };
 
-            if(carModel.Images != null)
+            if (carModel.Images != null)
             {
                 var images = new List<CarPicture>();
 
@@ -95,13 +95,31 @@ namespace Cars_Market.Controllers
         }
 
         [Authorize(Roles = "User")]
-        public IActionResult Edit(string carId)
+        public async Task<IActionResult> Edit(string carId)
         {
-            var car = carsService.GetCarById(carId);
-
+            var car = await carsService.GetCarByIdWithDetails(carId);
             ViewBag.Car = car;
+            ViewBag.Description = car.Details.Description;
+            return View();
+        }
 
-            return BadRequest();
+        [Authorize(Roles = "User")]
+        [HttpPost]
+        public async Task<IActionResult> Edit(string carId, EditCarFormModel editModel)
+        {
+            var car = await carsService.GetCarByIdWithDetails(carId);
+
+            car.Make = editModel.Make;
+            car.Model = editModel.Model;
+            car.Year = int.Parse(editModel.Year);
+            car.Money = double.Parse(editModel.Money, CultureInfo.InvariantCulture);
+            car.Details.FuelType = editModel.FuelType;
+            car.Details.Description = editModel.Description;
+            car.Details.GearboxType = editModel.GearboxType;
+
+            await data.SaveChangesAsync();
+
+            return RedirectToAction("MyCars");
         }
 
         [Authorize(Roles = "User")]
