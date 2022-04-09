@@ -2,11 +2,6 @@
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Test.Mocks;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Cars_Market.Test.Services
@@ -93,6 +88,158 @@ namespace Cars_Market.Test.Services
             var result = service.RemoveMessage(message.Id.ToString()).GetAwaiter().GetResult();
 
             Assert.True(result);
+        }
+
+        [Fact]
+
+        public void UnreadedMessagesShouldReturnTrueCount()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var message = new Message()
+            {
+                Id = Guid.NewGuid(),
+                IsRead = false,
+                SellerId = Guid.NewGuid(),
+                SendFromEmail = "admin@carsmarket.com",
+                SendToEmail = "user@carsmarket.com",
+                Text = "zdr ko pr",
+                Title = "leko povurhnosten message :P"
+            };
+
+            var anotherMessage = new Message()
+            {
+                Id = Guid.NewGuid(),
+                IsRead = false,
+                SellerId = Guid.NewGuid(),
+                SendFromEmail = "user@carsmarket.com",
+                SendToEmail = "admin@carsmarket.com",
+                Text = "zdr ko pr",
+                Title = "leko povurhnosten message :P"
+            };
+            data.Messages.Add(message);
+            data.Messages.Add(anotherMessage);
+            data.SaveChanges();
+
+            var service = new MessageService(data);
+
+            var result = service.UnreadedMessages().GetAwaiter().GetResult();
+
+            Assert.NotNull(result);
+            Assert.True(result.Count == 2);
+            Assert.IsType<List<Message>>(result);
+        }
+
+        [Fact]
+        public void UnreadedMessagesShouldReturnTrueCountSecond()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var message = new Message()
+            {
+                Id = Guid.NewGuid(),
+                IsRead = true,
+                SellerId = Guid.NewGuid(),
+                SendFromEmail = "admin@carsmarket.com",
+                SendToEmail = "user@carsmarket.com",
+                Text = "zdr ko pr",
+                Title = "leko povurhnosten message :P"
+            };
+
+            var anotherMessage = new Message()
+            {
+                Id = Guid.NewGuid(),
+                IsRead = true,
+                SellerId = Guid.NewGuid(),
+                SendFromEmail = "user@carsmarket.com",
+                SendToEmail = "admin@carsmarket.com",
+                Text = "zdr ko pr",
+                Title = "leko povurhnosten message :P"
+            };
+            data.Messages.Add(message);
+            data.Messages.Add(anotherMessage);
+            data.SaveChanges();
+
+            var service = new MessageService(data);
+
+            var result = service.UnreadedMessages().GetAwaiter().GetResult();
+            Assert.True(result.Count == 0);
+            Assert.IsType<List<Message>>(result);
+        }
+
+        [Fact]
+        public void ReadedMessagesShouldReturnTrueCountSecond()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var message = new Message()
+            {
+                Id = Guid.NewGuid(),
+                IsRead = true,
+                SellerId = Guid.NewGuid(),
+                SendFromEmail = "admin@carsmarket.com",
+                SendToEmail = "user@carsmarket.com",
+                Text = "zdr ko pr",
+                Title = "leko povurhnosten message :P"
+            };
+
+            var anotherMessage = new Message()
+            {
+                Id = Guid.NewGuid(),
+                IsRead = true,
+                SellerId = Guid.NewGuid(),
+                SendFromEmail = "user@carsmarket.com",
+                SendToEmail = "admin@carsmarket.com",
+                Text = "zdr ko pr",
+                Title = "leko povurhnosten message :P"
+            };
+            data.Messages.Add(message);
+            data.Messages.Add(anotherMessage);
+            data.SaveChanges();
+
+            var service = new MessageService(data);
+
+            var result = service.ReadedMessages().GetAwaiter().GetResult();
+            Assert.True(result.Count == 2);
+            Assert.IsType<List<Message>>(result);
+        }
+
+        [Fact]
+        public void ReadedMessagesShouldReturnTrueCount()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var message = new Message()
+            {
+                Id = Guid.NewGuid(),
+                IsRead = false,
+                SellerId = Guid.NewGuid(),
+                SendFromEmail = "admin@carsmarket.com",
+                SendToEmail = "user@carsmarket.com",
+                Text = "zdr ko pr",
+                Title = "leko povurhnosten message :P"
+            };
+
+            var anotherMessage = new Message()
+            {
+                Id = Guid.NewGuid(),
+                IsRead = false,
+                SellerId = Guid.NewGuid(),
+                SendFromEmail = "user@carsmarket.com",
+                SendToEmail = "admin@carsmarket.com",
+                Text = "zdr ko pr",
+                Title = "leko povurhnosten message :P"
+            };
+            data.Messages.Add(message);
+            data.Messages.Add(anotherMessage);
+            data.SaveChanges();
+
+            var service = new MessageService(data);
+
+            var result = service.ReadedMessages().GetAwaiter().GetResult();
+
+            Assert.True(result.Count == 0);
+            Assert.IsType<List<Message>>(result);
         }
     }
 }
