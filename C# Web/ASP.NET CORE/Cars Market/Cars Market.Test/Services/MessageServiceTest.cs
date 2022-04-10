@@ -241,5 +241,125 @@ namespace Cars_Market.Test.Services
             Assert.True(result.Count == 0);
             Assert.IsType<List<Message>>(result);
         }
+
+        [Fact]
+        public void SendMessageShouldReturnTrueCount()
+        {
+            var data = CarsMarketDbContextMock.Instance;
+
+            var firstUser = new Seller
+            {
+                Email = "admin@carsmarket.com"
+            };
+            var secondUser = new Seller()
+            {
+                Email = "user@carsmarket.com"
+            };
+
+            data.Sellers.Add(firstUser);
+            data.Sellers.Add(secondUser);
+            data.SaveChanges();
+
+            var service = new MessageService(data);
+
+            service.SendMessage("Hello World!", "I'm Yordan Dimitrov", firstUser.Email, secondUser.Email).GetAwaiter().GetResult();
+
+            Assert.True(data.Messages.Count() == 1);
+        }
+
+        [Fact]
+        public void SendMessageShouldThrowNullException()
+        {
+            var data = CarsMarketDbContextMock.Instance;
+
+            var secondUser = new Seller()
+            {
+                Email = "user@carsmarket.com"
+            };
+
+            data.Sellers.Add(secondUser);
+            data.SaveChanges();
+
+            var service = new MessageService(data);
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => service.SendMessage("Hello World!", "I'm Yordan Dimitrov", null, secondUser.Email));
+        }
+
+        [Fact]
+        public void RemoveMessageShouldRemoveWholeCollectionWithMessages()
+        {
+            var data = CarsMarketDbContextMock.Instance;
+
+            var service = new MessageService(data);
+
+            var secondUser = Mock.Of<Seller>(x => x.Email == "user@carsmarket.com");
+
+            var messages = new List<Message>()
+            {
+               new Message() { Title = Guid.NewGuid().ToString(), Text = Guid.NewGuid().ToString(), SendFromEmail = Guid.NewGuid().ToString(), SendToEmail = "user@carsmarket.com" },
+               new Message() { Title = Guid.NewGuid().ToString(), Text = Guid.NewGuid().ToString(), SendFromEmail = Guid.NewGuid().ToString(), SendToEmail = "user@carsmarket.com" },
+               new Message() { Title = Guid.NewGuid().ToString(), Text = Guid.NewGuid().ToString(), SendFromEmail = Guid.NewGuid().ToString(), SendToEmail = "user@carsmarket.com" }
+            };
+
+            secondUser.Messages = messages;
+
+            data.Sellers.Add(secondUser);
+            data.SaveChanges();
+
+            Assert.NotEmpty(secondUser.Messages);
+
+            service.RemoveMessage(secondUser.Messages).GetAwaiter().GetResult();
+
+            Assert.Empty(secondUser.Messages);
+        }
+
+        [Fact]
+        public void RemoveMessageShouldThrowArgumentNullException()
+        {
+            var data = CarsMarketDbContextMock.Instance;
+
+            var service = new MessageService(data);
+
+            var secondUser = Mock.Of<Seller>(x => x.Email == "user@carsmarket.com");
+
+            data.Sellers.Add(secondUser);
+            data.SaveChanges();
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => service.RemoveMessage(secondUser.Messages));
+        }
+
+        [Fact]
+        public void ReadMessageShouldReturnMessageEntity()
+        {
+            var data = CarsMarketDbContextMock.Instance;
+
+            var service = new MessageService(data);
+
+            var message = new Message()
+            {
+                Title = "Title",
+                Text = "Text",
+                SendFromEmail = "senderEmail",
+                SendToEmail = "sendFromEmail"
+            };
+
+            data.Messages.Add(message);
+
+            data.SaveChanges();
+
+            var expectedMessage = service.ReadMessage(message.Id.ToString()).GetAwaiter().GetResult();
+
+            Assert.IsType<Message>(expectedMessage);
+        }
+
+        [Fact]
+        public void ReadMessageShouldThrowArgumentNullException()
+        {
+            var data = CarsMarketDbContextMock.Instance;
+
+            var service = new MessageService(data);
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => service.ReadMessage(Guid.NewGuid().ToString()));
+        }
     }
 }

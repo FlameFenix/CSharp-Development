@@ -220,5 +220,50 @@ namespace Cars_Market.Test.Services
             Assert.ThrowsAsync<ArgumentNullException>(() => service.AddCommentToCar(fakeCar.Id.ToString(), null, "top kola"));
             Assert.ThrowsAsync<ArgumentNullException>(() => service.AddCommentToCar(null, "admin@carsmarket.com", "top kola"));
         }
+
+        [Fact]
+        public void GetUserPictureShouldReturnPicturesAsString()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var user = Mock.Of<Seller>(x => x.Email == "admin@carsmarket.com");
+
+            var profile = new Profile()
+            {
+                Location = "random location",
+                Name = "random name",
+                Phone = "random phone",
+                Picture = Guid.NewGuid().ToByteArray()
+            };
+
+            user.Profile = profile;
+            data.Sellers.Add(user);
+
+            data.SaveChanges();
+
+            var service = new DetailsService(data);
+
+            var userPicture = service.GetUserPictures("admin@carsmarket.com").GetAwaiter().GetResult();
+
+            Assert.NotNull(userPicture);
+            Assert.NotEmpty(userPicture);
+            Assert.IsType<string>(userPicture);
+        }
+
+        [Fact]
+        public void GetUserPictureShouldThrowArgumentNullException()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var user = Mock.Of<Seller>(x => x.Email == "admin@carsmarket.com");
+
+            data.Sellers.Add(user);
+
+            data.SaveChanges();
+
+            var service = new DetailsService(data);
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => service.GetUserPictures("admin@carsmarket.com"));
+        }
     }
 }

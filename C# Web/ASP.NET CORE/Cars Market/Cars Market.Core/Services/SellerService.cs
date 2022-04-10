@@ -48,10 +48,5 @@ namespace Cars_Market.Core.Services
         {
             return await data.Sellers.ToListAsync();
         }
-
-        public Task RemoveSeller()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

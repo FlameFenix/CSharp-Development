@@ -16,8 +16,6 @@ namespace Cars_Market.Core.Services.Contracts
 
         public Task<Seller> GetSellerWithProfile(string sellerEmail);
 
-        public Task RemoveSeller();
-
         public Task<ICollection<Seller>> ListOfSellers();
     }
 }
