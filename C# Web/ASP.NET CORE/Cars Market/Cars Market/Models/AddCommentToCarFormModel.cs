@@ -5,7 +5,8 @@ namespace Cars_Market.Models
 {
     public class AddCommentToCarFormModel
     {
+        [Required]
         [RegularExpression(DataConstants.REGEX_FOR_SPECIAL_SYMBOLS)]
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
     }
 }

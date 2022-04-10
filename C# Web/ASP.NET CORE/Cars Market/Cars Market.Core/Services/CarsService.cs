@@ -2,6 +2,7 @@
 using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -36,6 +37,12 @@ namespace Cars_Market.Core.Services
             }
         }
 
+        public async Task<bool> CheckCarOwner(string carId, string ownerEmail)
+        {
+            var carOwner = await data.Cars.Where(x => x.Id.ToString() == carId).Select(x => x.Seller.Email).FirstOrDefaultAsync();
+
+            return carOwner == ownerEmail;
+        }
         public async Task<Car> GetCarById(string carId)
         {
             return await data.Cars.FirstOrDefaultAsync(x => x.Id.ToString() == carId);
@@ -44,7 +51,7 @@ namespace Cars_Market.Core.Services
 
         public async Task<Car> GetCarByIdWithDetails(string carId)
         {
-            return await data.Cars.Include(x => x.Details).FirstOrDefaultAsync(x => x.Id.ToString() == carId); 
+            return await data.Cars.Include(x => x.Details).FirstOrDefaultAsync(x => x.Id.ToString() == carId);
         }
 
         public async Task ApproveCar(string carId)
@@ -65,31 +72,24 @@ namespace Cars_Market.Core.Services
             return await data.Cars.Where(x => x.Approved == true).Include(x => x.Pictures).ToListAsync();
         }
 
-        public async Task<ICollection<Car>> ShowOrderedCars(string sortByType, string orderByType)
+        public async Task<ICollection<Car>> ShowOrderedCars(string sortByType, string thenByType, string orderByType)
         {
-            ICollection<Car> carsList;
-            if(orderByType == "Ascending")
-            {
-                if (sortByType == "Make")
+            List<Car> carsList = null;
+
+                if (orderByType == "Ascending")
                 {
-                    carsList = await data.Cars.OrderBy(x => x.Make).ToListAsync();
+                    carsList = await data.Cars.Where(x => x.Approved == true).ToListAsync();
+                    carsList = carsList.OrderBy(x => x.GetType().GetProperty(sortByType).GetValue(x))
+                                       .ThenBy(x => x.GetType().GetProperty(thenByType).GetValue(x))
+                                       .ToList();
                 }
                 else
                 {
-                    carsList = await data.Cars.OrderBy(x => x.Money).ToListAsync();
+                    carsList = await data.Cars.Where(x => x.Approved == true).ToListAsync();
+                    carsList = carsList.OrderByDescending(x => x.GetType().GetProperty(sortByType).GetValue(x))
+                                       .ThenBy(x => x.GetType().GetProperty(thenByType).GetValue(x))
+                                       .ToList();
                 }
-            }
-            else
-            {
-                if (sortByType == "Make")
-                {
-                    carsList = await data.Cars.OrderByDescending(x => x.Make).ToListAsync();
-                }
-                else
-                {
-                    carsList = await data.Cars.OrderByDescending(x => x.Money).ToListAsync();
-                }
-            }
 
             return carsList;
         }

@@ -5,6 +5,8 @@
 
         public string SortByType { get; set; }
 
+        public string SortBySecondType { get; set; }
+
         public string OrderByType { get; set; }
     }
 }

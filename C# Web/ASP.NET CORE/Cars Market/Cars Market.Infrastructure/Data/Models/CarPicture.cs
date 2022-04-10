@@ -9,9 +9,11 @@ namespace Cars_Market.Infrastructure.Data.Models
 		[Key]
 		public Guid Id { get; set; } = Guid.NewGuid();
 
-		public byte[] Picture { get; set; }
+		[Required]
+		public byte[]? Picture { get; set; }
 
-		public Car Car { get; set; }
+		[Required]
+		public Car? Car { get; set; }
 
 		[ForeignKey(nameof(Car))]
 		public Guid CarId { get; set; }

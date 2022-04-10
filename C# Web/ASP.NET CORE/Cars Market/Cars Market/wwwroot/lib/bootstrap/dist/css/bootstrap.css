@@ -11217,5 +11217,9 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.dynamic-image {
+    width: auto;
+    height: auto;
+}
 
 /*# sourceMappingURL=bootstrap.css.map */

@@ -19,23 +19,27 @@ namespace Cars_Market.Infrastructure.Data.Models
 
         [Required]
         [StringLength(DataConstants.CAR_MAKE_MAX_LENGHT)]
-        public string Make { get; set; }
+        public string? Make { get; set; }
 
         [Required]
         [StringLength(DataConstants.CAR_MODEL_MAX_LENGHT)]
-        public string Model { get; set; }
+        public string? Model { get; set; }
 
-        public byte[] MainPicture { get; set; }
-        public ICollection<CarPicture> Pictures { get; set; }
+        [Required]
+        public byte[]? MainPicture { get; set; }
 
-		public bool Approved { get; set; } = false;
+        [Required]
+        public ICollection<CarPicture>? Pictures { get; set; }
 
-        public CarDetails Details { get; set; }
+        public bool Approved { get; set; } = false;
+
+        [Required]
+        public CarDetails? Details { get; set; }
 
         [ForeignKey(nameof(Seller))]
 		public Guid SellerId { get; set; }
 
-		public Seller Seller { get; set; }
+		public Seller? Seller { get; set; }
 
         public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 

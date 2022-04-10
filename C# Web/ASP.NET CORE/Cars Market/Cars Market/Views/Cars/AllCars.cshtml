@@ -15,9 +15,19 @@
 									<a class="btn btn-secondary" href="javascript:void(0)" data-shuffle=""> Shuffle items </a>
 									<div class="float-right">
 										<select asp-for="SortByType" class="custom-select" style="width: auto;">
-											<option value="Price"> Sort by Price </option>
+											<option value="Money"> Sort by Price </option>
 											<option value="Make"> Sort by Make </option>
+											<option value="Model"> Sort by Model </option>
+											<option value="Year"> Sort by Year </option>
 										</select>
+
+										<select asp-for="SortBySecondType" class="custom-select" style="width: auto;">
+											<option value="Money"> Then by Price </option>
+											<option value="Make"> Then by Make </option>
+											<option value="Model"> Then by Model </option>
+											<option value="Year"> Then by Year </option>
+										</select>
+
 										<div class="btn-group">
 											<input asp-for="OrderByType" class="btn btn-default" value="Ascending" type="submit"></input>
 											<input asp-for="OrderByType" class="btn btn-default" value="Descending" type="submit"></input>

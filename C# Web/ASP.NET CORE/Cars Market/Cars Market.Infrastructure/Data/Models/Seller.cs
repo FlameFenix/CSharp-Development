@@ -15,7 +15,8 @@ namespace Cars_Market.Infrastructure.Data.Models
 		[StringLength(DataConstants.SELLER_EMAIL_MAX_LENGTH)]
 		public string? Email { get; init; }
 
-        public Profile? Profile { get; set; }
+		[Required]
+		public Profile? Profile { get; set; }
 
         public ICollection<Car> Cars { get; set; } = new HashSet<Car>();
 

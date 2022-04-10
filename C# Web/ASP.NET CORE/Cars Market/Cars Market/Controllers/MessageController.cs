@@ -48,7 +48,7 @@ namespace Cars_Market.Controllers
 
             if (!isDeleted)
             {
-                return RedirectToAction("Inbox");
+                return Redirect("/");
             }
 
             return RedirectToAction("Inbox");

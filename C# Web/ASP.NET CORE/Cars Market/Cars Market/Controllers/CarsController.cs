@@ -97,6 +97,13 @@ namespace Cars_Market.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> Edit(string carId)
         {
+            var isOwner = await carsService.CheckCarOwner(carId, User.Identity.Name);
+            
+            if(isOwner == false)
+            {
+                return Redirect("/");
+            }
+
             var car = await carsService.GetCarByIdWithDetails(carId);
             ViewBag.Car = car;
             ViewBag.Description = car.Details.Description;
@@ -111,16 +118,15 @@ namespace Cars_Market.Controllers
             {
                 var car = await carsService.GetCarByIdWithDetails(carId);
 
-                car.Make = editModel.Make;
-                car.Model = editModel.Model;
-                car.Year = int.Parse(editModel.Year);
-                car.Money = double.Parse(editModel.Money, CultureInfo.InvariantCulture);
-                car.Details.FuelType = editModel.FuelType;
-                car.Details.Description = editModel.Description;
-                car.Details.GearboxType = editModel.GearboxType;
+                    car.Make = editModel.Make;
+                    car.Model = editModel.Model;
+                    car.Year = int.Parse(editModel.Year);
+                    car.Money = double.Parse(editModel.Money, CultureInfo.InvariantCulture);
+                    car.Details.FuelType = editModel.FuelType;
+                    car.Details.Description = editModel.Description;
+                    car.Details.GearboxType = editModel.GearboxType;
 
-                await data.SaveChangesAsync();
-
+                    await data.SaveChangesAsync();
             }
 
             return RedirectToAction("MyCars");
@@ -129,6 +135,13 @@ namespace Cars_Market.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> Delete(string carId)
         {
+            var isOwner = await carsService.CheckCarOwner(carId, User.Identity.Name);
+
+            if (isOwner == false)
+            {
+                return Redirect("/");
+            }
+
             await carsService.RemoveCar(carId);
 
             return RedirectToAction("MyCars");
@@ -155,7 +168,7 @@ namespace Cars_Market.Controllers
         [HttpPost]
         public async Task<IActionResult> AllCars(FilterOptionsFormModel filterOptions)
         {
-            ViewBag.CarsList = await carsService.ShowOrderedCars(filterOptions.SortByType, filterOptions.OrderByType);
+            ViewBag.CarsList = await carsService.ShowOrderedCars(filterOptions.SortByType, filterOptions.SortBySecondType, filterOptions.OrderByType);
 
             return View();
         }

@@ -10,18 +10,21 @@ namespace Cars_Market.Infrastructure.Data.Models
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
 
+        [Required]
         [StringLength(DataConstants.COMMENT_AUTHORNAME_MAX_LENGTH)]
-        public string AuthorName { get; set; }
+        public string? AuthorName { get; set; }
 
+        [Required]
         [MaxLength(DataConstants.COMMENT_PICTURE_SIZE_MAX_LENGHT)]
-        public byte[] AuthorPicture { get; set; }
+        public byte[]? AuthorPicture { get; set; }
 
+        [Required]
         [StringLength(DataConstants.COMMENT_TEXT_MAX_LENGTH)]
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         public Guid CarId { get; set; }
 
         [ForeignKey(nameof(CarId))]
-        public Car Car { get; set; }
+        public Car? Car { get; set; }
     }
 }

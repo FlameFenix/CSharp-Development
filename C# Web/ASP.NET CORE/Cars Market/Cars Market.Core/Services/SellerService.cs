@@ -44,6 +44,11 @@ namespace Cars_Market.Core.Services
             return await data.Sellers.Include(x => x.Profile).FirstOrDefaultAsync(x => x.Email == sellerEmail);
         }
 
+        public async Task<List<Seller>> GetSellers()
+        {
+            return await data.Sellers.Include(x => x.Profile).ToListAsync();
+        }
+
         public async Task<ICollection<Seller>> ListOfSellers()
         {
             return await data.Sellers.ToListAsync();

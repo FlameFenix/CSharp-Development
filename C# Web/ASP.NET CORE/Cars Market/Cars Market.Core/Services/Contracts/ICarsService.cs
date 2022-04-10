@@ -10,6 +10,7 @@ namespace Cars_Market.Core.Services.Contracts
 
         public Task RemoveCar(string carId);
 
+        public Task<bool> CheckCarOwner(string carId, string ownerEmail);
         public Task<Car> GetCarById(string carId);
 
         public Task ApproveCar(string carId);
@@ -19,6 +20,6 @@ namespace Cars_Market.Core.Services.Contracts
 
         public Task<ICollection<Car>> ShowMyCars(string userId);
 
-        public Task<ICollection<Car>> ShowOrderedCars(string sortByType, string orderByType);
+        public Task<ICollection<Car>> ShowOrderedCars(string sortByType, string thenByType, string orderByType);
     }
 }

@@ -26,7 +26,7 @@ namespace Cars_Market.Controllers
             }
             catch (Exception ex)
             {
-                return Redirect($"/Cars/AllCars");
+                return Redirect($"/");
             }
 
             await detailsService.CountCarVisits(carId);

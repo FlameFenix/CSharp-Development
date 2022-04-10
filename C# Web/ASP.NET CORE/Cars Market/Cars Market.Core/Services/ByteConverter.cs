@@ -18,13 +18,6 @@ namespace Cars_Market.Core.Services
             ImageConverter converter = new();
 
             return (byte[]) converter.ConvertTo(newImage, typeof(byte[]));
-
-            //using (var ms = new MemoryStream())
-            //{
-            //    file.CopyTo(ms);
-            //    var fileBytes = ms.ToArray();
-            //    return fileBytes;
-            //}
         }
 
 

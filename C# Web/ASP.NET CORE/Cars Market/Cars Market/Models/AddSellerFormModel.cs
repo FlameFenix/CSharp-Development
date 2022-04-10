@@ -1,15 +1,22 @@
-﻿namespace Cars_Market.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Cars_Market.Models
 {
     public class AddSellerFormModel
     {
-        public string Email { get; set; }
+        [Required]
+        public string? Email { get; set; }
 
-        public string Name { get; set; }
+        [Required]
+        public string? Name { get; set; }
 
-        public string Phone { get; set; }
+        [Required]
+        public string? Phone { get; set; }
 
-        public string Location { get; set; }
+        [Required]
+        public string? Location { get; set; }
 
-        public IFormFile Picture { get; set; }
+        [Required]
+        public IFormFile? Picture { get; set; }
     }
 }

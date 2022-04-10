@@ -77,7 +77,7 @@ namespace Cars_Market.Controllers
 
             if (sellers == null)
             {
-                sellers = await data.Sellers.Include(x => x.Profile).ToListAsync();
+                sellers = await sellerService.GetSellers();
 
                 var cacheOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromMinutes(30));
