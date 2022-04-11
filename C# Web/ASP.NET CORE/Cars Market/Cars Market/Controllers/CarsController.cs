@@ -153,11 +153,25 @@ namespace Cars_Market.Controllers
         {
             var seller = await sellerService.GetSellerByEmail(User.Identity.Name);
 
-            var cars = await carsService.ShowMyCars(seller.Id.ToString());
+            ViewBag.Cars = await carsService.ShowMyCars(seller.Id.ToString());
 
-            return View(cars);
+            return View();
         }
 
+        [Authorize(Roles = "User")]
+        [HttpPost]
+        public async Task<IActionResult> MyCars(FilterOptionsFormModel filterModel)
+        {
+            var seller = await sellerService.GetSellerByEmail(User.Identity.Name);
+
+            ViewBag.Cars = await carsService.ShowMyCarsOrdered(seller.Id.ToString(),
+                                                               filterModel.SortByType,
+                                                               filterModel.SortBySecondType,
+                                                               filterModel.OrderByType);
+            return View();
+        }
+
+        
         public async Task<IActionResult> AllCars()
         {
             ViewBag.CarsList = await carsService.ShowAllCars();
@@ -177,6 +191,15 @@ namespace Cars_Market.Controllers
         public async Task<IActionResult> ModeratorMenu()
         {
             ViewBag.CarsList = await carsService.GetUnaprovedCars();
+
+            return View();
+        }
+
+        [Authorize(Roles = "Moderator")]
+        [HttpPost]
+        public async Task<IActionResult> ModeratorMenu(FilterOptionsFormModel filterOptions)
+        {
+            ViewBag.CarsList = await carsService.GetUnaprovedCarsOrdered(filterOptions.SortByType, filterOptions.SortBySecondType, filterOptions.OrderByType);
 
             return View();
         }

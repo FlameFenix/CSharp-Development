@@ -1,56 +1,66 @@
-﻿@using Cars_Market.Infrastructure.Data.Models
-@model List<Car>
+﻿@model FilterOptionsFormModel
 
 <section class="content">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-12">
-				<div class="card card-secondary">
-					<div class="card-header">
-						<h4 class="card-title">My list of cars for sale</h4>
-					</div>
-					<div class="card-body">
-						<div>
-							<div class="mb-2">
-								<a class="btn btn-secondary" href="javascript:void(0)" data-shuffle=""> Shuffle items </a>
-								<div class="float-right">
-									<select class="custom-select" style="width: auto;" data-sortorder="">
-										<option value="index"> Sort by Position </option>
-										<option value="sortData"> Sort by Custom Data </option>
-									</select>
-									<div class="btn-group">
-										<a class="btn btn-default" href="javascript:void(0)" data-sortasc=""> Ascending </a>
-										<a class="btn btn-default" href="javascript:void(0)" data-sortdesc=""> Descending </a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div>
-							<div class="filter-container p-0 row" style="padding: 3px; position: relative; width: 100%; display: flex; flex-wrap: wrap; height: 515px;">
-								@{
-									foreach (var car in Model)
-									{
-										<div class="col-md-8 col-lg-4 col-xl-2">
-											<div class="card mb-2 bg-gradient-dark">
-												<img class="card-img-top" src="@String.Format($"data:image/png;base64,{Convert.ToBase64String(car.MainPicture)}")" alt="Card image cap" width="250" height="150">
-												<div class="card-body">
-													<p class="btn btn-block btn-outline-light"> @car.Make @car.Model </p>
-													<p class="btn btn-block btn-outline-light"> @car.Money $ </p>
-													 <a asp-controller="Cars" asp-action="Edit" asp-route-carId="@car.Id" type="button" class="btn btn-block bg-gradient-success">Edit</a>
-													 <a asp-controller="Cars" asp-action="Delete" asp-route-carId="@car.Id" type="button" class="btn btn-block bg-gradient-danger">Delete</a>
-													
-												</div>
-											</div>
-										</div>
-									}
-								}
-							</div>
-						</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-secondary">
+                    <div class="card-header">
+                        <h4 class="card-title">My list of cars for sale</h4>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div class="mb-2">
+                                <form method="post">
+                                    <a class="btn btn-secondary" href="javascript:void(0)" data-shuffle=""> Shuffle items </a>
+                                    <div class="float-right">
+                                        <select asp-for="SortByType" class="custom-select" style="width: auto;">
+                                            <option value="Money"> Sort by Price </option>
+                                            <option value="Make"> Sort by Make </option>
+                                            <option value="Model"> Sort by Model </option>
+                                            <option value="Year"> Sort by Year </option>
+                                        </select>
 
-					</div>
-				</div>
-			</div>
-		</div>
-	</div><!-- /.container-fluid -->
+                                        <select asp-for="SortBySecondType" class="custom-select" style="width: auto;">
+                                            <option value="Money"> Then by Price </option>
+                                            <option value="Make"> Then by Make </option>
+                                            <option value="Model"> Then by Model </option>
+                                            <option value="Year"> Then by Year </option>
+                                        </select>
+                                        <div class="btn-group">
+                                            <input asp-for="OrderByType" class="btn btn-secondary ml-1" value="Ascending" type="submit">
+                                            <input asp-for="OrderByType" class="btn btn-secondary ml-1" value="Descending" type="submit">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="filter-container p-0 row" style="padding: 3px; position: relative; width: 100%; display: flex; flex-wrap: wrap; height: 515px;">
+                                @{
+                                    foreach (var car in ViewBag.Cars)
+                                    {
+                                        <div class="col-md-8 col-lg-4 col-xl-2">
+                                            <div class="card mb-2 bg-gradient-dark">
+                                                <img class="card-img-top" src="@String.Format($"data:image/png;base64,{Convert.ToBase64String(car.MainPicture)}")" alt="Card image cap" width="250" height="150">
+                                                <div class="card-body">
+                                                    <p class="btn btn-block btn-outline-light"> @car.Make @car.Model </p>
+                                                    <p class="btn btn-block btn-outline-light"> @car.Money $ </p>
+                                                    <a asp-controller="Cars" asp-action="Edit" asp-route-carId="@car.Id" type="button" class="btn btn-block bg-gradient-success">Edit</a>
+                                                    <a asp-controller="Cars" asp-action="Delete" asp-route-carId="@car.Id" type="button" class="btn btn-block bg-gradient-danger">Delete</a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
 </section>
 

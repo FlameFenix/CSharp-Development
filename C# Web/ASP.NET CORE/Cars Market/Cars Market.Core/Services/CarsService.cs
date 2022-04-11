@@ -67,6 +67,28 @@ namespace Cars_Market.Core.Services
         {
             return await data.Cars.Where(x => x.Approved == false).Include(x => x.Pictures).ToListAsync();
         }
+
+        public async Task<ICollection<Car>> GetUnaprovedCarsOrdered(string sortByType, string thenByType, string orderByType)
+        {
+            List<Car> carsList = null;
+
+            if (orderByType == "Ascending")
+            {
+                carsList = await data.Cars.Where(x => x.Approved == false).ToListAsync();
+                carsList = carsList.OrderBy(x => x.GetType().GetProperty(sortByType).GetValue(x))
+                                   .ThenBy(x => x.GetType().GetProperty(thenByType).GetValue(x))
+                                   .ToList();
+            }
+            else
+            {
+                carsList = await data.Cars.Where(x => x.Approved == false).ToListAsync();
+                carsList = carsList.OrderByDescending(x => x.GetType().GetProperty(sortByType).GetValue(x))
+                                   .ThenBy(x => x.GetType().GetProperty(thenByType).GetValue(x))
+                                   .ToList();
+            }
+
+            return carsList;
+        }
         public async Task<ICollection<Car>> ShowAllCars()
         {
             return await data.Cars.Where(x => x.Approved == true).Include(x => x.Pictures).ToListAsync();
@@ -97,6 +119,28 @@ namespace Cars_Market.Core.Services
         public async Task<ICollection<Car>> ShowMyCars(string userId)
         {
             return await data.Cars.Where(x => x.SellerId.ToString() == userId).ToListAsync();
+        }
+
+        public async Task<ICollection<Car>> ShowMyCarsOrdered(string userId, string sortByType, string thenByType, string orderByType)
+        {
+            List<Car> carsList = null;
+
+            if (orderByType == "Ascending")
+            {
+                carsList = await data.Cars.Where(x => x.SellerId.ToString() == userId).ToListAsync();
+                carsList = carsList.OrderBy(x => x.GetType().GetProperty(sortByType).GetValue(x))
+                                   .ThenBy(x => x.GetType().GetProperty(thenByType).GetValue(x))
+                                   .ToList();
+            }
+            else
+            {
+                carsList = await data.Cars.Where(x => x.SellerId.ToString() == userId).ToListAsync();
+                carsList = carsList.OrderByDescending(x => x.GetType().GetProperty(sortByType).GetValue(x))
+                                   .ThenBy(x => x.GetType().GetProperty(thenByType).GetValue(x))
+                                   .ToList();
+            }
+
+            return carsList;
         }
     }
 }

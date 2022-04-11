@@ -16,9 +16,13 @@ namespace Cars_Market.Core.Services.Contracts
         public Task ApproveCar(string carId);
 
         public Task<ICollection<Car>> GetUnaprovedCars();
+
+        public Task<ICollection<Car>> GetUnaprovedCarsOrdered(string sortByType, string thenByType, string orderByType);
         public Task<ICollection<Car>> ShowAllCars();
 
         public Task<ICollection<Car>> ShowMyCars(string userId);
+
+        public Task<ICollection<Car>> ShowMyCarsOrdered(string userId, string sortByType, string thenByType, string orderByType);
 
         public Task<ICollection<Car>> ShowOrderedCars(string sortByType, string thenByType, string orderByType);
     }
