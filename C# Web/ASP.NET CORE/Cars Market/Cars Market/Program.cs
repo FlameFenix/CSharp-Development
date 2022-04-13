@@ -1,3 +1,4 @@
+using Cars_Market.Hubs;
 using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Seed;
 using Microsoft.AspNetCore.Identity;
@@ -24,6 +25,15 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplicationServices();
 
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+
+builder.Services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,17 +42,18 @@ if (app.Environment.IsDevelopment())
     app.UseMigrationsEndPoint();
 }
 else
-{
+{ 
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+    
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.MapHub<ChatHub>("/Chat");
 // Initialize Administrator account at first start email: "admin@carsmarket.com" password: "admin"
 // Initialize Moderator account at first start email: "moderator@carsmarket.com" password: "moderator"
 // Initialize User account at first start email: "user@carsmarket.com" password: "user"

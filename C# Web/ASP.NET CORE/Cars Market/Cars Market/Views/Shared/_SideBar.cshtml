@@ -22,7 +22,7 @@
 
 			</div>
 			<div class="info">
-				<a href="/Profile/MyProfile" class="d-block">@User.Identity.Name</a>
+				<a href="/Profile/MyProfile" class="d-block" id="email-user-identity">@User.Identity.Name</a>
 			</div>
 		</div>
 	}
@@ -184,6 +184,15 @@
 			</li>
 
 			<li class="nav-item">
+				<a asp-controller="Home" asp-action="Chat" class="nav-link">
+					<i class="nav-icon fas fa-comments"></i>
+					<p>
+						Discussion
+					</p>
+				</a>
+			</li>
+
+			<li class="nav-item">
 				<a asp-controller="Contacts" asp-action="Contacts" class="nav-link">
 					<i class="nav-icon fas fa-at"></i>
 					<p>
@@ -191,5 +200,7 @@
 					</p>
 				</a>
 			</li>
+
+			
 		</ul>
 	</nav>
