@@ -39,6 +39,13 @@ namespace Cars_Market.Controllers
         {
             var message = await messageService.ReadMessage(messageId);
 
+            if(message == null)
+            {
+                ViewBag.ErrorTitle = "An error ocurred while trying to read message";
+                ViewBag.ErrorMessage = "Message doesnt exists / or it was removed";
+                return View("Error");
+            }
+
             return View(message);
         }
 
@@ -48,7 +55,9 @@ namespace Cars_Market.Controllers
 
             if (!isDeleted)
             {
-                return Redirect("/");
+                ViewBag.ErrorTitle = "An error ocurred while trying to delete message";
+                ViewBag.ErrorMessage = "Message doesnt exists / or it was removed";
+                return View("Error");
             }
 
             return RedirectToAction("Inbox");

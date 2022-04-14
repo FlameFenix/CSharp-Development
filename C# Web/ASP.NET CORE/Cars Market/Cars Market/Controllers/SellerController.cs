@@ -42,8 +42,12 @@ namespace Cars_Market.Controllers
 
             if (seller != null)
             {
-                return BadRequest();
+                ViewBag.ErrorTitle = "Error occured while trying to register this user as a seller";
+                ViewBag.ErrorMessage = "Possible causes user is already registered as a seller, if is not please contact with admin@carsmarket.com";
+
+                return View("Error");
             }
+
             seller = new Seller()
             {
                 Email = sellerModel.Email,

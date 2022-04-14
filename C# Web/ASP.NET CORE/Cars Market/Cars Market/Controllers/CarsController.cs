@@ -101,7 +101,9 @@ namespace Cars_Market.Controllers
             
             if(isOwner == false)
             {
-                return Redirect("/");
+                ViewBag.ErrorTitle = "An error ocurred while trying to edit car information";
+                ViewBag.ErrorMessage = "You must be owner of the car in order to edit hers information!";
+                return View("Error");
             }
 
             var car = await carsService.GetCarByIdWithDetails(carId);
@@ -139,7 +141,9 @@ namespace Cars_Market.Controllers
 
             if (isOwner == false)
             {
-                return Redirect("/");
+                ViewBag.ErrorTitle = "An error ocurred while trying to delete car";
+                ViewBag.ErrorMessage = "You must be owner of the car in order to delete it!";
+                return View("Error");
             }
 
             await carsService.RemoveCar(carId);

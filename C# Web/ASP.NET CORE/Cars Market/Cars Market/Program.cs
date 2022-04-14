@@ -12,12 +12,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddAuthentication()
-    .AddFacebook(facebookOptions =>
-    {
-        facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
-        facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
-    });
+//builder.Services.AddAuthentication()
+//    .AddFacebook(facebookOptions =>
+//    {
+//        facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+//        facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+//    });
 
 builder.Services.AddMemoryCache();
 

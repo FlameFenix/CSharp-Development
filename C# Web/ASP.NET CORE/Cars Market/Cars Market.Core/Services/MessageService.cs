@@ -20,9 +20,12 @@ namespace Cars_Market.Core.Services
         {
             var message = await data.Messages.Where(x => x.Id.ToString() == messageId).FirstOrDefaultAsync();
 
-            message.IsRead = true;
+            if(message != null)
+            {
+                message.IsRead = true;
 
-            await data.SaveChangesAsync();
+                await data.SaveChangesAsync();
+            }
 
             return message;
         }

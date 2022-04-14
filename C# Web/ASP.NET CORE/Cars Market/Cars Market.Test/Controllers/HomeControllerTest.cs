@@ -1,12 +1,6 @@
 ﻿using Cars_Market.Controllers;
 using Cars_Market.Test.Mocks;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Cars_Market.Test.Controllers

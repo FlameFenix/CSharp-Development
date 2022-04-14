@@ -8,11 +8,10 @@ namespace Cars_Market.Infrastructure.Data.Seed
     {
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
-
             await AdminAccount.AccountInitializer(serviceProvider);
-
+            
             await ModeratorAccount.AccountInitializer(serviceProvider);
-
+            
             await UserAccount.AccountInitializer(serviceProvider);
         }
 

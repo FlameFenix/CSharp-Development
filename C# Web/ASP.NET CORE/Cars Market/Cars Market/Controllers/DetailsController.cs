@@ -26,7 +26,11 @@ namespace Cars_Market.Controllers
             }
             catch (Exception ex)
             {
-                return Redirect($"/");
+                ViewBag.ErrorTitle = "An error ocurred while trying to see car details";
+                ViewBag.ErrorMessage = "The resource you are looking for (or one of its dependencies) could have been removed," +
+                " had its name changed, or is temporarily unavailable." +
+                " Please review the following URL and make sure that it is spelled correctly.";
+                return View("Error");
             }
 
             await detailsService.CountCarVisits(carId);
@@ -44,7 +48,9 @@ namespace Cars_Market.Controllers
 
             if (string.IsNullOrWhiteSpace(commentModel.Comment))
             {
-                return Redirect($"/Details/Details?carId={carId}");
+                ViewBag.ErrorTitle = "An error ocurred while trying to post comment to car";
+                ViewBag.ErrorMessage = "You are trying to send empty message!";
+                return View("Error");
             }
 
             var commentText = commentModel.Comment;

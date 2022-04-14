@@ -36,6 +36,7 @@ namespace Cars_Market.Controllers
         public async Task<IActionResult> Create(IdentityRole role)
         {
             await roleManager.CreateAsync(role);
+
             return RedirectToAction("Index");
         }
 
@@ -44,8 +45,12 @@ namespace Cars_Market.Controllers
             var role = await roleManager.FindByIdAsync(roleId);
 
             if(role == null)
-            {
-                RedirectToAction("Index");
+            { 
+                ViewBag.ErrorTitle = "Error occured while trying to delete role";
+                ViewBag.ErrorMessage = "The resource you are looking for (or one of its dependencies) could have been removed," +
+                " had its name changed, or is temporarily unavailable." +
+                " Please review the following URL and make sure that it is spelled correctly.";
+            return View("Error");
             }
 
             await roleManager.DeleteAsync(role);

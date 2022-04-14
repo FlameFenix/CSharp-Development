@@ -1,14 +1,16 @@
 ﻿using Cars_Market.Core.Constants;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cars_Market.Infrastructure.Data.Models
 {
     public class Seller
 	{
 		[Key]
-		public Guid Id { get; init; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
 		[Required]
 		[EmailAddress]
