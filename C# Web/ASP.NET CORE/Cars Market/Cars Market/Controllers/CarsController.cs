@@ -116,20 +116,24 @@ namespace Cars_Market.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string carId, EditCarFormModel editModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var car = await carsService.GetCarByIdWithDetails(carId);
-
-                    car.Make = editModel.Make;
-                    car.Model = editModel.Model;
-                    car.Year = int.Parse(editModel.Year);
-                    car.Money = double.Parse(editModel.Money, CultureInfo.InvariantCulture);
-                    car.Details.FuelType = editModel.FuelType;
-                    car.Details.Description = editModel.Description;
-                    car.Details.GearboxType = editModel.GearboxType;
-
-                    await data.SaveChangesAsync();
+                ViewBag.ErrorTitle = "An error ocurred while trying to edit car and details";
+                ViewBag.ErrorMessage = "All fields are required!";
+                return View("Error");
             }
+
+            var car = await carsService.GetCarByIdWithDetails(carId);
+
+            car.Make = editModel.Make;
+            car.Model = editModel.Model;
+            car.Year = int.Parse(editModel.Year);
+            car.Money = double.Parse(editModel.Money, CultureInfo.InvariantCulture);
+            car.Details.FuelType = editModel.FuelType;
+            car.Details.Description = editModel.Description;
+            car.Details.GearboxType = editModel.GearboxType;
+
+            await data.SaveChangesAsync();
 
             return RedirectToAction("MyCars");
         }

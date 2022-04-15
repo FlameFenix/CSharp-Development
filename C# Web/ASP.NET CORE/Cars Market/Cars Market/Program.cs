@@ -12,12 +12,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-//builder.Services.AddAuthentication()
-//    .AddFacebook(facebookOptions =>
-//    {
-//        facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
-//        facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
-//    });
+builder.Services.AddAuthentication()
+    .AddFacebook(facebookOptions =>
+    {
+        facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+        facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+    });
 
 builder.Services.AddMemoryCache();
 
@@ -49,11 +49,13 @@ else
     
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseCookiePolicy();
 app.UseRouting();
 app.MapHub<ChatHub>("/Chat");
+
 // Initialize Administrator account at first start email: "admin@carsmarket.com" password: "admin"
 // Initialize Moderator account at first start email: "moderator@carsmarket.com" password: "moderator"
 // Initialize User account at first start email: "user@carsmarket.com" password: "user"
