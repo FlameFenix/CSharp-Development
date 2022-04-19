@@ -40,5 +40,17 @@ namespace Cars_Market.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [Route("/Home/Error/404")]
+        public IActionResult Error404()
+        {
+            return View();
+        }
+
+        [Route("/Home/Error/500")]
+        public IActionResult Error500()
+        {
+            return View();
+        }
     }
 }
