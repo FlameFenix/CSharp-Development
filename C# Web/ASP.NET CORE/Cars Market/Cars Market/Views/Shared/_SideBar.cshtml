@@ -1,206 +1,227 @@
 ﻿
 <a href="/Cars/AllCars" class="brand-link">
-	<img src="~/img/CarMarketLogo.jpg" alt="CarMarket Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-	<span class="brand-text font-weight-light">Cars Market</span>
+    <img src="~/img/CarMarketLogo.jpg" alt="CarMarket Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <span class="brand-text font-weight-light">Cars Market</span>
 </a>
 
 <div class="sidebar">
-	@if (User.Identity.IsAuthenticated)
-	{
+    @if (User.Identity.IsAuthenticated)
+    {
 
-		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-			<div class="image">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
 
-				@if (User.IsInRole("Seller"))
-				{
+                @if (User.IsInRole("Seller"))
+                {
 
-				}
-				else
-				{
-					<img src="~/img/defaultprofile.jpg" class="img-circle elevation-2" alt="User Image">
-				}
+                }
+                else
+                {
+                    <img src="~/img/defaultprofile.jpg" class="img-circle elevation-2" alt="User Image">
+                }
 
-			</div>
-			<div class="info">
-				<a href="/Profile/MyProfile" class="d-block" id="email-user-identity">@User.Identity.Name</a>
-			</div>
-		</div>
-	}
+            </div>
+            <div class="info">
+                <a href="/Profile/MyProfile" class="d-block" id="email-user-identity">@User.Identity.Name</a>
+            </div>
+        </div>
+    }
 
 
-	<div class="form-inline">
-		<div class="input-group" data-widget="sidebar-search">
-			<input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-			<div class="input-group-append">
-				<button class="btn btn-sidebar">
-					<i class="fas fa-search fa-fw"></i>
-				</button>
-			</div>
-		</div><div class="sidebar-search-results"><div class="list-group"><a href="#" class="list-group-item"><div class="search-title"><strong class="text-light"></strong>N<strong class="text-light"></strong>o<strong class="text-light"></strong> <strong class="text-light"></strong>e<strong class="text-light"></strong>l<strong class="text-light"></strong>e<strong class="text-light"></strong>m<strong class="text-light"></strong>e<strong class="text-light"></strong>n<strong class="text-light"></strong>t<strong class="text-light"></strong> <strong class="text-light"></strong>f<strong class="text-light"></strong>o<strong class="text-light"></strong>u<strong class="text-light"></strong>n<strong class="text-light"></strong>d<strong class="text-light"></strong>!<strong class="text-light"></strong></div><div class="search-path"></div></a></div></div>
-	</div>
+    <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+                <button class="btn btn-sidebar">
+                    <i class="fas fa-search fa-fw"></i>
+                </button>
+            </div>
+        </div><div class="sidebar-search-results"><div class="list-group"><a href="#" class="list-group-item"><div class="search-title"><strong class="text-light"></strong>N<strong class="text-light"></strong>o<strong class="text-light"></strong> <strong class="text-light"></strong>e<strong class="text-light"></strong>l<strong class="text-light"></strong>e<strong class="text-light"></strong>m<strong class="text-light"></strong>e<strong class="text-light"></strong>n<strong class="text-light"></strong>t<strong class="text-light"></strong> <strong class="text-light"></strong>f<strong class="text-light"></strong>o<strong class="text-light"></strong>u<strong class="text-light"></strong>n<strong class="text-light"></strong>d<strong class="text-light"></strong>!<strong class="text-light"></strong></div><div class="search-path"></div></a></div></div>
+    </div>
 
-	<nav class="mt-2">
-		<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-			<li class="nav-item">
-				<a href="/" class="nav-link">
-					<i class="nav-icon fas fa-home"></i>
-					<p>
-						Home
-					</p>
-				</a>
-			</li>
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+                <a href="/" class="nav-link">
+                    <i class="nav-icon fas fa-home"></i>
+                    <p>
+                        Home
+                    </p>
+                </a>
+            </li>
 
-			@if (User.IsInRole("Administrator"))
-			{
-				<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="nav-icon fas fa-user-lock"></i>
-						<p>
-							Administration
-							<i class="fas fa-angle-left right"></i>
-						</p>
-					</a>
-					<ul class="nav nav-treeview" style="display: none;">
-						<li class="nav-item">
-							<a asp-controller="Role" asp-action="Index" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>
-									List of roles
-								</p>
-							</a>
-						</li>
+            @if (User.IsInRole("Administrator"))
+            {
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user-lock"></i>
+                        <p>
+                            Administration
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a asp-area="Administration" asp-controller="Role" asp-action="Index" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    List of roles
+                                </p>
+                            </a>
+                        </li>
 
-						<li class="nav-item">
-							<a asp-controller="Role" asp-action="Create" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>Create role</p>
-							</a>
-						</li>
+                        <li class="nav-item">
+                            <a asp-area="Administration" asp-controller="Role" asp-action="Create" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create role</p>
+                            </a>
+                        </li>
 
-						<li class="nav-item">
-							<a asp-controller="Role" asp-action="AddRoleToUser" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>Add user in role</p>
-							</a>
-						</li>
+                        <li class="nav-item">
+                            <a asp-area="Administration" asp-controller="Role" asp-action="AddRoleToUser" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add user in role</p>
+                            </a>
+                        </li>
 
-					</ul>
-				</li>
-			}
+                        <li class="nav-item">
+                            <a asp-area="Administration" asp-controller="Cars" asp-action="AllCars" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Check cars list</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
 
-			<li class="nav-item">
-				<a href="#" class="nav-link">
-					<i class="nav-icon fas fa-users"></i>
-					<p>
-						Sellers Menu
-						<i class="fas fa-angle-left right"></i>
-					</p>
-				</a>
-				<ul class="nav nav-treeview" style="display: none;">
-					<li class="nav-item">
-						<a asp-controller="Seller" asp-action="AddSeller" class="nav-link">
-							<i class="far fa-circle nav-icon"></i>
-							<p>
-								Become a seller
-								<span class="right badge badge-danger"> Required </span>
-							</p>
-						</a>
-					</li>
+            @if (User.IsInRole("Moderator"))
+            {
 
-					<li class="nav-item">
-						<a asp-controller="Seller" asp-action="AllSellers" class="nav-link">
-							<i class="far fa-circle nav-icon"></i>
-							<p>List of Sellers</p>
-						</a>
-					</li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user-lock"></i>
+                        <p>
+                            Moderators Menu
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a asp-area="Moderator" asp-controller="Cars" asp-action="ModeratorMenu" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Approve Cars</p>
+                                <span class="right badge badge-danger"> Moderator </span>
+                            </a>
+                        </li>
 
-				</ul>
-			</li>
+                    </ul>
+                </li>
+            }
 
-			<li class="nav-item">
-				<a href="#" class="nav-link">
-					<i class="nav-icon fas fa-car"></i>
-					<p>
-						Cars Menu
-						<i class="fas fa-angle-left right"></i>
-					</p>
-				</a>
-				<ul class="nav nav-treeview" style="display: none;">
-					<li class="nav-item">
-						<a asp-controller="Cars" asp-action="AddCar" class="nav-link">
-							<i class="far fa-circle nav-icon"></i>
-							<p>Add Car</p>
-						</a>
-					</li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Sellers Menu
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                        <a asp-controller="Seller" asp-action="AddSeller" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>
+                                Become a seller
+                                <span class="right badge badge-danger"> Required </span>
+                            </p>
+                        </a>
+                    </li>
 
-					<li class="nav-item">
-						<a asp-controller="Cars" asp-action="MyCars" class="nav-link">
-							<i class="far fa-circle nav-icon"></i>
-							<p>My Cars</p>
-						</a>
-					</li>
+                    <li class="nav-item">
+                        <a asp-controller="Seller" asp-action="AllSellers" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>List of Sellers</p>
+                        </a>
+                    </li>
 
-					<li class="nav-item">
-						<a asp-controller="Cars" asp-action="AllCars" class="nav-link">
-							<i class="far fa-circle nav-icon"></i>
-							<p>All Cars</p>
-						</a>
-					</li>
+                </ul>
+            </li>
 
-					
-					<li class="nav-item">
-						<a asp-controller="Cars" asp-action="ModeratorMenu" class="nav-link">
-							<i class="far fa-circle nav-icon"></i>
-							<p>Approve Cars</p>
-							<span class="right badge badge-danger"> Moderator </span>
-						</a>
-					</li>
-				</ul>
-			</li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-car"></i>
+                    <p>
+                        Cars Menu
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                        <a asp-controller="Cars" asp-action="AddCar" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Add Car</p>
+                        </a>
+                    </li>
 
-			<li class="nav-item">
-				<a href="#" class="nav-link">
-					<i class="nav-icon fas fa-envelope"></i>
-					<p>
-						Messages
-						<i class="fas fa-angle-left right"></i>
-					</p>
-				</a>
-				<ul class="nav nav-treeview" style="display: none;">
-					<li class="nav-item">
-						<a asp-controller="Message" asp-action="Inbox" class="nav-link">
-							<i class="far fa-circle nav-icon"></i>
-							<p>Inbox</p>
-						</a>
-					</li>
+                    <li class="nav-item">
+                        <a asp-controller="Cars" asp-action="MyCars" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>My Cars</p>
+                        </a>
+                    </li>
 
-					<li class="nav-item">
-						<a asp-controller="Message" asp-action="Send" class="nav-link">
-							<i class="far fa-circle nav-icon"></i>
-							<p>Send Message</p>
-						</a>
-					</li>
-				</ul>
-			</li>
+                    <li class="nav-item">
+                        <a asp-controller="Cars" asp-action="AllCars" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>All Cars</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-			<li class="nav-item">
-				<a asp-controller="Home" asp-action="Chat" class="nav-link">
-					<i class="nav-icon fas fa-comments"></i>
-					<p>
-						Discussion
-					</p>
-				</a>
-			</li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-envelope"></i>
+                    <p>
+                        Messages
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                        <a asp-controller="Message" asp-action="Inbox" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Inbox</p>
+                        </a>
+                    </li>
 
-			<li class="nav-item">
-				<a asp-controller="Contacts" asp-action="Contacts" class="nav-link">
-					<i class="nav-icon fas fa-at"></i>
-					<p>
-						Contacts us
-					</p>
-				</a>
-			</li>
+                    <li class="nav-item">
+                        <a asp-controller="Message" asp-action="Send" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Send Message</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-			
-		</ul>
-	</nav>
+            <li class="nav-item">
+                <a asp-controller="Home" asp-action="Chat" class="nav-link">
+                    <i class="nav-icon fas fa-comments"></i>
+                    <p>
+                        Discussion
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a asp-controller="Contacts" asp-action="Contacts" class="nav-link">
+                    <i class="nav-icon fas fa-at"></i>
+                    <p>
+                        Contacts us
+                    </p>
+                </a>
+            </li>
+
+
+        </ul>
+    </nav>

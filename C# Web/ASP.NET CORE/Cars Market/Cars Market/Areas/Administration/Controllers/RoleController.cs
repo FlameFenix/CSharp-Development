@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace Cars_Market.Controllers
+namespace Cars_Market.Areas.Administration.Controllers
 {
     [Authorize(Roles = "Administrator")]
-    public class RoleController : Controller
+    public class RoleController : AdministrationController
     {
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<IdentityUser> userManager;

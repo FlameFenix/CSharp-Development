@@ -5,7 +5,6 @@ using Cars_Market.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
-using System.Threading.Tasks;
 
 namespace Cars_Market.Controllers
 {
@@ -193,32 +192,6 @@ namespace Cars_Market.Controllers
             ViewBag.CarsList = await carsService.ShowOrderedCars(filterOptions.SortByType, filterOptions.SortBySecondType, filterOptions.OrderByType);
 
             return View();
-        }
-
-        [Authorize(Roles = "Moderator")]
-        public async Task<IActionResult> ModeratorMenu()
-        {
-            ViewBag.CarsList = await carsService.GetUnaprovedCars();
-
-            return View();
-        }
-
-        [Authorize(Roles = "Moderator")]
-        [HttpPost]
-        public async Task<IActionResult> ModeratorMenu(FilterOptionsFormModel filterOptions)
-        {
-            ViewBag.CarsList = await carsService.GetUnaprovedCarsOrdered(filterOptions.SortByType, filterOptions.SortBySecondType, filterOptions.OrderByType);
-
-            return View();
-        }
-
-
-        [Authorize(Roles = "Moderator")]
-        public async Task<IActionResult> ApproveCar(string carId)
-        {
-            await carsService.ApproveCar(carId);
-
-            return RedirectToAction("ModeratorMenu");
         }
 
     }
