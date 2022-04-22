@@ -1,4 +1,6 @@
-﻿using Cars_Market.Core.Services;
+﻿using AutoMapper;
+using Cars_Market.Core.Services;
+using Cars_Market.Extensions;
 using Cars_Market.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +19,23 @@ namespace Microsoft.Extensions.DependencyInjection
                     .AddTransient(typeof(CarsService))
                     .AddTransient(typeof(SellerService));
 
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+
+            services.AddSingleton(mapper);
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+            services.AddSignalR();
 
             return services;
         }

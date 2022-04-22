@@ -3,9 +3,7 @@ using Cars_Market.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Cars_Market.Controllers
 {
@@ -15,8 +13,7 @@ namespace Cars_Market.Controllers
         private readonly ApplicationDbContext data;
 
         public HomeController(ILogger<HomeController> logger, 
-            ApplicationDbContext _data,
-            IMemoryCache _memoryCache)
+            ApplicationDbContext _data)
         {
             _logger = logger;
             data = _data;
@@ -25,7 +22,7 @@ namespace Cars_Market.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.FirstCar = await data.Cars.OrderByDescending(x => x.Details.Visits).Take(1).Include(x => x.Pictures).FirstOrDefaultAsync();
-
+            
             ViewBag.LeftCars = await data.Cars.OrderByDescending(x => x.Details.Visits).Skip(1).Take(2).ToListAsync();
 
             return View();

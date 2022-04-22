@@ -1,4 +1,5 @@
-﻿using Cars_Market.Core.Services;
+﻿using AutoMapper;
+using Cars_Market.Core.Services;
 using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
@@ -14,16 +15,18 @@ namespace Cars_Market.Controllers
         private readonly SellerService sellerService;
         private readonly ApplicationDbContext data;
         private readonly ByteConverter converter;
+        private readonly IMapper mapper;
         public CarsController(
             ApplicationDbContext _data,
             ByteConverter _converter,
             CarsService _carsService,
-            SellerService _sellerService)
+            SellerService _sellerService, IMapper _mapper)
         {
             data = _data;
             converter = _converter;
             carsService = _carsService;
             sellerService = _sellerService;
+            mapper = _mapper;
         }
 
         [Authorize(Roles = "User")]
@@ -45,16 +48,7 @@ namespace Cars_Market.Controllers
                 return View(carModel);
             }
 
-            var carDetails = new CarDetails()
-            {
-                Color = carModel.Color,
-                Description = carModel.Description,
-                GearboxType = carModel.GearboxType,
-                FuelType = carModel.FuelType,
-                Visits = 0,
-                IsSold = false
-            };
-
+            var carDetails = mapper.Map<AddCarFormModel, CarDetails>(carModel);
 
             var car = new Car()
             {
@@ -189,7 +183,9 @@ namespace Cars_Market.Controllers
         [HttpPost]
         public async Task<IActionResult> AllCars(FilterOptionsFormModel filterOptions)
         {
-            ViewBag.CarsList = await carsService.ShowOrderedCars(filterOptions.SortByType, filterOptions.SortBySecondType, filterOptions.OrderByType);
+            ViewBag.CarsList = await carsService.ShowOrderedCars(filterOptions.SortByType,
+                                                                 filterOptions.SortBySecondType,
+                                                                 filterOptions.OrderByType);
 
             return View();
         }

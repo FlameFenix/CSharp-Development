@@ -2,6 +2,7 @@ using Cars_Market.Hubs;
 using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Seed;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,19 +21,10 @@ builder.Services.AddAuthentication()
     });
 
 builder.Services.AddMemoryCache();
-
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(
+    options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
 builder.Services.AddApplicationServices();
-
-builder.Services.Configure<CookiePolicyOptions>(options =>
-{
-    options.CheckConsentNeeded = context => true;
-    options.MinimumSameSitePolicy = SameSiteMode.None;
-});
-
-builder.Services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
-builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -68,18 +60,11 @@ await Dataset.Initialize(app.Services);
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute("Areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
     endpoints.MapDefaultControllerRoute();
     endpoints.MapRazorPages();
 });
-
-//app.MapRazorPages();
 
 app.Run();

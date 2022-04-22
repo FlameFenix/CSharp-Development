@@ -1,0 +1,64 @@
+﻿<div class="card card-secondary">
+    <div class="card-header d-flex justify-content-center">
+        <h4 class="card-title">Lookin for car.. you can choose your criteria</h4>
+    </div>
+    <div class="card-body">
+        <div>
+            <div class="mb-2">
+                <button class="btn btn-secondary" id="btn-random">click me</button>
+            </div>
+        </div>
+        <div id="cars-gallery" class="filter-container p-0 row">
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    let btn = document.getElementById('btn-random');
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        let div = document.getElementById('cars-gallery');
+        div.textContent = '';
+        
+
+        $.get('/api/cars/get', (data) => {
+
+            for (const element of data) {
+              let newDiv = document.createElement('div');
+              newDiv.classList.add('col-lg-4');
+              newDiv.classList.add('col-md-12');
+              newDiv.classList.add('mb-4');
+              newDiv.classList.add('mb-lg-0');
+              let divCarElement = document.createElement('div');
+              divCarElement.classList.add('row');
+              
+              let imageElement = document.createElement('img');
+              imageElement.classList.add('w-100');
+              imageElement.classList.add('shadow-1-strong');
+              imageElement.classList.add('rounded');
+              imageElement.classList.add('mb-4');
+              imageElement.src = "data:image/jpeg;base64," + element.mainPicture;
+              imageElement.href = "/Cars/" + element.id;
+              
+              let carElement = document.createElement('div');
+              carElement.classList.add('col');
+              let infoElement = document.createElement('p');
+              infoElement.textContent = element.make + " " + element.model;
+              carElement.appendChild(infoElement);
+              
+              divCarElement.appendChild(imageElement);
+              divCarElement.appendChild(carElement);
+              
+              newDiv.appendChild(divCarElement);
+              
+              div.appendChild(newDiv);
+
+              console.log(element);
+            }
+        })
+
+    })
+</script>
+}
