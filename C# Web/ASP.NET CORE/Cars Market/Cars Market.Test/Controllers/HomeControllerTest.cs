@@ -1,45 +1,45 @@
-﻿//using Cars_Market.Controllers;
-//using Cars_Market.Test.Mocks;
-//using Microsoft.AspNetCore.Mvc;
-//using Xunit;
+﻿using Cars_Market.Controllers;
+using Cars_Market.Test.Mocks;
+using Microsoft.AspNetCore.Mvc;
+using Xunit;
 
-//namespace Cars_Market.Test.Controllers
-//{
-//    public  class HomeControllerTest
-//    {
-//        [Fact]
-//        public void IndexShouldReturnView()
-//        {
-//            using var data = CarsMarketDbContextMock.Instance;
-//            //Arange 
-//            var homeController = new HomeController(null, data, null);
+namespace Cars_Market.Test.Controllers
+{
+    public class HomeControllerTest
+    {
+        [Fact]
+        public void IndexShouldReturnView()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+            //Arange 
+            var homeController = new HomeController(null, data);
 
-//            //Assert
+            //Assert
 
-//            var result = homeController.Index().GetAwaiter().GetResult();
+            var result = homeController.Index().GetAwaiter().GetResult();
 
-//            //Act
+            //Act
 
-//            Assert.NotNull(result);
-//            Assert.IsType<ViewResult>(result);
-//        }
+            Assert.NotNull(result);
+            Assert.IsType<ViewResult>(result);
+        }
 
-//        [Fact]
-//        public void PrivacyShouldReturnView()
-//        {
-//            //Arange 
-//            var homeController = new HomeController(null, null, null);
+        [Fact]
+        public void PrivacyShouldReturnView()
+        {
+            //Arange 
+            var homeController = new HomeController(null, null);
 
-//            //Assert
+            //Assert
 
-//            var result = homeController.Privacy();
+            var result = homeController.Privacy();
 
-//            //Act
+            //Act
 
-//            Assert.NotNull(result);
-//            Assert.IsType<ViewResult>(result);
-//        }
+            Assert.NotNull(result);
+            Assert.IsType<ViewResult>(result);
+        }
 
 
-//    }
-//}
+    }
+}
