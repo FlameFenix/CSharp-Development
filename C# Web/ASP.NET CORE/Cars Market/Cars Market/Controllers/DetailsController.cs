@@ -1,4 +1,5 @@
 ﻿using Cars_Market.Core.Services;
+using Cars_Market.Infrastructure.Constants;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -26,10 +27,8 @@ namespace Cars_Market.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorTitle = "An error ocurred while trying to see car details";
-                ViewBag.ErrorMessage = "The resource you are looking for (or one of its dependencies) could have been removed," +
-                " had its name changed, or is temporarily unavailable." +
-                " Please review the following URL and make sure that it is spelled correctly.";
+                ViewBag.ErrorTitle = ErrorConstants.SHOW_DETAILS_ERROR_TITLE;
+                ViewBag.ErrorMessage = ErrorConstants.SHOW_DETAILS_ERROR_MESSAGE;
                 return View("Error");
             }
 
@@ -48,8 +47,8 @@ namespace Cars_Market.Controllers
 
             if (string.IsNullOrWhiteSpace(commentModel.Comment))
             {
-                ViewBag.ErrorTitle = "An error ocurred while trying to post comment to car";
-                ViewBag.ErrorMessage = "You are trying to send empty message!";
+                ViewBag.ErrorTitle = ErrorConstants.COMMENT_CAR_WITH_NULL_ERROR_TITLE;
+                ViewBag.ErrorMessage = ErrorConstants.COMMENT_CAR_WITH_NULL_ERROR_MESSAGE;
                 return View("Error");
             }
 

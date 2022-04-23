@@ -1,6 +1,7 @@
 ﻿using Cars_Market.Core.Services.Contracts;
 using Cars_Market.Infrastructure.Data;
 using Cars_Market.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cars_Market.Core.Services
@@ -8,9 +9,11 @@ namespace Cars_Market.Core.Services
     public class CarsService : ICarsService
     {
         private readonly ApplicationDbContext data;
-        public CarsService(ApplicationDbContext _data)
+        private readonly ByteConverter converter;
+        public CarsService(ApplicationDbContext _data, ByteConverter _converter)
         {
             data = _data;
+            converter = _converter;
         }
 
         public async Task AddCar(Car car)
@@ -32,6 +35,22 @@ namespace Cars_Market.Core.Services
                 await data.SaveChangesAsync();
 
             }
+        }
+
+        public async Task UpdateCar(string carId, Car carInfo, CarDetails detailsInfo)
+        {
+            var car = await GetCarByIdWithDetails(carId);
+
+            car.Make = carInfo.Make;
+            car.Model = carInfo.Model;
+            car.Year = carInfo.Year;
+            car.Money = carInfo.Money;
+            car.Details.FuelType = detailsInfo.FuelType;
+            car.Details.Description = detailsInfo.Description;
+            car.Details.GearboxType = detailsInfo.GearboxType;
+
+            await data.SaveChangesAsync();
+
         }
 
         public async Task<bool> CheckCarOwner(string carId, string ownerEmail)
@@ -64,6 +83,30 @@ namespace Cars_Market.Core.Services
         {
             return await data.Cars.Where(x => x.Approved == false).Include(x => x.Pictures).ToListAsync();
         }
+
+        public List<CarPicture> GetCarPictures(ICollection<IFormFile> images, Guid carId)
+        {
+            var pictures = new List<CarPicture>();
+
+            foreach (var picture in images)
+            {
+                var carPicture = new CarPicture()
+                {
+                    CarId = carId,
+                    Picture = converter.ConvertToByteArray(picture)
+                };
+
+                pictures.Add(carPicture);
+            }
+
+            return pictures;
+        }
+
+        public byte[] GetMainPicture(IFormFile image)
+        {
+            return converter.ConvertToByteArray(image);
+        }
+        
 
         public async Task<ICollection<Car>> GetUnaprovedCarsOrdered(string sortByType, string thenByType, string orderByType)
         {

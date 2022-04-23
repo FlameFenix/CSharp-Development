@@ -17,6 +17,6 @@ namespace Cars_Market.Models
         public string? Location { get; set; }
 
         [Required]
-        public IFormFile? Picture { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }

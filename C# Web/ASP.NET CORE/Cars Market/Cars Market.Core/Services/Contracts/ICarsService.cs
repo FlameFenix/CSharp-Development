@@ -10,6 +10,7 @@ namespace Cars_Market.Core.Services.Contracts
 
         public Task RemoveCar(string carId);
 
+        public Task UpdateCar(string carId, Car carInfo, CarDetails detailsInfo);
         public Task<bool> CheckCarOwner(string carId, string ownerEmail);
         public Task<Car> GetCarById(string carId);
 

@@ -1,29 +1,24 @@
 ﻿using Cars_Market.Core.Services;
-using Cars_Market.Infrastructure.Data;
-using Cars_Market.Infrastructure.Data.Models;
+using Cars_Market.Infrastructure.Constants;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Cars_Market.Controllers
 {
+    [Authorize]
     public class MessageController : Controller
     {
-        private readonly ApplicationDbContext data;
         private readonly MessageService messageService;
         private readonly SellerService sellerService;
-        public MessageController(ApplicationDbContext _data,
-            SellerService _sellerService,
+        public MessageController(SellerService _sellerService,
             MessageService _messageService)
         {
-            data = _data;
             sellerService = _sellerService; 
             messageService = _messageService;
         }
 
-        [Authorize]
+        
         public async Task<IActionResult> Inbox()
         {
             var currentUser = await sellerService.GetSellerWithMessages(User.Identity.Name);
@@ -41,8 +36,8 @@ namespace Cars_Market.Controllers
 
             if(message == null)
             {
-                ViewBag.ErrorTitle = "An error ocurred while trying to read message";
-                ViewBag.ErrorMessage = "Message doesnt exists / or it was removed";
+                ViewBag.ErrorTitle = ErrorConstants.READ_MESSAGE_ERROR_TITLE;
+                ViewBag.ErrorMessage = ErrorConstants.DELETE_OR_READ_MESSAGE_ERROR_MESSAGE;
                 return View("Error");
             }
 
@@ -55,18 +50,16 @@ namespace Cars_Market.Controllers
 
             if (!isDeleted)
             {
-                ViewBag.ErrorTitle = "An error ocurred while trying to delete message";
-                ViewBag.ErrorMessage = "Message doesnt exists / or it was removed";
+                ViewBag.ErrorTitle = ErrorConstants.DELETE_MESSAGE_ERROR_TITLE;
+                ViewBag.ErrorMessage = ErrorConstants.DELETE_OR_READ_MESSAGE_ERROR_MESSAGE;
                 return View("Error");
             }
 
             return RedirectToAction("Inbox");
         }
 
-        [Authorize]
         public IActionResult Send() => View();
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Send(SendMessageFormView messageModel)
         {

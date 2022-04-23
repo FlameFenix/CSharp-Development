@@ -2,7 +2,6 @@
 using Cars_Market.Core.Services;
 using Cars_Market.Extensions;
 using Cars_Market.Infrastructure.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.DependencyInjection

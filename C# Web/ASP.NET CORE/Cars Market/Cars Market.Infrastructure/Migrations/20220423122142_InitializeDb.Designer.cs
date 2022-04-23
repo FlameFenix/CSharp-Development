@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Cars_Market.Data.Migrations
+namespace Cars_Market.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220403112830_CarEntityUpdate")]
-    partial class CarEntityUpdate
+    [Migration("20220423122142_InitializeDb")]
+    partial class InitializeDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,6 +33,10 @@ namespace Cars_Market.Data.Migrations
                     b.Property<bool>("Approved")
                         .HasColumnType("bit");
 
+                    b.Property<byte[]>("MainPicture")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Make")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -45,11 +49,6 @@ namespace Cars_Market.Data.Migrations
 
                     b.Property<double>("Money")
                         .HasColumnType("float");
-
-                    b.Property<byte[]>("Picture")
-                        .IsRequired()
-                        .HasMaxLength(2048000)
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<Guid>("SellerId")
                         .HasColumnType("uniqueidentifier");
@@ -105,6 +104,26 @@ namespace Cars_Market.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("CarDetails");
+                });
+
+            modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.CarPicture", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("Picture")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("CarPictures");
                 });
 
             modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.Comment", b =>
@@ -203,7 +222,13 @@ namespace Cars_Market.Data.Migrations
                         .HasMaxLength(2048000)
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<Guid>("SellerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SellerId")
+                        .IsUnique();
 
                     b.ToTable("Profiles");
                 });
@@ -219,12 +244,7 @@ namespace Cars_Market.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<Guid>("ProfileId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProfileId");
 
                     b.ToTable("Sellers");
                 });
@@ -453,6 +473,17 @@ namespace Cars_Market.Data.Migrations
                     b.Navigation("Car");
                 });
 
+            modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.CarPicture", b =>
+                {
+                    b.HasOne("Cars_Market.Infrastructure.Data.Models.Car", "Car")
+                        .WithMany("Pictures")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
             modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.Comment", b =>
                 {
                     b.HasOne("Cars_Market.Infrastructure.Data.Models.Car", "Car")
@@ -473,15 +504,15 @@ namespace Cars_Market.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.Seller", b =>
+            modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.Profile", b =>
                 {
-                    b.HasOne("Cars_Market.Infrastructure.Data.Models.Profile", "Profile")
-                        .WithMany()
-                        .HasForeignKey("ProfileId")
+                    b.HasOne("Cars_Market.Infrastructure.Data.Models.Seller", "Seller")
+                        .WithOne("Profile")
+                        .HasForeignKey("Cars_Market.Infrastructure.Data.Models.Profile", "SellerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Profile");
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -541,6 +572,8 @@ namespace Cars_Market.Data.Migrations
 
                     b.Navigation("Details")
                         .IsRequired();
+
+                    b.Navigation("Pictures");
                 });
 
             modelBuilder.Entity("Cars_Market.Infrastructure.Data.Models.Seller", b =>
@@ -548,6 +581,9 @@ namespace Cars_Market.Data.Migrations
                     b.Navigation("Cars");
 
                     b.Navigation("Messages");
+
+                    b.Navigation("Profile")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

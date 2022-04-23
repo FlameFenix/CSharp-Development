@@ -1,35 +1,34 @@
-﻿using Cars_Market.Core.Services;
-using Cars_Market.Infrastructure.Data;
+﻿using AutoMapper;
+using Cars_Market.Core.Services;
+using Cars_Market.Infrastructure.Constants;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using System.Threading.Tasks;
 
 namespace Cars_Market.Controllers
 {
     public class SellerController : Controller
     {
-
-        private readonly ApplicationDbContext data;
         private readonly ByteConverter converter;
         private readonly SellerService sellerService;
         private readonly UserManager<IdentityUser> userManager;
         private readonly IMemoryCache memoryCache;
-        public SellerController(ApplicationDbContext _data,
-            ByteConverter _converter,
+        private readonly IMapper mapper;
+        public SellerController(ByteConverter _converter,
             SellerService _sellerService,
             IMemoryCache _memoryCache,
-            UserManager<IdentityUser> _userManager)
+
+            UserManager<IdentityUser> _userManager,
+            IMapper _mapper)
         {
-            data = _data;
             converter = _converter;
             sellerService = _sellerService;
             userManager = _userManager;
             memoryCache = _memoryCache;
+            mapper = _mapper;
         }
 
         [Authorize]
@@ -42,27 +41,19 @@ namespace Cars_Market.Controllers
 
             if (seller != null)
             {
-                ViewBag.ErrorTitle = "Error occured while trying to register this user as a seller";
-                ViewBag.ErrorMessage = "Possible causes user is already registered as a seller, if is not please contact with admin@carsmarket.com";
+                ViewBag.ErrorTitle = ErrorConstants.ERROR_TITLE_WHILE_CREATE_SELLER;
+                ViewBag.ErrorMessage = ErrorConstants.ERROR_MESSAGE_WHILE_CREATE_SELLER;
 
                 return View("Error");
             }
 
-            seller = new Seller()
-            {
-                Email = sellerModel.Email,
-            };
+            seller = mapper.Map<AddSellerFormModel, Seller>(sellerModel);
 
-            var sellerProfile = new Profile()
-            {
-                Location = sellerModel.Location,
-                Name = sellerModel.Name,
-                Phone = sellerModel.Phone,
-                Picture = converter.ConvertToByteArray(sellerModel.Picture),
-                SellerId = seller.Id
-            };
+            var profile = mapper.Map<AddSellerFormModel, Infrastructure.Data.Models.Profile>(sellerModel);
+            profile.Picture = converter.ConvertToByteArray(sellerModel.Image);
+            profile.Seller = seller;
 
-            seller.Profile = sellerProfile;
+            seller.Profile = profile;
 
             await sellerService.AddSeller(seller);
 

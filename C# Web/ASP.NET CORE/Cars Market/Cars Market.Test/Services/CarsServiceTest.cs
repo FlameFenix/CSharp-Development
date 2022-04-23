@@ -8,11 +8,17 @@ namespace Cars_Market.Test.Services
 {
     public class CarsServiceTest
     {
+        private readonly ByteConverter converter;
+        public CarsServiceTest()
+        {
+            converter = new ByteConverter();
+        }
+
         [Fact]
         public void ShouldReturnTwoCarsWithShowAllCarsMethodBecauseTheyAreApproved()
         {
             using var data = CarsMarketDbContextMock.Instance;
-
+            
             data.Cars.Add(new Car()
             {
                 Make = "Audi",
@@ -32,7 +38,7 @@ namespace Cars_Market.Test.Services
 
             data.SaveChanges();
 
-            var carsService = new CarsService(data);
+            var carsService = new CarsService(data, converter);
 
             var car = data.Cars.FirstOrDefault(x => x.Make == "BMW");
 
@@ -65,7 +71,7 @@ namespace Cars_Market.Test.Services
 
             data.SaveChanges();
 
-            var carsService = new CarsService(data);
+            var carsService = new CarsService(data, converter);
 
             var car = data.Cars.FirstOrDefault(x => x.Make == "BMW");
 
@@ -107,7 +113,7 @@ namespace Cars_Market.Test.Services
 
             data.SaveChanges();
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             var carAudi = data.Cars.FirstOrDefault(x => x.Make == "Audi");
 
@@ -121,7 +127,7 @@ namespace Cars_Market.Test.Services
         {
             using var data = CarsMarketDbContextMock.Instance;
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             Assert.ThrowsAsync<ArgumentNullException>(() => service.GetCarById(Guid.NewGuid().ToString()));
         }
@@ -159,7 +165,7 @@ namespace Cars_Market.Test.Services
 
             data.SaveChanges();
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             var carAudi = data.Cars.FirstOrDefault(x => x.Make == "Audi");
 
@@ -173,7 +179,7 @@ namespace Cars_Market.Test.Services
         {
             using var data = CarsMarketDbContextMock.Instance;
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             var fakeCar = Mock.Of<Car>();
 
@@ -185,7 +191,7 @@ namespace Cars_Market.Test.Services
         {
             using var data = CarsMarketDbContextMock.Instance;
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             service.AddCar(new Car() { Make = "Audi", Model = "A6", MainPicture = new byte[] { } }).GetAwaiter().GetResult();
 
@@ -200,7 +206,7 @@ namespace Cars_Market.Test.Services
         {
             using var data = CarsMarketDbContextMock.Instance;
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             Assert.ThrowsAsync<ArgumentNullException>(() => service.AddCar(null));
         }
@@ -213,7 +219,7 @@ namespace Cars_Market.Test.Services
             data.Cars.Add(new Car() { Id = Guid.NewGuid(), Make = "Audi", Model = "A6", MainPicture = new byte[] { }, Approved = false });
             data.SaveChanges();
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             var car = data.Cars.FirstOrDefault(x => x.Make == "Audi");
 
@@ -227,7 +233,7 @@ namespace Cars_Market.Test.Services
         {
             using var data = CarsMarketDbContextMock.Instance;
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             var car = Mock.Of<Car>();
 
@@ -257,7 +263,7 @@ namespace Cars_Market.Test.Services
 
             data.SaveChanges();
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             var car = data.Cars.FirstOrDefault(x => x.Make == "Audi");
 
@@ -271,7 +277,7 @@ namespace Cars_Market.Test.Services
         {
             using var data = CarsMarketDbContextMock.Instance;
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             Assert.ThrowsAsync<ArgumentNullException>(() => service.GetCarByIdWithDetails(Guid.NewGuid().ToString()));
         }
@@ -282,7 +288,8 @@ namespace Cars_Market.Test.Services
         {
             using var data = CarsMarketDbContextMock.Instance;
 
-            data.Cars.Add(new Car() { 
+            data.Cars.Add(new Car()
+            {
                 Id = Guid.NewGuid(),
                 Make = "Audi",
                 Model = "A6",
@@ -309,7 +316,7 @@ namespace Cars_Market.Test.Services
             });
             data.SaveChanges();
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             var result = service.GetUnaprovedCars().GetAwaiter().GetResult();
 
@@ -322,7 +329,7 @@ namespace Cars_Market.Test.Services
         {
             using var data = CarsMarketDbContextMock.Instance;
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             Assert.ThrowsAsync<ArgumentNullException>(() => service.GetUnaprovedCars());
         }
@@ -364,7 +371,7 @@ namespace Cars_Market.Test.Services
             });
             data.SaveChanges();
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             var result = service.ShowMyCars(randomId.ToString()).GetAwaiter().GetResult();
 
@@ -379,7 +386,7 @@ namespace Cars_Market.Test.Services
 
             var randomId = Guid.NewGuid();
 
-            var service = new CarsService(data);
+            var service = new CarsService(data, converter);
 
             Assert.ThrowsAsync<ArgumentNullException>(() => service.ShowMyCars(randomId.ToString()));
         }

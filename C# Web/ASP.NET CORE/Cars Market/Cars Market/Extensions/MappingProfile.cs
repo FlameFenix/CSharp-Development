@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Cars_Market.Core.Services;
-using Cars_Market.Infrastructure.Data.Models;
+﻿using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Profile = AutoMapper.Profile;
 
@@ -10,10 +8,12 @@ namespace Cars_Market.Extensions
     {
         public MappingProfile()
         {
+            CreateMap<AddCarFormModel, Car>();
             CreateMap<AddCarFormModel, CarDetails>();
             CreateMap<EditCarFormModel, Car>();
-            // CreateMap<AddCarFormModel, Car>().ForMember(x => x.MainPicture, cfg => cfg.MapFrom(c => c.Image));
-
+            CreateMap<EditCarFormModel, CarDetails>();
+            CreateMap<AddSellerFormModel, Seller>();
+            CreateMap<AddSellerFormModel, Infrastructure.Data.Models.Profile>();
         }
     }
 }

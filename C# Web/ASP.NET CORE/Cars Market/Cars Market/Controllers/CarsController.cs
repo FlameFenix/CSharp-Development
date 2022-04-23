@@ -1,38 +1,30 @@
 ﻿using AutoMapper;
 using Cars_Market.Core.Services;
-using Cars_Market.Infrastructure.Data;
+using Cars_Market.Infrastructure.Constants;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 
 namespace Cars_Market.Controllers
 {
+    [Authorize(Roles = "User")]
     public class CarsController : Controller
     {
         private readonly CarsService carsService;
         private readonly SellerService sellerService;
-        private readonly ApplicationDbContext data;
-        private readonly ByteConverter converter;
         private readonly IMapper mapper;
-        public CarsController(
-            ApplicationDbContext _data,
-            ByteConverter _converter,
-            CarsService _carsService,
-            SellerService _sellerService, IMapper _mapper)
+        public CarsController(CarsService _carsService,
+                              SellerService _sellerService,
+                              IMapper _mapper)
         {
-            data = _data;
-            converter = _converter;
             carsService = _carsService;
             sellerService = _sellerService;
             mapper = _mapper;
         }
 
-        [Authorize(Roles = "User")]
         public IActionResult AddCar() => View();
 
-        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> AddCar(AddCarFormModel carModel)
         {
@@ -50,36 +42,16 @@ namespace Cars_Market.Controllers
 
             var carDetails = mapper.Map<AddCarFormModel, CarDetails>(carModel);
 
-            var car = new Car()
-            {
-                Id = carModel.Id,
-                Make = carModel.Make,
-                Model = carModel.Model,
-                Money = double.Parse(carModel.Money, CultureInfo.InvariantCulture),
-                Year = int.Parse(carModel.Year),
-                MainPicture = converter.ConvertToByteArray(carModel.Image),
-                SellerId = seller.Id,
-                Details = carDetails
-            };
+            var car = mapper.Map<AddCarFormModel, Car>(carModel);
+            car.Details = carDetails;
+            car.Seller = seller;
+            car.MainPicture = carsService.GetMainPicture(carModel.Image);
 
             if (carModel.Images != null)
             {
-                var images = new List<CarPicture>();
-
-                foreach (var picture in carModel.Images)
-                {
-                    var carPicture = new CarPicture()
-                    {
-                        CarId = car.Id,
-                        Picture = converter.ConvertToByteArray(picture)
-                    };
-
-                    images.Add(carPicture);
-                }
+                var images = carsService.GetCarPictures(carModel.Images, car.Id);
 
                 car.Pictures = images;
-
-
             }
 
             await carsService.AddCar(car);
@@ -87,15 +59,14 @@ namespace Cars_Market.Controllers
             return RedirectToAction("MyCars");
         }
 
-        [Authorize(Roles = "User")]
         public async Task<IActionResult> Edit(string carId)
         {
             var isOwner = await carsService.CheckCarOwner(carId, User.Identity.Name);
-            
-            if(isOwner == false)
+
+            if (isOwner == false)
             {
-                ViewBag.ErrorTitle = "An error ocurred while trying to edit car information";
-                ViewBag.ErrorMessage = "You must be owner of the car in order to edit hers information!";
+                ViewBag.ErrorTitle = ErrorConstants.EDIT_CAR_ERROR_TITLE;
+                ViewBag.ErrorMessage = ErrorConstants.EDIT_CAR_OWNER_ERROR_MESSAGE;
                 return View("Error");
             }
 
@@ -105,41 +76,32 @@ namespace Cars_Market.Controllers
             return View();
         }
 
-        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> Edit(string carId, EditCarFormModel editModel)
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.ErrorTitle = "An error ocurred while trying to edit car and details";
-                ViewBag.ErrorMessage = "All fields are required!";
+                ViewBag.ErrorTitle = ErrorConstants.EDIT_CAR_ERROR_TITLE;
+                ViewBag.ErrorMessage = ErrorConstants.EDIT_FORM_REQUIRED_FIELDS_ERROR_MESSAGE;
                 return View("Error");
             }
 
-            var car = await carsService.GetCarByIdWithDetails(carId);
+            var newCar = mapper.Map<EditCarFormModel, Car>(editModel);
+            var newDetails = mapper.Map<EditCarFormModel, CarDetails>(editModel);
 
-            car.Make = editModel.Make;
-            car.Model = editModel.Model;
-            car.Year = int.Parse(editModel.Year);
-            car.Money = double.Parse(editModel.Money, CultureInfo.InvariantCulture);
-            car.Details.FuelType = editModel.FuelType;
-            car.Details.Description = editModel.Description;
-            car.Details.GearboxType = editModel.GearboxType;
-
-            await data.SaveChangesAsync();
+            await carsService.UpdateCar(carId, newCar, newDetails);
 
             return RedirectToAction("MyCars");
         }
 
-        [Authorize(Roles = "User")]
         public async Task<IActionResult> Delete(string carId)
         {
             var isOwner = await carsService.CheckCarOwner(carId, User.Identity.Name);
 
             if (isOwner == false)
             {
-                ViewBag.ErrorTitle = "An error ocurred while trying to delete car";
-                ViewBag.ErrorMessage = "You must be owner of the car in order to delete it!";
+                ViewBag.ErrorTitle = ErrorConstants.DELETE_CAR_ERROR_TITLE;
+                ViewBag.ErrorMessage = ErrorConstants.DELETE_CAR_ERROR_MESSAGE;
                 return View("Error");
             }
 
@@ -149,7 +111,6 @@ namespace Cars_Market.Controllers
 
         }
 
-        [Authorize(Roles = "User")]
         public async Task<IActionResult> MyCars()
         {
             var seller = await sellerService.GetSellerByEmail(User.Identity.Name);
@@ -159,7 +120,7 @@ namespace Cars_Market.Controllers
             return View();
         }
 
-        [Authorize(Roles = "User")]
+
         [HttpPost]
         public async Task<IActionResult> MyCars(FilterOptionsFormModel filterModel)
         {
@@ -172,7 +133,7 @@ namespace Cars_Market.Controllers
             return View();
         }
 
-        
+        [AllowAnonymous]
         public async Task<IActionResult> AllCars()
         {
             ViewBag.CarsList = await carsService.ShowAllCars();
@@ -180,6 +141,7 @@ namespace Cars_Market.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> AllCars(FilterOptionsFormModel filterOptions)
         {

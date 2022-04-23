@@ -1,4 +1,5 @@
 ﻿using Cars_Market.Core.Services;
+using Cars_Market.Infrastructure.Constants;
 using Cars_Market.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,10 +34,8 @@ namespace Cars_Market.Controllers
 
             if(userProfile == null)
             {
-                ViewBag.ErrorTitle = "Error occured while looking user profile";
-                ViewBag.ErrorMessage = "The resource you are looking for (or one of its dependencies) could have been removed," +
-                    " had its name changed, or is temporarily unavailable." +
-                    " Please review the following URL and make sure that it is spelled correctly.";
+                ViewBag.ErrorTitle = ErrorConstants.ERROR_TITLE_PROFILE_WHO_DOESNT_EXISTS;
+                ViewBag.ErrorMessage = ErrorConstants.ERROR_MESSAGE_PROFILE_WHO_DOESNT_EXISTS;
                 return View("Error");
             }
 
