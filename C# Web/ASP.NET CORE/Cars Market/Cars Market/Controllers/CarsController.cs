@@ -152,5 +152,8 @@ namespace Cars_Market.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Search() =>  View();
     }
 }

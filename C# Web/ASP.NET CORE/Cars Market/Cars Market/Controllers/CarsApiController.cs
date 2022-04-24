@@ -1,5 +1,9 @@
-﻿using Cars_Market.Infrastructure.Data;
+﻿using Cars_Market.Core.Services;
+using Cars_Market.Infrastructure.Data;
+using Cars_Market.Infrastructure.Data.Models;
+using Cars_Market.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cars_Market.Controllers
 {
@@ -8,16 +12,47 @@ namespace Cars_Market.Controllers
     public class CarsApiController : ControllerBase
     {
         private readonly ApplicationDbContext data;
-        public CarsApiController(ApplicationDbContext _data)
+        private readonly ByteConverter converter;
+        public CarsApiController(ApplicationDbContext _data,
+            ByteConverter _converter)
         {
             data = _data;
+            converter = _converter;
         }
-        [Route("Get")]
-        [HttpGet]
-        public IActionResult GetCars()
-        {
-            return Ok(data.Cars.ToList());
 
+        [Route("GetCars")]
+        [HttpGet]
+        public ActionResult<ICollection<Car>> GetCars()
+        {
+            return data.Cars.ToList();
+        }
+
+        [Route("GetCarApiModel")]
+        [HttpGet]
+        public ActionResult<ICollection<CarApiModel>> GetCarsWithDescription()
+        {
+            return data.Cars.Select(x => new CarApiModel
+            {
+                CarId = x.Id.ToString(),
+                Make = x.Make,
+                Model = x.Model,
+                Price = x.Money,
+                Year = x.Year,
+                Engine = x.Details.FuelType,
+                Description = x.Details.Description,
+                Picture = Convert.ToBase64String(x.MainPicture),
+            }).ToList();
+        }
+
+        [Route("GetCar")]
+        [HttpGet]
+        public ActionResult<Car> GetCar(string carId)
+        {
+            var car = data.Cars.FirstOrDefault(x => x.Id.ToString() == carId);
+
+            if(car == null) return NotFound();
+
+            return car;
         }
     }
 }

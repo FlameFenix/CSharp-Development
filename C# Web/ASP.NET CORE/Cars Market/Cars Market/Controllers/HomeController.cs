@@ -2,7 +2,6 @@
 using Cars_Market.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;
 
 namespace Cars_Market.Controllers

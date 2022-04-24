@@ -1,0 +1,140 @@
+﻿<div class="d-flex justify-content-center">
+    <div class="card card-secondary">
+        <div class="card-header">
+            <h3 class="card-title">Search menu</h3>
+        </div>
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-3">
+                    <input class="form-control form-control-lg" type="text" placeholder="Enter make" id="make">
+                </div>                                     
+                <div class="col-3">                        
+                    <input class="form-control form-control-lg" type="text" placeholder="Enter model" id="model">
+                </div>                                     
+                <div class="col-3">                        
+                    <input class="form-control form-control-lg" type="number" placeholder="Enter start year" id="fromYear">
+                </div>                                     
+                <div class="col-3">                        
+                    <input class="form-control form-control-lg" type="number" placeholder="Enter end year" id="toYear">
+                </div>                                     
+            </div>                                         
+            <br>                                           
+            <button class="btn btn-secondary" id="searchBtn"> S E A R C H </button>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="card card-secondary">
+        <div class="card-header d-flex justify-content-center">
+            <h3 class="card-title"> You should fill some of fields to display cars by criteria or just click search button </h3>
+        </div>
+        <div class="card-body" id="cars-gallery">
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+<script>
+        let btn = document.getElementById('searchBtn');
+        btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        let divGallery = document.getElementById('cars-gallery');
+        divGallery.textContent = '';
+
+        let inputMake = document.getElementById('make').value;
+        let inputModel = document.getElementById('model').value;
+        let inputFromYear = Number(document.getElementById('fromYear').value);
+        let inputToYear = Number(document.getElementById('toYear').value);
+
+
+         if(inputToYear == 0){
+            inputToYear = 9999;
+        }
+
+        $.get('/api/cars/getcarapimodel', (data) => {
+
+            for (const element of data) {
+
+                console.log(element)
+
+                if(element.make != inputMake && inputMake != null && inputMake != '' && inputMake != undefined){
+                    continue;
+                }
+
+                if(element.model != inputModel && inputModel != null && inputModel != '' && inputModel != undefined){
+                    continue;
+                }
+
+                if(Number(element.year) < inputFromYear){
+                    continue;
+                }
+
+                if(Number(element.year) > inputToYear){
+                    continue;
+                }
+
+              let divRow = document.createElement('div');
+              divRow.classList.add('row');
+              divRow.classList.add('img-thumbnail');
+              divRow.style = "border-radius: 3px; border-color: gray;";
+
+              let divWithImage = document.createElement('div');
+              divWithImage.classList.add('col-md-4');
+              let imageElement = document.createElement('img');
+              imageElement.style = "height: 100%; width: 100%;";
+              imageElement.src = "data:image/jpg;base64," + `${element.picture}`;
+
+              divWithImage.appendChild(imageElement);
+
+              let divInformation = document.createElement('div');
+              divInformation.classList.add('col-md-8');
+              divInformation.style = "border-radius: 3px; background-color:rgb(148, 148, 148)";
+
+              let h3MakeAndModel = document.createElement('h3');
+              h3MakeAndModel.textContent = `${element.make} ${element.model}`;
+
+              let breakElement = document.createElement('br');
+
+              let h4Engine = document.createElement('h4');
+              h4Engine.textContent = `Engine: ${element.engine}`;
+
+               let h4Year = document.createElement('h4');
+              h4Year.textContent = `Year: ${element.year}`;
+
+               let h5Description = document.createElement('h5');
+              h5Description.textContent = 'Description:';
+
+              let pDescription = document.createElement('p');
+              pDescription.textContent = `${element.description}`;
+
+              let btnDetails = document.createElement('a');
+              btnDetails.classList.add('btn');
+              btnDetails.classList.add('btn-secondary');
+              btnDetails.setAttribute("href", `/Details/Details?carId=${element.carId}`);
+              btnDetails.setAttribute("type", "submit");
+              btnDetails.textContent = "D E T A I L S";
+
+              divInformation.appendChild(h3MakeAndModel);
+              divInformation.appendChild(breakElement);
+              divInformation.appendChild(h4Engine);
+              divInformation.appendChild(h4Year);
+              divInformation.appendChild(h5Description);
+              divInformation.appendChild(pDescription);
+              divInformation.appendChild(btnDetails);
+
+              divRow.appendChild(divWithImage);
+              divRow.appendChild(divInformation);
+
+              divGallery.appendChild(divRow);
+              divGallery.appendChild(breakElement);
+
+             }
+
+        })
+
+    })
+</script>
+}
