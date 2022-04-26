@@ -1,6 +1,7 @@
 ﻿using Cars_Market.Core.Services;
 using Cars_Market.Infrastructure.Data.Models;
 using Cars_Market.Test.Mocks;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using Xunit;
 
@@ -18,7 +19,7 @@ namespace Cars_Market.Test.Services
         public void ShouldReturnTwoCarsWithShowAllCarsMethodBecauseTheyAreApproved()
         {
             using var data = CarsMarketDbContextMock.Instance;
-            
+
             data.Cars.Add(new Car()
             {
                 Make = "Audi",
@@ -389,6 +390,141 @@ namespace Cars_Market.Test.Services
             var service = new CarsService(data, converter);
 
             Assert.ThrowsAsync<ArgumentNullException>(() => service.ShowMyCars(randomId.ToString()));
+        }
+
+        [Fact]
+        public void CheckCarOwnerShouldReturnFalseWhenUserIsNotOwner()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var randomId = Guid.NewGuid().ToString();
+
+            var service = new CarsService(data, converter);
+
+            Assert.False(service.CheckCarOwner(randomId, "random@random.com").GetAwaiter().GetResult());
+        }
+
+        [Fact]
+        public void CheckCarOwnerShouldReturnTrueWhenUserIsOwner()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var seller = Mock.Of<Seller>(s => s.Email == "admin@carsmarket.com");
+
+            data.Sellers.Add(seller);
+
+            var car = new Car()
+            {
+                Id = Guid.NewGuid(),
+                Make = "Audi",
+                Model = "A6",
+                MainPicture = new byte[] { },
+                Approved = false,
+                SellerId = seller.Id
+            };
+
+            seller.Cars.Add(car);
+
+            var randomId = Guid.NewGuid().ToString();
+
+            var service = new CarsService(data, converter);
+
+            Assert.False(service.CheckCarOwner(car.Id.ToString(), "admin@carsmarket.com").GetAwaiter().GetResult());
+        }
+
+        [Fact]
+        public void ShowOrderedCarsShouldReturnListWithCarsOrderedAscending()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            data.Cars.Add(new Car()
+            {
+                Id = Guid.NewGuid(),
+                Make = "BMW",
+                Model = "X3",
+                MainPicture = new byte[] { },
+                Approved = true,
+            });
+
+            data.Cars.Add(new Car()
+            {
+                Id = Guid.NewGuid(),
+                Make = "Audi",
+                Model = "A3",
+                MainPicture = new byte[] { },
+                Approved = true,
+            });
+
+            data.Cars.Add(new Car()
+            {
+                Id = Guid.NewGuid(),
+                Make = "Audi",
+                Model = "A6",
+                MainPicture = new byte[] { },
+                Approved = true,
+            });
+
+            data.SaveChanges();
+
+            var service = new CarsService(data, converter);
+
+            var result = service.ShowOrderedCars("Make", "Model", "Ascending").GetAwaiter().GetResult().ToList();
+
+            var audiA3 = result.FirstOrDefault();
+            var bmwX3 = result.LastOrDefault();
+
+            Assert.IsType<List<Car>>(result);
+            Assert.True(result.Count == 3);
+            Assert.True(audiA3.Model == "A3");
+            Assert.True(bmwX3.Model == "X3");
+        }
+
+        [Fact]
+        public void ShowOrderedCarsShouldReturnListWithCarsOrderedDescending()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            data.Cars.Add(new Car()
+            {
+                Id = Guid.NewGuid(),
+                Make = "BMW",
+                Model = "X3",
+                MainPicture = new byte[] { },
+                Approved = true,
+            });
+
+            data.Cars.Add(new Car()
+            {
+                Id = Guid.NewGuid(),
+                Make = "Audi",
+                Model = "A3",
+                MainPicture = new byte[] { },
+                Approved = true,
+            });
+
+            data.Cars.Add(new Car()
+            {
+                Id = Guid.NewGuid(),
+                Make = "Audi",
+                Model = "A6",
+                MainPicture = new byte[] { },
+                Approved = true,
+            });
+
+            data.SaveChanges();
+
+            var service = new CarsService(data, converter);
+
+            var result = service.ShowOrderedCars("Make", "Model", "Descending").GetAwaiter().GetResult().ToList();
+
+            var bmwX3 = result.FirstOrDefault();
+            var audiA6 = result.LastOrDefault();
+            
+
+            Assert.IsType<List<Car>>(result);
+            Assert.True(result.Count == 3);
+            Assert.True(bmwX3.Model == "X3");
+            Assert.True(audiA6.Model == "A6");
         }
     }
 }

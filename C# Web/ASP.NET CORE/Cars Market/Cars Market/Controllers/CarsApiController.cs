@@ -12,12 +12,9 @@ namespace Cars_Market.Controllers
     public class CarsApiController : ControllerBase
     {
         private readonly ApplicationDbContext data;
-        private readonly ByteConverter converter;
-        public CarsApiController(ApplicationDbContext _data,
-            ByteConverter _converter)
+        public CarsApiController(ApplicationDbContext _data)
         {
             data = _data;
-            converter = _converter;
         }
 
         [Route("GetCars")]

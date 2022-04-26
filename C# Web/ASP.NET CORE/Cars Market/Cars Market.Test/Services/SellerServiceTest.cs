@@ -219,5 +219,31 @@ namespace Cars_Market.Test.Services
             Assert.Empty(expectedSellersCollection);
             Assert.True(expectedSellersCollection.Count == 0);
         }
+
+        [Fact]
+        public void GetSellersShouldReturnAllSellersWithProfileInDatabase()
+        {
+            using var data = CarsMarketDbContextMock.Instance;
+
+            var service = new SellerService(data);
+
+            var sellerOne = Mock.Of<Seller>(s => s.Email == "admin@carsmarket.com");
+
+            var profile = new Profile() { Location = "random", Name = "admin", Phone = "random phone", Picture = new byte[] { } };
+
+            sellerOne.Profile = profile;
+
+            var sellerTwo = Mock.Of<Seller>(s => s.Email == "user@carsmarket.com");
+
+            service.AddSeller(sellerOne).GetAwaiter().GetResult();
+            service.AddSeller(sellerTwo).GetAwaiter().GetResult();
+
+            var expectedSellersCollection = service.GetSellers().GetAwaiter().GetResult();
+
+            Assert.NotEmpty(expectedSellersCollection);
+            Assert.True(expectedSellersCollection.Count == 2);
+            Assert.True(expectedSellersCollection.FirstOrDefault(x => x.Email == "admin@carsmarket.com").Profile != null);
+            Assert.True(expectedSellersCollection.FirstOrDefault(x => x.Email == "admin@carsmarket.com").Profile.Name == "admin");
+        }
     }
 }
