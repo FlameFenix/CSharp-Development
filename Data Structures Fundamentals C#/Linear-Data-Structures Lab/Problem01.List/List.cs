@@ -115,7 +115,28 @@
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            bool isDeleted = false;
+
+            for (int i = 0; i < _items.Length - 1; i++)
+            {
+                if (_items[i].Equals(item))
+                {
+                    isDeleted = true;
+                }
+
+                if(isDeleted && i != _items.Length)
+                {
+                    _items[i] = _items[i + 1];
+                }
+            }
+
+            if (isDeleted)
+            {
+                _items[_items.Length - 1] = default;
+               Count--;
+            }
+
+            return isDeleted;
         }
 
         public void RemoveAt(int index)
@@ -138,7 +159,7 @@
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() 
+        IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
     }
 }
