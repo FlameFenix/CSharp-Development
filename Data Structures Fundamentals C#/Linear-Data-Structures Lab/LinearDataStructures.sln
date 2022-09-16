@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29905.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Problem01.List", "Problem01.List\Problem01.List.csproj", "{BB5B4640-1948-4544-AF84-4439C5066E68}"
 EndProject
@@ -17,7 +17,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Problem03.Queue.Tests", "Pr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Problem04.SinglyLinkedList", "Problem04.SinglyLinkedList\Problem04.SinglyLinkedList.csproj", "{00140E66-BAA9-46EE-A654-D9B3619A2BF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SinglyLinkedList.Tests", "SinglyLinkedList.Tests\SinglyLinkedList.Tests.csproj", "{34AEEB4F-CA0A-41D0-9594-C4310694EFA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SinglyLinkedList.Tests", "SinglyLinkedList.Tests\SinglyLinkedList.Tests.csproj", "{34AEEB4F-CA0A-41D0-9594-C4310694EFA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeTests", "RealTimeTests\RealTimeTests.csproj", "{34135C90-0535-4FE9-A78C-F0A3F7D5F160}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C567551B-0D54-4D50-A67E-8FCCA2FD46A0} = {C567551B-0D54-4D50-A67E-8FCCA2FD46A0}
+		{CFFDC623-F81A-45FF-AA9A-2964B562BB36} = {CFFDC623-F81A-45FF-AA9A-2964B562BB36}
+		{BB5B4640-1948-4544-AF84-4439C5066E68} = {BB5B4640-1948-4544-AF84-4439C5066E68}
+		{00140E66-BAA9-46EE-A654-D9B3619A2BF3} = {00140E66-BAA9-46EE-A654-D9B3619A2BF3}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +65,10 @@ Global
 		{34AEEB4F-CA0A-41D0-9594-C4310694EFA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34AEEB4F-CA0A-41D0-9594-C4310694EFA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34AEEB4F-CA0A-41D0-9594-C4310694EFA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34135C90-0535-4FE9-A78C-F0A3F7D5F160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34135C90-0535-4FE9-A78C-F0A3F7D5F160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34135C90-0535-4FE9-A78C-F0A3F7D5F160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34135C90-0535-4FE9-A78C-F0A3F7D5F160}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
