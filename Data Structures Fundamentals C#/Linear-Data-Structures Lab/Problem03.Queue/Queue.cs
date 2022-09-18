@@ -7,35 +7,80 @@
     public class Queue<T> : IAbstractQueue<T>
     {
         private Node<T> _head;
+        private Node<T> _tail;
 
         public int Count { get; private set; }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            var node = _head;
+
+            while (node != null)
+            {
+               if (node.Item.Equals(item))
+                {
+                    return true;
+                }
+
+               node = node.Next;
+            }
+
+            return false;
         }
 
         public T Dequeue()
         {
-            throw new NotImplementedException();
+            if(Count == 0)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var oldHead = _head;
+            _head = _head.Next;
+            Count--;
+            return oldHead.Item;
         }
 
         public void Enqueue(T item)
         {
-            throw new NotImplementedException();
+            var newNode = new Node<T>(item, null);
+
+            if(_head == null)
+            {
+                _head = newNode;
+                _tail = newNode;   
+            }
+            else
+            {
+                _tail.Next = newNode;
+                _tail = _tail.Next;
+            }
+
+            Count++;
         }
 
         public T Peek()
         {
-            throw new NotImplementedException();
+            if(Count == 0)
+            {
+                throw new InvalidOperationException();
+            }
+            return _head.Item;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            var currentNode = _head;
+
+            while (currentNode != null)
+            {
+                yield return currentNode.Item;
+
+                currentNode = currentNode.Next;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
-            => throw new NotImplementedException();
+            => GetEnumerator();
     }
 }
