@@ -7,42 +7,98 @@
     public class SinglyLinkedList<T> : IAbstractLinkedList<T>
     {
         private Node<T> _head;
+        private Node<T> _tail;
+
+
 
         public int Count { get; private set; }
 
         public void AddFirst(T item)
         {
-            throw new NotImplementedException();
+            var newNode = new Node<T>(item, null);
+
+            if (_head == null)
+            {
+                _head = newNode;
+                _tail = newNode;
+            }
+            else
+            {
+                var oldHead = _head;
+                _head = newNode;
+                _head.Next = oldHead;
+            }
+
+            Count++;
+
         }
 
         public void AddLast(T item)
         {
-            throw new NotImplementedException();
+            var newNode = new Node<T>(item, null);
+
+            if (_head == null)
+            {
+                _head = newNode;
+                _tail = newNode;
+            }
+            else
+            {
+                _tail.Next = newNode;
+                _tail = _tail.Next;
+            }
+
+            Count++;
         }
 
         public T GetFirst()
         {
-            throw new NotImplementedException();
+            IsEmpty();
+
+            return _head.Item;
         }
 
         public T GetLast()
         {
-            throw new NotImplementedException();
+            IsEmpty();
+
+            return _tail.Item;
         }
 
         public T RemoveFirst()
         {
-            throw new NotImplementedException();
+            IsEmpty();
+
+            var oldHead = _head;
+            _head = _head.Next;
+            Count--;
+            return oldHead.Item;
         }
 
         public T RemoveLast()
         {
-            throw new NotImplementedException();
+            IsEmpty();
+
+            return _tail.Item;
+        }
+
+        private void IsEmpty()
+        {
+            if(Count == 0)
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            var node = _head;
+
+            while (node != null)
+            {
+                yield return node.Item;
+                node = node.Next;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
