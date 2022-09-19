@@ -7,6 +7,7 @@
     public class SinglyLinkedList<T> : IAbstractLinkedList<T>
     {
         private Node<T> _head;
+
         private Node<T> _tail;
 
 
@@ -15,7 +16,7 @@
 
         public void AddFirst(T item)
         {
-            var newNode = new Node<T>(item, null);
+            var newNode = new Node<T>(item, null, null);
 
             if (_head == null)
             {
@@ -27,6 +28,7 @@
                 var oldHead = _head;
                 _head = newNode;
                 _head.Next = oldHead;
+                _head.Next.Previous = _head;
             }
 
             Count++;
@@ -35,7 +37,7 @@
 
         public void AddLast(T item)
         {
-            var newNode = new Node<T>(item, null);
+            var newNode = new Node<T>(item, null, null);
 
             if (_head == null)
             {
@@ -45,6 +47,7 @@
             else
             {
                 _tail.Next = newNode;
+                _tail.Previous = _tail;
                 _tail = _tail.Next;
             }
 
@@ -79,7 +82,13 @@
         {
             IsEmpty();
 
-            return _tail.Item;
+            var oldTail = _tail;
+
+            _tail = _tail.Previous;
+
+            Count--;
+
+            return oldTail.Item;
         }
 
         private void IsEmpty()
