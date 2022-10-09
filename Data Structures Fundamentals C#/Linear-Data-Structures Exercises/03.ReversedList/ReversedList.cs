@@ -25,11 +25,13 @@
         {
             get
             {
-                throw new NotImplementedException();
+                ValidateIndex(index);
+                return _items[Count - index - 1];
             }
             set
             {
-                throw new NotImplementedException();
+                ValidateIndex(index);
+                _items[index] = value;
             }
         }
 
@@ -37,17 +39,40 @@
 
         public void Add(T item)
         {
-            throw new NotImplementedException();
+            if(Count == _items.Length)
+            {
+                ArrayGrow();
+            }
+
+            _items[Count++] = item;
         }
+
+        
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < _items.Length; i++)
+            {
+                if (_items[i].Equals(item))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            for (int i = Count - 1; i >= 0; i--)
+            {
+                if (_items[i].Equals(item))
+                {
+                    return Count - i - 1;
+                }
+            }
+
+            return -1;
         }
 
         public void Insert(int index, T item)
@@ -67,12 +92,30 @@
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = Count - 1; i >= 0; i--)
+            {
+                yield return _items[i];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
+
+        private void ArrayGrow()
         {
-            throw new NotImplementedException();
+            T[] newArray = new T[_items.Length * 2];
+
+            Array.Copy(_items, newArray, _items.Length);
+
+            _items = newArray;
+        }
+
+        private void ValidateIndex(int index)
+        {
+            if(index < 0 || index > Count - 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }
