@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Text;
     using _01._BrowserHistory.Interfaces;
 
     public class BrowserHistory : IHistory
@@ -61,6 +62,8 @@
 
         public ILink DeleteFirst()
         {
+            CheckCollection();
+
             var oldLink = links[0];
 
             for (int i = 0; i < Size - 1; i++)
@@ -77,6 +80,8 @@
 
         public ILink DeleteLast()
         {
+            CheckCollection();
+
             var oldLink = links[Size - 1];
             links[Size - 1] = default;
             Size--;
@@ -99,10 +104,7 @@
 
         public ILink LastVisited()
         {
-            if(Size == 0)
-            {
-                throw new InvalidOperationException();
-            }
+            CheckCollection();
 
             return links[Size - 1];
         }
@@ -126,12 +128,42 @@
 
         public int RemoveLinks(string url)
         {
-            throw new NotImplementedException();
+            int counter = 0;
+
+            var index = indexOf(url);
+
+            while (index != -1)
+            {
+                for (int i = index; i < Size - 1; i++)
+                {
+                    links[i] = links[i + 1];
+                }
+
+                links[Size - 1] = default;
+                Size--;
+                counter++;
+
+                index = indexOf(url);
+            }
+
+            if(counter == 0)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return counter;
         }
 
         public ILink[] ToArray()
         {
-            throw new NotImplementedException();
+            var array = new ILink[Size];
+
+            for (int i = 0; i < Size; i++)
+            {
+                array[i] = links[Size - 1 - i];
+            }
+
+            return array;
         }
 
         public List<ILink> ToList()
@@ -148,7 +180,41 @@
 
         public string ViewHistory()
         {
-            throw new NotImplementedException();
+            var sb = new StringBuilder();
+
+            if(Size == 0)
+            {
+                sb.AppendLine("Browser history is empty!");
+                return sb.ToString();
+            }
+
+            for (int i = Size - 1; i >= 0; i--)
+            {
+                sb.AppendLine($"{links[i]}");
+            }
+
+            return sb.ToString();
+        }
+
+        private void CheckCollection()
+        {
+            if(Size == 0)
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
+        private int indexOf(string url)
+        {
+            for (int i = 0; i < Size; i++)
+            {
+                if (links[i].Url.ToLower().Contains(url.ToLower()))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
     }
 }
