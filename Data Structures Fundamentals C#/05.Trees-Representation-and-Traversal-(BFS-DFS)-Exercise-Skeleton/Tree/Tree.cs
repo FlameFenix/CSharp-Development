@@ -49,21 +49,94 @@
 
         public IEnumerable<T> GetLeafKeys()
         {
-            var list = new List<T>();
+            var list = new List<Tree<T>>();
 
             DfsLeafKeys(list, this);
 
-            return list;
+            return list.Select(x => x.Key);
         }
 
         public T GetDeepestKey()
         {
-            throw new NotImplementedException();
+            var leafs = new List<Tree<T>>();
+            DfsLeafKeys(leafs, this);
+
+            var result = DeepestKey(leafs);
+
+            return result;
+        }
+
+        private T DeepestKey(List<Tree<T>> leafs)
+        {
+            var maxDepth = 0;
+            T deepestLeaf = default;
+
+            foreach (var leaf in leafs)
+            {
+                var depth = GetDepth(leaf);
+
+                if(depth > maxDepth)
+                {
+                    maxDepth = depth;
+                    deepestLeaf = leaf.Key;
+                }
+            }
+
+            return deepestLeaf;
+        }
+
+        private int GetDepth(Tree<T> leaf)
+        {
+            int counter = 0;
+
+            while (leaf != null)
+            {
+                counter++;
+                leaf = leaf.Parent;
+            }
+
+            return counter;
         }
 
         public IEnumerable<T> GetLongestPath()
         {
-            throw new NotImplementedException();
+            var result = new List<Tree<T>>();
+
+            DfsLeafKeys(result, this);
+
+            return GetLongest(result).Select(x => x.Key).Reverse();
+        }
+
+        private List<Tree<T>> GetLongest(List<Tree<T>> result)
+        {
+            var longestPath = 0;
+            var longestCollection = new List<Tree<T>>();
+
+            foreach (var leaf in result)
+            {
+                var currentCollection = GetNodePathLength(leaf);
+
+                if(currentCollection.Count > longestPath)
+                {
+                    longestCollection = currentCollection;
+                    longestPath = currentCollection.Count;
+                }
+            }
+
+            return longestCollection;
+        }
+
+        private List<Tree<T>> GetNodePathLength(Tree<T> leaf)
+        {
+            var list = new List<Tree<T>>();
+
+            while (leaf != null)
+            {
+                list.Add(leaf);
+                leaf = leaf.Parent;
+            }
+
+            return list;
         }
 
         private void DfsToString(Tree<T> tree, StringBuilder sb, int indent)
@@ -76,14 +149,14 @@
             }
         }
 
-        private void DfsLeafKeys(List<T> list, Tree<T> tree)
+        private void DfsLeafKeys(List<Tree<T>> list, Tree<T> tree)
         {
 
             foreach (var child in tree.children)
             {
                 if (!child.children.Any())
                 {
-                    list.Add(child.Key);
+                    list.Add(child);
 
                 }
 
