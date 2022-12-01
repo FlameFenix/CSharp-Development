@@ -8,7 +8,9 @@
     {
         public HtmlElement(ElementType type, params IHtmlElement[] children)
         {
-            throw new NotImplementedException();
+            Type = type;
+            Children = new List<IHtmlElement>(children);
+            Attributes = new Dictionary<string, string>();
         }
 
         public ElementType Type { get; set; }
