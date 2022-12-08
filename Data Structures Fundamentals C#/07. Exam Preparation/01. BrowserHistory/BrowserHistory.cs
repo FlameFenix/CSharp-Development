@@ -9,12 +9,11 @@
     public class BrowserHistory : IHistory
     {
         private LinkedList<ILink> history = new LinkedList<ILink>();
-        public int Size { get; private set; }
+        public int Size => history.Count;
 
         public void Clear()
         {
             history.Clear();
-            Size = 0;
         }
 
         public bool Contains(ILink link)
@@ -33,8 +32,6 @@
 
             history.RemoveFirst();
 
-            Size--;
-
             return link;
         }
 
@@ -48,8 +45,6 @@
             }
 
             history.RemoveLast();
-
-            Size--;
 
             return link;
         }
@@ -72,13 +67,10 @@
         public void Open(ILink link)
         {
             history.AddFirst(link);
-            Size++;
         }
 
         public int RemoveLinks(string url)
         {
-
-            
             var deletedLinks = history.Where(x => x.Url.Contains(url)).ToArray();
 
             if (deletedLinks.Length == 0)
@@ -86,15 +78,14 @@
                 throw new InvalidOperationException();
             }
 
-            var oldCount = Size;
+            var deletedCount = deletedLinks.Length;
 
             foreach (var link in deletedLinks)
             {
                 history.Remove(link);
-                Size--;
             }
 
-            return oldCount - Size;
+            return deletedCount;
         }
 
         public ILink[] ToArray()
@@ -111,14 +102,12 @@
         {
             var sb = new StringBuilder();
 
-            var currentHistory = ToList();
-
-            if (currentHistory.Count == 0)
+            if (Size == 0)
             {
                 sb.AppendLine("Browser history is empty!");
             }
 
-            foreach (var link in currentHistory)
+            foreach (var link in history)
             {
                 sb.AppendLine(link.ToString());
             }

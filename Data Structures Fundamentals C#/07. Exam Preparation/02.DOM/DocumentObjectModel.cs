@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Text;
     using _02.DOM.Interfaces;
     using _02.DOM.Models;
 
@@ -49,26 +50,22 @@
         {
             var list = new List<IHtmlElement>();
 
-            var queue = new Queue<IHtmlElement>();
-
-            queue.Enqueue(Root);
-
-            while (queue.Count > 0)
-            {
-                var currentElement = queue.Dequeue();
-
-                if (currentElement.Type.Equals(type))
-                {
-                    list.Add(currentElement);
-                }
-
-                foreach (var child in currentElement.Children)
-                {
-                    queue.Enqueue(child);
-                }
-            }
+            GetElementsByTypeDfs(Root, list, type);
 
             return list;
+        }
+
+        private void GetElementsByTypeDfs(IHtmlElement root, List<IHtmlElement> list, ElementType type)
+        {
+            if (root.Type.Equals(type))
+            {
+                list.Add(root);
+            }
+
+            foreach (var child in root.Children)
+            {
+                GetElementsByTypeDfs(child, list, type);
+            }
         }
 
         public bool Contains(IHtmlElement htmlElement)
@@ -154,6 +151,26 @@
             return false;
         }
 
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            ToStringDfs(sb, this.Root, 0);
+
+            return sb.ToString();
+        }
+
+        private void ToStringDfs(StringBuilder sb, IHtmlElement htmlElement, int indent)
+        {
+            sb.Append(' ', indent)
+              .AppendLine(htmlElement.Type.ToString());
+
+            foreach (var child in htmlElement.Children)
+            {
+                ToStringDfs(sb, child, indent + 2);
+            }
+        }
+
         public IHtmlElement GetElementById(string idValue)
         {
             var queue = new Queue<IHtmlElement>();
@@ -186,5 +203,7 @@
                 throw new InvalidOperationException();
             }
         }
+
+
     }
 }
