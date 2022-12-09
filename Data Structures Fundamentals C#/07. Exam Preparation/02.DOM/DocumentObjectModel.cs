@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using _02.DOM.Interfaces;
     using _02.DOM.Models;
@@ -9,12 +10,25 @@
     public class DocumentObjectModel : IDocument
     {
         private IHtmlElement root;
+        private LinkedList<IHtmlElement> elements = new LinkedList<IHtmlElement>();
 
         public DocumentObjectModel(IHtmlElement root)
         {
             this.Root = root;
+
+            initRoot(root, root.Children);
         }
 
+        private void initRoot(IHtmlElement root, List<IHtmlElement> children)
+        {
+            elements.AddLast(root);
+
+            foreach (var child in children)
+            {
+                child.Parent = root;
+                initRoot(child, child.Children);
+            }
+        }
         public DocumentObjectModel()
         {
             Root = root;
@@ -23,28 +37,8 @@
         public IHtmlElement Root { get; private set; }
 
         public IHtmlElement GetElementByType(ElementType type)
-        {
-            var queue = new Queue<IHtmlElement>();
-
-            queue.Enqueue(Root);
-
-            while (queue.Count > 0)
-            {
-                var currentElement = queue.Dequeue();
-
-                if (currentElement.Type.Equals(type))
-                {
-                    return currentElement;
-                }
-
-                foreach (var child in currentElement.Children)
-                {
-                    queue.Enqueue(child);
-                }
-            }
-
-            return null;
-        }
+         => elements.FirstOrDefault(x => x.Type.Equals(type));
+        
 
         public List<IHtmlElement> GetElementsByType(ElementType type) // should be dfs !
         {
@@ -57,47 +51,26 @@
 
         private void GetElementsByTypeDfs(IHtmlElement root, List<IHtmlElement> list, ElementType type)
         {
-            if (root.Type.Equals(type))
-            {
-                list.Add(root);
-            }
-
             foreach (var child in root.Children)
             {
                 GetElementsByTypeDfs(child, list, type);
             }
+
+            if (root.Type.Equals(type))
+            {
+                list.Add(root);
+            }
         }
 
         public bool Contains(IHtmlElement htmlElement)
-        {
-            var queue = new Queue<IHtmlElement>();
-
-            queue.Enqueue(Root);
-
-            while (queue.Count > 0)
-            {
-                var Parent = queue.Dequeue();
-
-                if (Parent.Equals(htmlElement))
-                {
-                    return true;
-                }
-
-                foreach (var child in Parent.Children)
-                {
-                    queue.Enqueue(child);
-                }
-            }
-
-            return false;
-        }
-
-
+            => elements.Contains(htmlElement);
+        
         public void InsertFirst(IHtmlElement parent, IHtmlElement child)
         {
             CheckElementExist(parent);
 
             child.Parent = parent;
+
             parent.Children.Insert(0, child);
         }
 
@@ -113,13 +86,14 @@
         {
             CheckElementExist(htmlElement);
 
-            throw new NotImplementedException();
+            elements.Remove(htmlElement);
         }
 
         public void RemoveAll(ElementType elementType)
         {
             throw new NotImplementedException();
         }
+
 
         public bool AddAttribute(string attrKey, string attrValue, IHtmlElement htmlElement)
         {
@@ -172,29 +146,7 @@
         }
 
         public IHtmlElement GetElementById(string idValue)
-        {
-            var queue = new Queue<IHtmlElement>();
-
-            queue.Enqueue(Root);
-
-            while (queue.Count > 0)
-            {
-                var currentElement = queue.Dequeue();
-
-                if (currentElement.Attributes.ContainsKey("id") 
-                    && currentElement.Attributes["id"].Equals(idValue))
-                {
-                    return currentElement;
-                }
-
-                foreach (var child in currentElement.Children)
-                {
-                    queue.Enqueue(child);
-                }
-            }
-
-            return null;
-        }
+            => elements.FirstOrDefault(x => x.Attributes.ContainsKey("id"));
 
         private void CheckElementExist(IHtmlElement htmlElement)
         {
